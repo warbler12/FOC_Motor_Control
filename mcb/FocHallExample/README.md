@@ -97,8 +97,8 @@ Speed_ref = 130RPM
 
 ### 呈现效果
 
-[呈现效果.mp4](docs/ecc689d214fc800350b15442edbde559.mp4)
+[![呈现效果](docs/video-cover.jpg)](docs/ecc689d214fc800350b15442edbde559.mp4)
 
 ### Documents
 
-[https://www.notion.so](https://www.notion.so)
+[https://www.notion.so]([https://www.notion.so](https://www.notion.so/TI-2894ed9b33a28027aa9cd7580358c1be?v=27a4ed9b33a2807c84ab000c527ed1a4&source=copy_link))
