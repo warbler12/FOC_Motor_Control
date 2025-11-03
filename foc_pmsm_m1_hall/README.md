@@ -157,7 +157,7 @@ USART_IRQHandler()                           // 串口中断
 
 ### 呈现效果
 
-[![视频封面](docs/video-cover.jpg)](docs/808d4b760fbf4f4e97441a4b3b59ba09.mp4)
+[![视频封面](docs/video-cover.png)](docs/808d4b760fbf4f4e97441a4b3b59ba09.mp4)
 
 ### Documents
 
