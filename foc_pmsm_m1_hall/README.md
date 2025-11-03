@@ -157,8 +157,8 @@ USART_IRQHandler()                           // 串口中断
 
 ### 呈现效果
 
-[呈现效果](docs/808d4b760fbf4f4e97441a4b3b59ba09.mp4)
+[![视频封面](docs/video-cover.jpg)](docs/808d4b760fbf4f4e97441a4b3b59ba09.mp4)
 
 ### Documents
 
-[https://www.notion.so](https://www.notion.so)
+[https://www.notion.so](https://www.notion.so/STM-2894ed9b33a2805f8aabf24541051804?v=27a4ed9b33a2807c84ab000c527ed1a4&source=copy_link)
