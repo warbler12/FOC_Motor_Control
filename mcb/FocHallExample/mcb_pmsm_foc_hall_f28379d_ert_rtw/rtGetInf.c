@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_hall_f28379d'.
  *
- * Model version                  : 14
+ * Model version                  : 29
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Mon Oct 13 11:30:11 2025
+ * C/C++ source code generated on : Thu Nov 20 17:46:49 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000

@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_hall_f28379d'.
  *
- * Model version                  : 14
+ * Model version                  : 29
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Mon Oct 13 11:30:11 2025
+ * C/C++ source code generated on : Thu Nov 20 17:46:49 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -22,13 +22,14 @@
 #include "MW_target_hardware_resources.h"
 
 volatile int IsrOverrun = 0;
-boolean_T isRateRunning[2] = { 0, 0 };
+boolean_T isRateRunning[3] = { 0, 0, 0 };
 
-boolean_T need2runFlags[2] = { 0, 0 };
+boolean_T need2runFlags[3] = { 0, 0, 0 };
 
 void rt_OneStep(void)
 {
-  boolean_T eventFlags[2];
+  boolean_T eventFlags[3];
+  int_T i;
 
   /* Check base rate for overrun */
   if (isRateRunning[0]++) {
@@ -49,39 +50,49 @@ void rt_OneStep(void)
   /* Get model outputs here */
   disableTimer0Interrupt();
   isRateRunning[0]--;
-  if (eventFlags[1]) {
-    if (need2runFlags[1]++) {
-      IsrOverrun = 1;
-      need2runFlags[1]--;              /* allow future iterations to succeed*/
-      return;
+  for (i = 1; i < 3; i++) {
+    if (eventFlags[i]) {
+      if (need2runFlags[i]++) {
+        IsrOverrun = 1;
+        need2runFlags[i]--;            /* allow future iterations to succeed*/
+        break;
+      }
     }
   }
 
-  if (need2runFlags[1]) {
-    if (isRateRunning[1]) {
+  for (i = 1; i < 3; i++) {
+    if (isRateRunning[i]) {
       /* Yield to higher priority*/
       return;
     }
 
-    isRateRunning[1]++;
-    enableTimer0Interrupt();
+    if (need2runFlags[i]) {
+      isRateRunning[i]++;
+      enableTimer0Interrupt();
 
-    /* Step the model for subrate "1" */
-    switch (1)
-    {
-     case 1 :
-      mcb_pmsm_foc_hall_f28379d_step1();
+      /* Step the model for subrate "i" */
+      switch (i)
+      {
+       case 1 :
+        mcb_pmsm_foc_hall_f28379d_step1();
 
-      /* Get model outputs here */
-      break;
+        /* Get model outputs here */
+        break;
 
-     default :
-      break;
+       case 2 :
+        mcb_pmsm_foc_hall_f28379d_step2();
+
+        /* Get model outputs here */
+        break;
+
+       default :
+        break;
+      }
+
+      disableTimer0Interrupt();
+      need2runFlags[i]--;
+      isRateRunning[i]--;
     }
-
-    disableTimer0Interrupt();
-    need2runFlags[1]--;
-    isRateRunning[1]--;
   }
 }
 
@@ -89,7 +100,7 @@ volatile boolean_T stopRequested;
 volatile boolean_T runModel;
 int main(void)
 {
-  float modelBaseRate = 0.000625;
+  float modelBaseRate = 5.0E-5;
   float systemClock = 200;
 
   /* Initialize variables */

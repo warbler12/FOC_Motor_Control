@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_hall_f28379d'.
  *
- * Model version                  : 14
+ * Model version                  : 29
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Mon Oct 13 11:30:11 2025
+ * C/C++ source code generated on : Thu Nov 20 17:46:49 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -21,14 +21,15 @@
 
 /* Invariant block signals (default storage) */
 const ConstBlockIO_mcb_pmsm_foc_hall_ mcb_pmsm_foc_hall_f28379_ConstB = {
-  2U,                                  /* '<S225>/Width' */
-  2.5E+7F                              /* '<S180>/SpeedConstData' */
+  2.5E+7F                              /* '<S186>/SpeedConstData' */
 };
 
 /* Constant parameters (default storage) */
 const ConstParam_mcb_pmsm_foc_hall_f2 mcb_pmsm_foc_hall_f28379_ConstP = {
-  /* Computed Parameter: sine_table_values_Value
-   * Referenced by: '<S22>/sine_table_values'
+  /* Pooled Parameter (Expression: )
+   * Referenced by:
+   *   '<S143>/sine_table_values'
+   *   '<S153>/sine_table_values'
    */
   { 0.0F, 0.00785390101F, 0.0157073177F, 0.023559764F, 0.0314107575F,
     0.0392598175F, 0.0471064523F, 0.0549501814F, 0.0627905205F, 0.070626989F,

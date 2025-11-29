@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_hall_f28379d'.
  *
- * Model version                  : 14
+ * Model version                  : 29
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Mon Oct 13 11:30:11 2025
+ * C/C++ source code generated on : Thu Nov 20 17:46:49 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -58,6 +58,7 @@ void mcb_pmsm_foc_hall_f28379d_SetEventsForThisBaseStep(boolean_T *eventFlags)
 {
   /* Task runs when its counter is zero, computed via rtmStepTask macro */
   eventFlags[1] = ((boolean_T)rtmStepTask(mcb_pmsm_foc_hall_f28379d_M, 1));
+  eventFlags[2] = ((boolean_T)rtmStepTask(mcb_pmsm_foc_hall_f28379d_M, 2));
 }
 
 /*
@@ -75,30 +76,71 @@ static void rate_monotonic_scheduler(void)
    * counter is reset when it reaches its limit (zero means run).
    */
   (mcb_pmsm_foc_hall_f28379d_M->Timing.TaskCounters.TID[1])++;
-  if ((mcb_pmsm_foc_hall_f28379d_M->Timing.TaskCounters.TID[1]) > 799) {/* Sample time: [0.5s, 0.0s] */
+  if ((mcb_pmsm_foc_hall_f28379d_M->Timing.TaskCounters.TID[1]) > 9999) {/* Sample time: [0.5s, 0.0s] */
     mcb_pmsm_foc_hall_f28379d_M->Timing.TaskCounters.TID[1] = 0;
+  }
+
+  (mcb_pmsm_foc_hall_f28379d_M->Timing.TaskCounters.TID[2])++;
+  if ((mcb_pmsm_foc_hall_f28379d_M->Timing.TaskCounters.TID[2]) > 19999) {/* Sample time: [1.0s, 0.0s] */
+    mcb_pmsm_foc_hall_f28379d_M->Timing.TaskCounters.TID[2] = 0;
   }
 }
 
-/* Output and update for atomic system: '<S162>/Atomic Hall Reading' */
+/*
+ * Output and update for action system:
+ *    '<S146>/If Action Subsystem'
+ *    '<S155>/If Action Subsystem'
+ */
+void mcb_pmsm__IfActionSubsystem(real32_T rtu_In1, real32_T *rty_Out1,
+  rtB_IfActionSubsystem_mcb_pmsm_ *localB)
+{
+  /* DataTypeConversion: '<S148>/Convert_uint16' */
+  localB->Convert_uint16 = (int16_T)(real32_T)floor(rtu_In1);
+
+  /* DataTypeConversion: '<S148>/Convert_back' */
+  localB->Convert_back = localB->Convert_uint16;
+
+  /* Sum: '<S148>/Sum' */
+  *rty_Out1 = rtu_In1 - localB->Convert_back;
+}
+
+/*
+ * Output and update for action system:
+ *    '<S146>/If Action Subsystem1'
+ *    '<S155>/If Action Subsystem1'
+ */
+void mcb_pmsm_IfActionSubsystem1(real32_T rtu_In1, real32_T *rty_Out1,
+  rtB_IfActionSubsystem1_mcb_pmsm *localB)
+{
+  /* DataTypeConversion: '<S149>/Convert_uint16' */
+  localB->Convert_uint16 = (int16_T)rtu_In1;
+
+  /* DataTypeConversion: '<S149>/Convert_back' */
+  localB->Convert_back = localB->Convert_uint16;
+
+  /* Sum: '<S149>/Sum' */
+  *rty_Out1 = rtu_In1 - localB->Convert_back;
+}
+
+/* Output and update for atomic system: '<S168>/Atomic Hall Reading' */
 void mcb_pmsm__AtomicHallReading(void)
 {
   uint32_T u0;
   uint32_T u1;
 
-  /* user code (Output function Body for TID2) */
+  /* user code (Output function Body for TID3) */
 
-  /* System '<S162>/Atomic Hall Reading' */
+  /* System '<S168>/Atomic Hall Reading' */
   DINT;
 
-  /* DataStoreRead: '<S164>/Data Store Read5' */
+  /* DataStoreRead: '<S170>/Data Store Read5' */
   mcb_pmsm_foc_hall_f28379d_B.DataStoreRead5 =
     mcb_pmsm_foc_hall_f28379d_DWork.HallStateChangeFlag;
 
-  /* S-Function (fcgen): '<S164>/Function-Call Generator' incorporates:
-   *  SubSystem: '<S164>/Function-Call Subsystem'
+  /* S-Function (fcgen): '<S170>/Function-Call Generator' incorporates:
+   *  SubSystem: '<S170>/Function-Call Subsystem'
    */
-  /* S-Function (memorycopy): '<S172>/Read GPIO DAT register' */
+  /* S-Function (memorycopy): '<S178>/Read GPIO DAT register' */
   {
     uint32_T *memindsrc1 = (uint32_T *) (&GpioDataRegs.GPBDAT.all);
     uint32_T *meminddst1 = (uint32_T *)
@@ -106,53 +148,53 @@ void mcb_pmsm__AtomicHallReading(void)
     *(uint32_T *) (meminddst1) = *(uint32_T *) (memindsrc1);
   }
 
-  /* S-Function (sfix_bitop): '<S172>/Hall_C' */
+  /* S-Function (sfix_bitop): '<S178>/Hall_C' */
   mcb_pmsm_foc_hall_f28379d_B.Hall_C_fc =
     mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_nt & 33554432UL;
 
-  /* ArithShift: '<S172>/Shift Arithmetic' incorporates:
-   *  S-Function (sfix_bitop): '<S172>/Hall_C'
+  /* ArithShift: '<S178>/Shift Arithmetic' incorporates:
+   *  S-Function (sfix_bitop): '<S178>/Hall_C'
    */
   mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic_p =
     mcb_pmsm_foc_hall_f28379d_B.Hall_C_fc >> 23U;
 
-  /* S-Function (sfix_bitop): '<S172>/Hall_B' */
+  /* S-Function (sfix_bitop): '<S178>/Hall_B' */
   mcb_pmsm_foc_hall_f28379d_B.Hall_B_f =
     mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_nt & 8388608UL;
 
-  /* ArithShift: '<S172>/Shift Arithmetic1' incorporates:
-   *  S-Function (sfix_bitop): '<S172>/Hall_B'
+  /* ArithShift: '<S178>/Shift Arithmetic1' incorporates:
+   *  S-Function (sfix_bitop): '<S178>/Hall_B'
    */
   mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_h =
     mcb_pmsm_foc_hall_f28379d_B.Hall_B_f >> 22U;
 
-  /* S-Function (sfix_bitop): '<S172>/Hall_A' */
+  /* S-Function (sfix_bitop): '<S178>/Hall_A' */
   mcb_pmsm_foc_hall_f28379d_B.Hall_A_c =
     mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_nt & 4194304UL;
 
-  /* ArithShift: '<S172>/Shift Arithmetic2' incorporates:
-   *  S-Function (sfix_bitop): '<S172>/Hall_A'
+  /* ArithShift: '<S178>/Shift Arithmetic2' incorporates:
+   *  S-Function (sfix_bitop): '<S178>/Hall_A'
    */
   mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2_e =
     mcb_pmsm_foc_hall_f28379d_B.Hall_A_c >> 22U;
 
-  /* S-Function (sfix_bitop): '<S172>/Bitwise Operator2' */
+  /* S-Function (sfix_bitop): '<S178>/Bitwise Operator2' */
   mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_p = (uint32_T)((int16_T)
     mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic_p | (int16_T)
     mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_h | (int16_T)
     mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2_e);
 
-  /* S-Function (fcgen): '<S164>/Function-Call Generator' incorporates:
-   *  SubSystem: '<S164>/Function-Call Subsystem1'
+  /* S-Function (fcgen): '<S170>/Function-Call Generator' incorporates:
+   *  SubSystem: '<S170>/Function-Call Subsystem1'
    */
-  /* S-Function (memorycopy): '<S170>/Memory Copy' */
+  /* S-Function (memorycopy): '<S176>/Memory Copy' */
   {
     uint32_T *memindsrc2 = (uint32_T *) (&ECap1Regs.TSCTR);
     uint32_T *meminddst2 = (uint32_T *) (&mcb_pmsm_foc_hall_f28379d_B.MemoryCopy);
     *(uint32_T *) (meminddst2) = *(uint32_T *) (memindsrc2);
   }
 
-  /* S-Function (memorycopy): '<S170>/Memory Copy1' */
+  /* S-Function (memorycopy): '<S176>/Memory Copy1' */
   {
     uint32_T *memindsrc3 = (uint32_T *) (&ECap2Regs.TSCTR);
     uint32_T *meminddst3 = (uint32_T *)
@@ -160,7 +202,7 @@ void mcb_pmsm__AtomicHallReading(void)
     *(uint32_T *) (meminddst3) = *(uint32_T *) (memindsrc3);
   }
 
-  /* S-Function (memorycopy): '<S170>/Memory Copy2' */
+  /* S-Function (memorycopy): '<S176>/Memory Copy2' */
   {
     uint32_T *memindsrc4 = (uint32_T *) (&ECap3Regs.TSCTR);
     uint32_T *meminddst4 = (uint32_T *)
@@ -168,7 +210,7 @@ void mcb_pmsm__AtomicHallReading(void)
     *(uint32_T *) (meminddst4) = *(uint32_T *) (memindsrc4);
   }
 
-  /* MinMax: '<S170>/Min' */
+  /* MinMax: '<S176>/Min' */
   u0 = mcb_pmsm_foc_hall_f28379d_B.MemoryCopy;
   u1 = mcb_pmsm_foc_hall_f28379d_B.MemoryCopy1;
   if (u0 <= u1) {
@@ -180,50 +222,50 @@ void mcb_pmsm__AtomicHallReading(void)
     u1 = u0;
   }
 
-  /* MinMax: '<S170>/Min' */
+  /* MinMax: '<S176>/Min' */
   mcb_pmsm_foc_hall_f28379d_B.Min = u1;
 
-  /* End of Outputs for S-Function (fcgen): '<S164>/Function-Call Generator' */
+  /* End of Outputs for S-Function (fcgen): '<S170>/Function-Call Generator' */
 
-  /* RelationalOperator: '<S173>/Compare' incorporates:
-   *  Constant: '<S173>/Constant'
+  /* RelationalOperator: '<S179>/Compare' incorporates:
+   *  Constant: '<S179>/Constant'
    */
   mcb_pmsm_foc_hall_f28379d_B.Compare = (uint16_T)
-    (mcb_pmsm_foc_hall_f28379d_B.Min < 6250UL);
+    (mcb_pmsm_foc_hall_f28379d_B.Min < 500UL);
 
-  /* UnitDelay: '<S171>/Unit Delay' */
+  /* UnitDelay: '<S177>/Unit Delay' */
   mcb_pmsm_foc_hall_f28379d_B.UnitDelay =
     mcb_pmsm_foc_hall_f28379d_DWork.UnitDelay_DSTATE;
 
-  /* RelationalOperator: '<S171>/Relational Operator' */
+  /* RelationalOperator: '<S177>/Relational Operator' */
   mcb_pmsm_foc_hall_f28379d_B.RelationalOperator_k =
     (mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_p ==
      mcb_pmsm_foc_hall_f28379d_B.UnitDelay);
 
-  /* Logic: '<S171>/NOT' incorporates:
-   *  RelationalOperator: '<S173>/Compare'
+  /* Logic: '<S177>/NOT' incorporates:
+   *  RelationalOperator: '<S179>/Compare'
    */
   mcb_pmsm_foc_hall_f28379d_B.NOT_b =
     (mcb_pmsm_foc_hall_f28379d_B.RelationalOperator_k &&
      (mcb_pmsm_foc_hall_f28379d_B.Compare != 0U));
 
-  /* If: '<S171>/If' */
+  /* If: '<S177>/If' */
   if (!mcb_pmsm_foc_hall_f28379d_B.NOT_b) {
-    /* Outputs for IfAction SubSystem: '<S171>/No_Integrity_issue' incorporates:
-     *  ActionPort: '<S174>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S177>/No_Integrity_issue' incorporates:
+     *  ActionPort: '<S180>/Action Port'
      */
-    /* Merge: '<S171>/Merge' incorporates:
-     *  SignalConversion generated from: '<S174>/Counter'
+    /* Merge: '<S177>/Merge' incorporates:
+     *  SignalConversion generated from: '<S180>/Counter'
      */
     mcb_pmsm_foc_hall_f28379d_B.Merge =
       mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_p;
 
-    /* End of Outputs for SubSystem: '<S171>/No_Integrity_issue' */
+    /* End of Outputs for SubSystem: '<S177>/No_Integrity_issue' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S171>/Refresh_Halls' incorporates:
-     *  ActionPort: '<S175>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S177>/Refresh_Halls' incorporates:
+     *  ActionPort: '<S181>/Action Port'
      */
-    /* S-Function (memorycopy): '<S176>/Read GPIO DAT register' */
+    /* S-Function (memorycopy): '<S182>/Read GPIO DAT register' */
     {
       uint32_T *memindsrc5 = (uint32_T *) (&GpioDataRegs.GPBDAT.all);
       uint32_T *meminddst5 = (uint32_T *)
@@ -231,151 +273,151 @@ void mcb_pmsm__AtomicHallReading(void)
       *(uint32_T *) (meminddst5) = *(uint32_T *) (memindsrc5);
     }
 
-    /* S-Function (sfix_bitop): '<S176>/Hall_C' */
+    /* S-Function (sfix_bitop): '<S182>/Hall_C' */
     mcb_pmsm_foc_hall_f28379d_B.Hall_C_e =
       mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_p & 33554432UL;
 
-    /* ArithShift: '<S176>/Shift Arithmetic' incorporates:
-     *  S-Function (sfix_bitop): '<S176>/Hall_C'
+    /* ArithShift: '<S182>/Shift Arithmetic' incorporates:
+     *  S-Function (sfix_bitop): '<S182>/Hall_C'
      */
     mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic_l =
       mcb_pmsm_foc_hall_f28379d_B.Hall_C_e >> 23U;
 
-    /* S-Function (sfix_bitop): '<S176>/Hall_B' */
+    /* S-Function (sfix_bitop): '<S182>/Hall_B' */
     mcb_pmsm_foc_hall_f28379d_B.Hall_B_e =
       mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_p & 8388608UL;
 
-    /* ArithShift: '<S176>/Shift Arithmetic1' incorporates:
-     *  S-Function (sfix_bitop): '<S176>/Hall_B'
+    /* ArithShift: '<S182>/Shift Arithmetic1' incorporates:
+     *  S-Function (sfix_bitop): '<S182>/Hall_B'
      */
     mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_c =
       mcb_pmsm_foc_hall_f28379d_B.Hall_B_e >> 22U;
 
-    /* S-Function (sfix_bitop): '<S176>/Hall_A' */
+    /* S-Function (sfix_bitop): '<S182>/Hall_A' */
     mcb_pmsm_foc_hall_f28379d_B.Hall_A_d =
       mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_p & 4194304UL;
 
-    /* ArithShift: '<S176>/Shift Arithmetic2' incorporates:
-     *  S-Function (sfix_bitop): '<S176>/Hall_A'
+    /* ArithShift: '<S182>/Shift Arithmetic2' incorporates:
+     *  S-Function (sfix_bitop): '<S182>/Hall_A'
      */
     mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2_kn =
       mcb_pmsm_foc_hall_f28379d_B.Hall_A_d >> 22U;
 
-    /* S-Function (sfix_bitop): '<S176>/Bitwise Operator2' */
+    /* S-Function (sfix_bitop): '<S182>/Bitwise Operator2' */
     mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_g = (uint32_T)((int16_T)
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic_l | (int16_T)
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_c | (int16_T)
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2_kn);
 
-    /* Merge: '<S171>/Merge' incorporates:
-     *  SignalConversion generated from: '<S175>/Out1'
+    /* Merge: '<S177>/Merge' incorporates:
+     *  SignalConversion generated from: '<S181>/Out1'
      */
     mcb_pmsm_foc_hall_f28379d_B.Merge =
       mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_g;
 
-    /* End of Outputs for SubSystem: '<S171>/Refresh_Halls' */
+    /* End of Outputs for SubSystem: '<S177>/Refresh_Halls' */
   }
 
-  /* End of If: '<S171>/If' */
+  /* End of If: '<S177>/If' */
 
-  /* DataStoreRead: '<S164>/Data Store Read2' */
+  /* DataStoreRead: '<S170>/Data Store Read2' */
   mcb_pmsm_foc_hall_f28379d_B.DataStoreRead2 =
     mcb_pmsm_foc_hall_f28379d_DWork.GlobalSpeedCount;
 
-  /* DataStoreRead: '<S164>/Data Store Read3' */
+  /* DataStoreRead: '<S170>/Data Store Read3' */
   mcb_pmsm_foc_hall_f28379d_B.DataStoreRead3 =
     mcb_pmsm_foc_hall_f28379d_DWork.GlobalDirection;
 
-  /* DataStoreRead: '<S164>/Data Store Read4' */
+  /* DataStoreRead: '<S170>/Data Store Read4' */
   mcb_pmsm_foc_hall_f28379d_B.DataStoreRead4 =
     mcb_pmsm_foc_hall_f28379d_DWork.GlobalSpeedValidity;
 
-  /* user code (Output function Trailer for TID2) */
+  /* user code (Output function Trailer for TID3) */
 
-  /* System '<S162>/Atomic Hall Reading' */
+  /* System '<S168>/Atomic Hall Reading' */
   EINT;
 
-  /* Update for UnitDelay: '<S171>/Unit Delay' */
+  /* Update for UnitDelay: '<S177>/Unit Delay' */
   mcb_pmsm_foc_hall_f28379d_DWork.UnitDelay_DSTATE =
     mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_p;
 }
 
 /*
  * Output and update for action system:
- *    '<S195>/Hall Value of 1'
- *    '<S194>/Hall Value of 2'
+ *    '<S201>/Hall Value of 1'
+ *    '<S200>/Hall Value of 2'
  */
 void mcb_pmsm_foc_h_HallValueof1(real32_T *rty_position)
 {
-  /* SignalConversion generated from: '<S205>/position' incorporates:
-   *  Constant: '<S205>/Constant'
+  /* SignalConversion generated from: '<S211>/position' incorporates:
+   *  Constant: '<S211>/Constant'
    */
   *rty_position = 0.16667F;
 }
 
 /*
  * Output and update for action system:
- *    '<S195>/Hall Value of 2'
- *    '<S194>/Hall Value of 3'
+ *    '<S201>/Hall Value of 2'
+ *    '<S200>/Hall Value of 3'
  */
 void mcb_pmsm_foc_h_HallValueof2(real32_T *rty_position)
 {
-  /* SignalConversion generated from: '<S206>/position' incorporates:
-   *  Constant: '<S206>/Constant'
+  /* SignalConversion generated from: '<S212>/position' incorporates:
+   *  Constant: '<S212>/Constant'
    */
   *rty_position = 0.33333F;
 }
 
 /*
  * Output and update for action system:
- *    '<S195>/Hall Value of 3'
- *    '<S194>/Hall Value of 4'
+ *    '<S201>/Hall Value of 3'
+ *    '<S200>/Hall Value of 4'
  */
 void mcb_pmsm_foc_h_HallValueof3(real32_T *rty_position)
 {
-  /* SignalConversion generated from: '<S207>/position' incorporates:
-   *  Constant: '<S207>/Constant'
+  /* SignalConversion generated from: '<S213>/position' incorporates:
+   *  Constant: '<S213>/Constant'
    */
   *rty_position = 0.5F;
 }
 
 /*
  * Output and update for action system:
- *    '<S195>/Hall Value of 4'
- *    '<S194>/Hall Value of 5'
+ *    '<S201>/Hall Value of 4'
+ *    '<S200>/Hall Value of 5'
  */
 void mcb_pmsm_foc_h_HallValueof4(real32_T *rty_position)
 {
-  /* SignalConversion generated from: '<S208>/position' incorporates:
-   *  Constant: '<S208>/Constant'
+  /* SignalConversion generated from: '<S214>/position' incorporates:
+   *  Constant: '<S214>/Constant'
    */
   *rty_position = 0.66667F;
 }
 
 /*
  * Output and update for action system:
- *    '<S195>/Hall Value of 5'
- *    '<S194>/Hall Value of 6'
+ *    '<S201>/Hall Value of 5'
+ *    '<S200>/Hall Value of 6'
  */
 void mcb_pmsm_foc_h_HallValueof5(real32_T *rty_position)
 {
-  /* SignalConversion generated from: '<S209>/position' incorporates:
-   *  Constant: '<S209>/Constant'
+  /* SignalConversion generated from: '<S215>/position' incorporates:
+   *  Constant: '<S215>/Constant'
    */
   *rty_position = 0.83333F;
 }
 
 /*
  * Output and update for action system:
- *    '<S195>/Hall Value of 7'
- *    '<S194>/Hall Value of 1'
- *    '<S194>/Hall Value of 7'
- *    '<S183>/Hall Value of 7'
+ *    '<S201>/Hall Value of 7'
+ *    '<S200>/Hall Value of 1'
+ *    '<S200>/Hall Value of 7'
+ *    '<S189>/Hall Value of 7'
  */
 void mcb_pmsm_foc_h_HallValueof7(real32_T *rty_position)
 {
-  /* SignalConversion generated from: '<S211>/position' incorporates:
-   *  Constant: '<S211>/Constant'
+  /* SignalConversion generated from: '<S217>/position' incorporates:
+   *  Constant: '<S217>/Constant'
    */
   *rty_position = 0.0F;
 }
@@ -383,16 +425,16 @@ void mcb_pmsm_foc_h_HallValueof7(real32_T *rty_position)
 /* System initialize for function-call system: '<Root>/Current Control' */
 void mcb_pms_CurrentControl_Init(void)
 {
-  /* Start for Delay: '<S177>/validityDelay' */
+  /* Start for Delay: '<S183>/validityDelay' */
   mcb_pmsm_foc_hall_f28379d_B.validityDelay = false;
 
-  /* Start for Delay: '<S177>/speedCountDelay' */
+  /* Start for Delay: '<S183>/speedCountDelay' */
   mcb_pmsm_foc_hall_f28379d_B.speedCountDelay = 0UL;
 
-  /* Start for Delay: '<S178>/Delay One Step' */
+  /* Start for Delay: '<S184>/Delay One Step' */
   mcb_pmsm_foc_hall_f28379d_B.DelayOneStep = 0U;
 
-  /* Start for S-Function (c2802xadc): '<S234>/ADC_C_IN2' */
+  /* Start for S-Function (c2802xadc): '<S229>/ADC_C_IN2' */
   if (MW_adcCInitFlag == 0U) {
     InitAdcC();
     MW_adcCInitFlag = 1U;
@@ -400,7 +442,7 @@ void mcb_pms_CurrentControl_Init(void)
 
   config_ADCC_SOC0 ();
 
-  /* Start for S-Function (c2802xadc): '<S234>/ADC_B_IN2' */
+  /* Start for S-Function (c2802xadc): '<S229>/ADC_B_IN2' */
   if (MW_adcBInitFlag == 0U) {
     InitAdcB();
     MW_adcBInitFlag = 1U;
@@ -408,19 +450,19 @@ void mcb_pms_CurrentControl_Init(void)
 
   config_ADCB_SOC0 ();
 
-  /* Start for Constant: '<S28>/Kp1' */
+  /* Start for Constant: '<S26>/Kp1' */
   mcb_pmsm_foc_hall_f28379d_B.Kp1 = 0.0F;
 
-  /* Start for Constant: '<S27>/Ki1' */
+  /* Start for Constant: '<S25>/Ki1' */
   mcb_pmsm_foc_hall_f28379d_B.Ki1 = 0.0F;
 
-  /* Start for S-Function (c280xgpio_do): '<S222>/Inverter Enable' */
+  /* Start for S-Function (c280xgpio_do): '<S228>/Inverter Enable' */
   EALLOW;
   GpioCtrlRegs.GPDMUX2.all &= 0xFCFFFFFFU;
   GpioCtrlRegs.GPDDIR.all |= 0x10000000U;
   EDIS;
 
-  /* Start for S-Function (c2802xpwm): '<S222>/ePWM1' */
+  /* Start for S-Function (c2802xpwm): '<S228>/ePWM1' */
 
   /*** Initialize ePWM1 modules ***/
   {
@@ -441,7 +483,7 @@ void mcb_pms_CurrentControl_Init(void)
     EPwm1Regs.TBCTL2.all = (EPwm1Regs.TBCTL2.all & ~0xC000U) | 0x0U;
 
     /*-- Setup Time-Base (TB) Submodule --*/
-    EPwm1Regs.TBPRD = 6250U;           // Time Base Period Register
+    EPwm1Regs.TBPRD = 500U;            // Time Base Period Register
 
     /* // Time-Base Phase Register
        EPwm1Regs.TBPHS.bit.TBPHS               = 0U;          // Phase offset register
@@ -471,8 +513,8 @@ void mcb_pms_CurrentControl_Init(void)
        EPwm1Regs.CMPCTL2.bit.LOADDMODE           = 0U;          // Active Compare D Load
      */
     EPwm1Regs.CMPCTL2.all = (EPwm1Regs.CMPCTL2.all & ~0x3C5FU) | 0x0U;
-    EPwm1Regs.CMPA.bit.CMPA = 3126U;   // Counter Compare A Register
-    EPwm1Regs.CMPB.bit.CMPB = 3126U;   // Counter Compare B Register
+    EPwm1Regs.CMPA.bit.CMPA = 251U;    // Counter Compare A Register
+    EPwm1Regs.CMPB.bit.CMPB = 251U;    // Counter Compare B Register
     EPwm1Regs.CMPC = 32000U;           // Counter Compare C Register
     EPwm1Regs.CMPD = 32000U;           // Counter Compare D Register
 
@@ -640,7 +682,7 @@ void mcb_pms_CurrentControl_Init(void)
     EDIS;
   }
 
-  /* Start for S-Function (c2802xpwm): '<S222>/ePWM2' */
+  /* Start for S-Function (c2802xpwm): '<S228>/ePWM2' */
 
   /*** Initialize ePWM2 modules ***/
   {
@@ -661,7 +703,7 @@ void mcb_pms_CurrentControl_Init(void)
     EPwm2Regs.TBCTL2.all = (EPwm2Regs.TBCTL2.all & ~0xC000U) | 0x0U;
 
     /*-- Setup Time-Base (TB) Submodule --*/
-    EPwm2Regs.TBPRD = 6250U;           // Time Base Period Register
+    EPwm2Regs.TBPRD = 500U;            // Time Base Period Register
 
     /* // Time-Base Phase Register
        EPwm2Regs.TBPHS.bit.TBPHS               = 0U;          // Phase offset register
@@ -691,8 +733,8 @@ void mcb_pms_CurrentControl_Init(void)
        EPwm2Regs.CMPCTL2.bit.LOADDMODE           = 0U;          // Active Compare D Load
      */
     EPwm2Regs.CMPCTL2.all = (EPwm2Regs.CMPCTL2.all & ~0x3C5FU) | 0x0U;
-    EPwm2Regs.CMPA.bit.CMPA = 3126U;   // Counter Compare A Register
-    EPwm2Regs.CMPB.bit.CMPB = 3126U;   // Counter Compare B Register
+    EPwm2Regs.CMPA.bit.CMPA = 251U;    // Counter Compare A Register
+    EPwm2Regs.CMPB.bit.CMPB = 251U;    // Counter Compare B Register
     EPwm2Regs.CMPC = 32000U;           // Counter Compare C Register
     EPwm2Regs.CMPD = 32000U;           // Counter Compare D Register
 
@@ -860,7 +902,7 @@ void mcb_pms_CurrentControl_Init(void)
     EDIS;
   }
 
-  /* Start for S-Function (c2802xpwm): '<S222>/ePWM3' */
+  /* Start for S-Function (c2802xpwm): '<S228>/ePWM3' */
 
   /*** Initialize ePWM3 modules ***/
   {
@@ -881,7 +923,7 @@ void mcb_pms_CurrentControl_Init(void)
     EPwm3Regs.TBCTL2.all = (EPwm3Regs.TBCTL2.all & ~0xC000U) | 0x0U;
 
     /*-- Setup Time-Base (TB) Submodule --*/
-    EPwm3Regs.TBPRD = 6250U;           // Time Base Period Register
+    EPwm3Regs.TBPRD = 500U;            // Time Base Period Register
 
     /* // Time-Base Phase Register
        EPwm3Regs.TBPHS.bit.TBPHS               = 0U;          // Phase offset register
@@ -911,8 +953,8 @@ void mcb_pms_CurrentControl_Init(void)
        EPwm3Regs.CMPCTL2.bit.LOADDMODE           = 0U;          // Active Compare D Load
      */
     EPwm3Regs.CMPCTL2.all = (EPwm3Regs.CMPCTL2.all & ~0x3C5FU) | 0x0U;
-    EPwm3Regs.CMPA.bit.CMPA = 3126U;   // Counter Compare A Register
-    EPwm3Regs.CMPB.bit.CMPB = 3126U;   // Counter Compare B Register
+    EPwm3Regs.CMPA.bit.CMPA = 251U;    // Counter Compare A Register
+    EPwm3Regs.CMPB.bit.CMPB = 251U;    // Counter Compare B Register
     EPwm3Regs.CMPC = 32000U;           // Counter Compare C Register
     EPwm3Regs.CMPD = 32000U;           // Counter Compare D Register
 
@@ -1080,44 +1122,44 @@ void mcb_pms_CurrentControl_Init(void)
     EDIS;
   }
 
-  /* InitializeConditions for Delay: '<S178>/Delay One Step1' */
+  /* InitializeConditions for Delay: '<S184>/Delay One Step1' */
   mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep1_DSTATE = true;
 
-  /* InitializeConditions for Delay: '<S178>/Delay One Step' */
-  mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep_DSTATE = 667U;
+  /* InitializeConditions for Delay: '<S184>/Delay One Step' */
+  mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep_DSTATE = 8333U;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S128>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S126>/Integrator' */
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE = 0.0F;
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_PrevResetState = 0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S77>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S75>/Integrator' */
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE_j = 0.0F;
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_PrevResetState_m = 0;
 
-  /* SystemInitialize for IfAction SubSystem: '<S166>/Speed and direction are valid Use speed to extrapolate position' */
-  /* SystemInitialize for Enabled SubSystem: '<S180>/Subsystem1' */
-  /* SystemInitialize for Merge: '<S193>/Merge' */
+  /* SystemInitialize for IfAction SubSystem: '<S172>/Speed and direction are valid Use speed to extrapolate position' */
+  /* SystemInitialize for Enabled SubSystem: '<S186>/Subsystem1' */
+  /* SystemInitialize for Merge: '<S199>/Merge' */
   mcb_pmsm_foc_hall_f28379d_B.Merge_c = 0.0F;
 
-  /* End of SystemInitialize for SubSystem: '<S180>/Subsystem1' */
-  /* End of SystemInitialize for SubSystem: '<S166>/Speed and direction are valid Use speed to extrapolate position' */
+  /* End of SystemInitialize for SubSystem: '<S186>/Subsystem1' */
+  /* End of SystemInitialize for SubSystem: '<S172>/Speed and direction are valid Use speed to extrapolate position' */
 }
 
 /* System reset for function-call system: '<Root>/Current Control' */
 void mcb_pm_CurrentControl_Reset(void)
 {
-  /* InitializeConditions for Delay: '<S178>/Delay One Step1' */
+  /* InitializeConditions for Delay: '<S184>/Delay One Step1' */
   mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep1_DSTATE = true;
 
-  /* InitializeConditions for Delay: '<S178>/Delay One Step' */
-  mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep_DSTATE = 667U;
+  /* InitializeConditions for Delay: '<S184>/Delay One Step' */
+  mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep_DSTATE = 8333U;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S128>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S126>/Integrator' */
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE =
     mcb_pmsm_foc_hall_f28379d_B.Kp1;
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_PrevResetState = 0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S77>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S75>/Integrator' */
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE_j =
     mcb_pmsm_foc_hall_f28379d_B.Ki1;
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_PrevResetState_m = 0;
@@ -1132,181 +1174,180 @@ void mcb_pmsm_foc_CurrentControl(void)
   real32_T u0_0;
   uint32_T u0;
   uint32_T u1;
-  int16_T s226_iter;
   uint16_T Scale_to_PWM_Counter_PRD;
   boolean_T doReset;
 
-  /* Outputs for Atomic SubSystem: '<S162>/Atomic Hall Reading' */
+  /* Outputs for Atomic SubSystem: '<S168>/Atomic Hall Reading' */
   mcb_pmsm__AtomicHallReading();
 
-  /* End of Outputs for SubSystem: '<S162>/Atomic Hall Reading' */
+  /* End of Outputs for SubSystem: '<S168>/Atomic Hall Reading' */
 
-  /* Switch: '<S166>/Switch' incorporates:
-   *  Constant: '<S166>/WatchDog'
+  /* Switch: '<S172>/Switch' incorporates:
+   *  Constant: '<S172>/WatchDog'
    */
   mcb_pmsm_foc_hall_f28379d_B.Switch_a = 0U;
 
-  /* DataStoreWrite: '<S162>/Data Store Write2' */
+  /* DataStoreWrite: '<S168>/Data Store Write2' */
   mcb_pmsm_foc_hall_f28379d_DWork.HallStateChangeFlag = 0U;
 
-  /* RelationalOperator: '<S165>/Compare' incorporates:
-   *  Constant: '<S165>/Constant'
+  /* RelationalOperator: '<S171>/Compare' incorporates:
+   *  Constant: '<S171>/Constant'
    */
   mcb_pmsm_foc_hall_f28379d_B.Compare_e =
     (mcb_pmsm_foc_hall_f28379d_B.DataStoreRead2 >= 208333UL);
 
-  /* DataTypeConversion: '<S166>/Data Type Conversion4' */
+  /* DataTypeConversion: '<S172>/Data Type Conversion4' */
   mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion4 =
     (mcb_pmsm_foc_hall_f28379d_B.DataStoreRead5 != 0U);
 
-  /* DataTypeConversion: '<S177>/Data Type Conversion' */
+  /* DataTypeConversion: '<S183>/Data Type Conversion' */
   mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_nh =
     (mcb_pmsm_foc_hall_f28379d_B.DataStoreRead4 != 0U);
 
-  /* Switch: '<S177>/Switch' incorporates:
-   *  Constant: '<S177>/Order'
+  /* Switch: '<S183>/Switch' incorporates:
+   *  Constant: '<S183>/Order'
    */
   mcb_pmsm_foc_hall_f28379d_B.Switch_m = 0U;
 
-  /* Outputs for Enabled SubSystem: '<S162>/Subsystem' incorporates:
-   *  EnablePort: '<S168>/Enable'
+  /* Outputs for Enabled SubSystem: '<S168>/Subsystem' incorporates:
+   *  EnablePort: '<S174>/Enable'
    */
   if (mcb_pmsm_foc_hall_f28379d_B.Compare_e) {
-    /* SignalConversion generated from: '<S168>/Input' */
+    /* SignalConversion generated from: '<S174>/Input' */
     mcb_pmsm_foc_hall_f28379d_B.Input =
       mcb_pmsm_foc_hall_f28379d_B.DataStoreRead2;
   }
 
-  /* End of Outputs for SubSystem: '<S162>/Subsystem' */
+  /* End of Outputs for SubSystem: '<S168>/Subsystem' */
 
-  /* Delay: '<S178>/Delay One Step1' */
+  /* Delay: '<S184>/Delay One Step1' */
   mcb_pmsm_foc_hall_f28379d_B.DelayOneStep1 =
     mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep1_DSTATE;
 
-  /* Logic: '<S178>/OR' */
+  /* Logic: '<S184>/OR' */
   mcb_pmsm_foc_hall_f28379d_B.OR = (mcb_pmsm_foc_hall_f28379d_B.DelayOneStep1 ||
     mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion4);
 
-  /* Delay: '<S178>/Delay One Step' */
+  /* Delay: '<S184>/Delay One Step' */
   doReset = mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion4;
   if (mcb_pmsm_foc_hall_f28379d_B.OR) {
     if (doReset) {
-      mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep_DSTATE = 667U;
+      mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep_DSTATE = 8333U;
     }
 
-    /* Delay: '<S178>/Delay One Step' */
+    /* Delay: '<S184>/Delay One Step' */
     mcb_pmsm_foc_hall_f28379d_B.DelayOneStep =
       mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep_DSTATE;
   }
 
-  /* End of Delay: '<S178>/Delay One Step' */
+  /* End of Delay: '<S184>/Delay One Step' */
 
-  /* RelationalOperator: '<S182>/Compare' incorporates:
-   *  Constant: '<S182>/Constant'
+  /* RelationalOperator: '<S188>/Compare' incorporates:
+   *  Constant: '<S188>/Constant'
    */
   mcb_pmsm_foc_hall_f28379d_B.Compare_n =
     (mcb_pmsm_foc_hall_f28379d_B.DelayOneStep > 0U);
 
-  /* Switch: '<S181>/watchdog check' */
+  /* Switch: '<S187>/watchdog check' */
   if (mcb_pmsm_foc_hall_f28379d_B.Compare_n) {
-    /* MinMax: '<S181>/Max' */
+    /* MinMax: '<S187>/Max' */
     u0 = mcb_pmsm_foc_hall_f28379d_B.Input;
     u1 = mcb_pmsm_foc_hall_f28379d_B.Min;
     if (u0 >= u1) {
       u1 = u0;
     }
 
-    /* MinMax: '<S181>/Max' */
+    /* MinMax: '<S187>/Max' */
     mcb_pmsm_foc_hall_f28379d_B.Max = u1;
 
-    /* Switch: '<S181>/speed check' */
+    /* Switch: '<S187>/speed check' */
     if (mcb_pmsm_foc_hall_f28379d_B.Max >= 25000000UL) {
-      /* Switch: '<S181>/speed check' incorporates:
-       *  Constant: '<S181>/Constant'
+      /* Switch: '<S187>/speed check' incorporates:
+       *  Constant: '<S187>/Constant'
        */
       mcb_pmsm_foc_hall_f28379d_B.speedcheck = 0U;
     } else {
-      /* Logic: '<S177>/Logical Operator' */
+      /* Logic: '<S183>/Logical Operator' */
       mcb_pmsm_foc_hall_f28379d_B.LogicalOperator_a =
         (mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_nh ||
          mcb_pmsm_foc_hall_f28379d_B.validityDelay);
 
-      /* Switch: '<S181>/speed check' */
+      /* Switch: '<S187>/speed check' */
       mcb_pmsm_foc_hall_f28379d_B.speedcheck =
         mcb_pmsm_foc_hall_f28379d_B.LogicalOperator_a;
     }
 
-    /* End of Switch: '<S181>/speed check' */
+    /* End of Switch: '<S187>/speed check' */
 
-    /* Switch: '<S181>/watchdog check' */
+    /* Switch: '<S187>/watchdog check' */
     mcb_pmsm_foc_hall_f28379d_B.watchdogcheck =
       mcb_pmsm_foc_hall_f28379d_B.speedcheck;
   } else {
-    /* Switch: '<S181>/watchdog check' incorporates:
-     *  Constant: '<S181>/Constant'
+    /* Switch: '<S187>/watchdog check' incorporates:
+     *  Constant: '<S187>/Constant'
      */
     mcb_pmsm_foc_hall_f28379d_B.watchdogcheck = 0U;
   }
 
-  /* End of Switch: '<S181>/watchdog check' */
+  /* End of Switch: '<S187>/watchdog check' */
 
-  /* If: '<S166>/If' */
+  /* If: '<S172>/If' */
   if (mcb_pmsm_foc_hall_f28379d_B.watchdogcheck != 0U) {
-    /* Outputs for IfAction SubSystem: '<S166>/Speed and direction are valid Use speed to extrapolate position' incorporates:
-     *  ActionPort: '<S180>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S172>/Speed and direction are valid Use speed to extrapolate position' incorporates:
+     *  ActionPort: '<S186>/Action Port'
      */
-    /* DataTypeConversion: '<S180>/currentSpeedData' */
+    /* DataTypeConversion: '<S186>/currentSpeedData' */
     mcb_pmsm_foc_hall_f28379d_B.currentSpeedData = (real32_T)
       mcb_pmsm_foc_hall_f28379d_B.Input;
 
-    /* Product: '<S180>/Divide' */
+    /* Product: '<S186>/Divide' */
     mcb_pmsm_foc_hall_f28379d_B.Divide =
       mcb_pmsm_foc_hall_f28379_ConstB.SpeedConstData /
       mcb_pmsm_foc_hall_f28379d_B.currentSpeedData;
 
-    /* Gain: '<S180>/SpeedGain' */
+    /* Gain: '<S186>/SpeedGain' */
     mcb_pmsm_foc_hall_f28379d_B.SpeedGain = 0.0833333358F *
       mcb_pmsm_foc_hall_f28379d_B.Divide;
 
-    /* If: '<S180>/If' */
+    /* If: '<S186>/If' */
     if (mcb_pmsm_foc_hall_f28379d_B.DataStoreRead3 > 0) {
-      /* Outputs for IfAction SubSystem: '<S180>/If Action Subsystem' incorporates:
-       *  ActionPort: '<S191>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S186>/If Action Subsystem' incorporates:
+       *  ActionPort: '<S197>/Action Port'
        */
-      /* Merge: '<S166>/Merge' incorporates:
-       *  SignalConversion generated from: '<S191>/In1'
+      /* Merge: '<S172>/Merge' incorporates:
+       *  SignalConversion generated from: '<S197>/In1'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge_d =
         mcb_pmsm_foc_hall_f28379d_B.SpeedGain;
 
-      /* End of Outputs for SubSystem: '<S180>/If Action Subsystem' */
+      /* End of Outputs for SubSystem: '<S186>/If Action Subsystem' */
     } else {
-      /* Outputs for IfAction SubSystem: '<S180>/If Action Subsystem1' incorporates:
-       *  ActionPort: '<S192>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S186>/If Action Subsystem1' incorporates:
+       *  ActionPort: '<S198>/Action Port'
        */
-      /* Merge: '<S166>/Merge' incorporates:
-       *  UnaryMinus: '<S192>/Unary Minus'
+      /* Merge: '<S172>/Merge' incorporates:
+       *  UnaryMinus: '<S198>/Unary Minus'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge_d =
         -mcb_pmsm_foc_hall_f28379d_B.SpeedGain;
 
-      /* End of Outputs for SubSystem: '<S180>/If Action Subsystem1' */
+      /* End of Outputs for SubSystem: '<S186>/If Action Subsystem1' */
     }
 
-    /* End of If: '<S180>/If' */
+    /* End of If: '<S186>/If' */
 
-    /* Outputs for Enabled SubSystem: '<S180>/Subsystem1' incorporates:
-     *  EnablePort: '<S193>/Enable'
+    /* Outputs for Enabled SubSystem: '<S186>/Subsystem1' incorporates:
+     *  EnablePort: '<S199>/Enable'
      */
-    /* Outputs for IfAction SubSystem: '<S193>/first_order' incorporates:
-     *  ActionPort: '<S196>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S199>/first_order' incorporates:
+     *  ActionPort: '<S202>/Action Port'
      */
-    /* If: '<S193>/If1' incorporates:
-     *  DataTypeConversion: '<S196>/countData'
-     *  DataTypeConversion: '<S196>/currentSpeedData'
-     *  Gain: '<S196>/Gain'
-     *  Merge: '<S193>/Merge1'
-     *  Product: '<S196>/Divide'
+    /* If: '<S199>/If1' incorporates:
+     *  DataTypeConversion: '<S202>/countData'
+     *  DataTypeConversion: '<S202>/currentSpeedData'
+     *  Gain: '<S202>/Gain'
+     *  Merge: '<S199>/Merge1'
+     *  Product: '<S202>/Divide'
      */
     mcb_pmsm_foc_hall_f28379d_B.countData = (real32_T)
       mcb_pmsm_foc_hall_f28379d_B.Min;
@@ -1317,1066 +1358,760 @@ void mcb_pmsm_foc_CurrentControl(void)
     mcb_pmsm_foc_hall_f28379d_B.Merge1_l = 0.5F *
       mcb_pmsm_foc_hall_f28379d_B.Divide_f;
 
-    /* End of Outputs for SubSystem: '<S193>/first_order' */
+    /* End of Outputs for SubSystem: '<S199>/first_order' */
 
-    /* Saturate: '<S193>/Saturation' */
+    /* Saturate: '<S199>/Saturation' */
     u0_0 = mcb_pmsm_foc_hall_f28379d_B.Merge1_l;
     if (u0_0 > 0.16667F) {
-      /* Saturate: '<S193>/Saturation' */
+      /* Saturate: '<S199>/Saturation' */
       mcb_pmsm_foc_hall_f28379d_B.Saturation_k = 0.16667F;
     } else {
-      /* Saturate: '<S193>/Saturation' */
+      /* Saturate: '<S199>/Saturation' */
       mcb_pmsm_foc_hall_f28379d_B.Saturation_k = u0_0;
     }
 
-    /* End of Saturate: '<S193>/Saturation' */
+    /* End of Saturate: '<S199>/Saturation' */
 
-    /* If: '<S193>/If' */
+    /* If: '<S199>/If' */
     if (mcb_pmsm_foc_hall_f28379d_B.DataStoreRead3 != 1) {
-      /* Outputs for IfAction SubSystem: '<S193>/-ve Direction' incorporates:
-       *  ActionPort: '<S195>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S199>/-ve Direction' incorporates:
+       *  ActionPort: '<S201>/Action Port'
        */
-      /* SwitchCase: '<S195>/Switch Case' */
+      /* SwitchCase: '<S201>/Switch Case' */
       switch ((int32_T)mcb_pmsm_foc_hall_f28379d_B.Merge) {
        case 5L:
-        /* Outputs for IfAction SubSystem: '<S195>/Hall Value of 1' incorporates:
-         *  ActionPort: '<S205>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S201>/Hall Value of 1' incorporates:
+         *  ActionPort: '<S211>/Action Port'
          */
         mcb_pmsm_foc_h_HallValueof1(&mcb_pmsm_foc_hall_f28379d_B.Merge1_d);
 
-        /* End of Outputs for SubSystem: '<S195>/Hall Value of 1' */
+        /* End of Outputs for SubSystem: '<S201>/Hall Value of 1' */
         break;
 
        case 4L:
-        /* Outputs for IfAction SubSystem: '<S195>/Hall Value of 2' incorporates:
-         *  ActionPort: '<S206>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S201>/Hall Value of 2' incorporates:
+         *  ActionPort: '<S212>/Action Port'
          */
         mcb_pmsm_foc_h_HallValueof2(&mcb_pmsm_foc_hall_f28379d_B.Merge1_d);
 
-        /* End of Outputs for SubSystem: '<S195>/Hall Value of 2' */
+        /* End of Outputs for SubSystem: '<S201>/Hall Value of 2' */
         break;
 
        case 6L:
-        /* Outputs for IfAction SubSystem: '<S195>/Hall Value of 3' incorporates:
-         *  ActionPort: '<S207>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S201>/Hall Value of 3' incorporates:
+         *  ActionPort: '<S213>/Action Port'
          */
         mcb_pmsm_foc_h_HallValueof3(&mcb_pmsm_foc_hall_f28379d_B.Merge1_d);
 
-        /* End of Outputs for SubSystem: '<S195>/Hall Value of 3' */
+        /* End of Outputs for SubSystem: '<S201>/Hall Value of 3' */
         break;
 
        case 2L:
-        /* Outputs for IfAction SubSystem: '<S195>/Hall Value of 4' incorporates:
-         *  ActionPort: '<S208>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S201>/Hall Value of 4' incorporates:
+         *  ActionPort: '<S214>/Action Port'
          */
         mcb_pmsm_foc_h_HallValueof4(&mcb_pmsm_foc_hall_f28379d_B.Merge1_d);
 
-        /* End of Outputs for SubSystem: '<S195>/Hall Value of 4' */
+        /* End of Outputs for SubSystem: '<S201>/Hall Value of 4' */
         break;
 
        case 3L:
-        /* Outputs for IfAction SubSystem: '<S195>/Hall Value of 5' incorporates:
-         *  ActionPort: '<S209>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S201>/Hall Value of 5' incorporates:
+         *  ActionPort: '<S215>/Action Port'
          */
         mcb_pmsm_foc_h_HallValueof5(&mcb_pmsm_foc_hall_f28379d_B.Merge1_d);
 
-        /* End of Outputs for SubSystem: '<S195>/Hall Value of 5' */
+        /* End of Outputs for SubSystem: '<S201>/Hall Value of 5' */
         break;
 
        case 1L:
-        /* Outputs for IfAction SubSystem: '<S195>/Hall Value of 6' incorporates:
-         *  ActionPort: '<S210>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S201>/Hall Value of 6' incorporates:
+         *  ActionPort: '<S216>/Action Port'
          */
-        /* Merge: '<S195>/Merge1' incorporates:
-         *  Constant: '<S210>/Constant'
-         *  SignalConversion generated from: '<S210>/position'
+        /* Merge: '<S201>/Merge1' incorporates:
+         *  Constant: '<S216>/Constant'
+         *  SignalConversion generated from: '<S216>/position'
          */
         mcb_pmsm_foc_hall_f28379d_B.Merge1_d = 1.0F;
 
-        /* End of Outputs for SubSystem: '<S195>/Hall Value of 6' */
+        /* End of Outputs for SubSystem: '<S201>/Hall Value of 6' */
         break;
 
        default:
-        /* Outputs for IfAction SubSystem: '<S195>/Hall Value of 7' incorporates:
-         *  ActionPort: '<S211>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S201>/Hall Value of 7' incorporates:
+         *  ActionPort: '<S217>/Action Port'
          */
         mcb_pmsm_foc_h_HallValueof7(&mcb_pmsm_foc_hall_f28379d_B.Merge1_d);
 
-        /* End of Outputs for SubSystem: '<S195>/Hall Value of 7' */
+        /* End of Outputs for SubSystem: '<S201>/Hall Value of 7' */
         break;
       }
 
-      /* End of SwitchCase: '<S195>/Switch Case' */
+      /* End of SwitchCase: '<S201>/Switch Case' */
 
-      /* Merge: '<S193>/Merge' incorporates:
-       *  Sum: '<S195>/Sum'
+      /* Merge: '<S199>/Merge' incorporates:
+       *  Sum: '<S201>/Sum'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge_c = mcb_pmsm_foc_hall_f28379d_B.Merge1_d
         - mcb_pmsm_foc_hall_f28379d_B.Saturation_k;
 
-      /* End of Outputs for SubSystem: '<S193>/-ve Direction' */
+      /* End of Outputs for SubSystem: '<S199>/-ve Direction' */
     } else {
-      /* Outputs for IfAction SubSystem: '<S193>/+ve Direction' incorporates:
-       *  ActionPort: '<S194>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S199>/+ve Direction' incorporates:
+       *  ActionPort: '<S200>/Action Port'
        */
-      /* SwitchCase: '<S194>/Switch Case' */
+      /* SwitchCase: '<S200>/Switch Case' */
       switch ((int32_T)mcb_pmsm_foc_hall_f28379d_B.Merge) {
        case 5L:
-        /* Outputs for IfAction SubSystem: '<S194>/Hall Value of 1' incorporates:
-         *  ActionPort: '<S198>/Action Port'
-         */
-        mcb_pmsm_foc_h_HallValueof7(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
-
-        /* End of Outputs for SubSystem: '<S194>/Hall Value of 1' */
-        break;
-
-       case 4L:
-        /* Outputs for IfAction SubSystem: '<S194>/Hall Value of 2' incorporates:
-         *  ActionPort: '<S199>/Action Port'
-         */
-        mcb_pmsm_foc_h_HallValueof1(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
-
-        /* End of Outputs for SubSystem: '<S194>/Hall Value of 2' */
-        break;
-
-       case 6L:
-        /* Outputs for IfAction SubSystem: '<S194>/Hall Value of 3' incorporates:
-         *  ActionPort: '<S200>/Action Port'
-         */
-        mcb_pmsm_foc_h_HallValueof2(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
-
-        /* End of Outputs for SubSystem: '<S194>/Hall Value of 3' */
-        break;
-
-       case 2L:
-        /* Outputs for IfAction SubSystem: '<S194>/Hall Value of 4' incorporates:
-         *  ActionPort: '<S201>/Action Port'
-         */
-        mcb_pmsm_foc_h_HallValueof3(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
-
-        /* End of Outputs for SubSystem: '<S194>/Hall Value of 4' */
-        break;
-
-       case 3L:
-        /* Outputs for IfAction SubSystem: '<S194>/Hall Value of 5' incorporates:
-         *  ActionPort: '<S202>/Action Port'
-         */
-        mcb_pmsm_foc_h_HallValueof4(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
-
-        /* End of Outputs for SubSystem: '<S194>/Hall Value of 5' */
-        break;
-
-       case 1L:
-        /* Outputs for IfAction SubSystem: '<S194>/Hall Value of 6' incorporates:
-         *  ActionPort: '<S203>/Action Port'
-         */
-        mcb_pmsm_foc_h_HallValueof5(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
-
-        /* End of Outputs for SubSystem: '<S194>/Hall Value of 6' */
-        break;
-
-       default:
-        /* Outputs for IfAction SubSystem: '<S194>/Hall Value of 7' incorporates:
+        /* Outputs for IfAction SubSystem: '<S200>/Hall Value of 1' incorporates:
          *  ActionPort: '<S204>/Action Port'
          */
         mcb_pmsm_foc_h_HallValueof7(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
 
-        /* End of Outputs for SubSystem: '<S194>/Hall Value of 7' */
+        /* End of Outputs for SubSystem: '<S200>/Hall Value of 1' */
+        break;
+
+       case 4L:
+        /* Outputs for IfAction SubSystem: '<S200>/Hall Value of 2' incorporates:
+         *  ActionPort: '<S205>/Action Port'
+         */
+        mcb_pmsm_foc_h_HallValueof1(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
+
+        /* End of Outputs for SubSystem: '<S200>/Hall Value of 2' */
+        break;
+
+       case 6L:
+        /* Outputs for IfAction SubSystem: '<S200>/Hall Value of 3' incorporates:
+         *  ActionPort: '<S206>/Action Port'
+         */
+        mcb_pmsm_foc_h_HallValueof2(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
+
+        /* End of Outputs for SubSystem: '<S200>/Hall Value of 3' */
+        break;
+
+       case 2L:
+        /* Outputs for IfAction SubSystem: '<S200>/Hall Value of 4' incorporates:
+         *  ActionPort: '<S207>/Action Port'
+         */
+        mcb_pmsm_foc_h_HallValueof3(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
+
+        /* End of Outputs for SubSystem: '<S200>/Hall Value of 4' */
+        break;
+
+       case 3L:
+        /* Outputs for IfAction SubSystem: '<S200>/Hall Value of 5' incorporates:
+         *  ActionPort: '<S208>/Action Port'
+         */
+        mcb_pmsm_foc_h_HallValueof4(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
+
+        /* End of Outputs for SubSystem: '<S200>/Hall Value of 5' */
+        break;
+
+       case 1L:
+        /* Outputs for IfAction SubSystem: '<S200>/Hall Value of 6' incorporates:
+         *  ActionPort: '<S209>/Action Port'
+         */
+        mcb_pmsm_foc_h_HallValueof5(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
+
+        /* End of Outputs for SubSystem: '<S200>/Hall Value of 6' */
+        break;
+
+       default:
+        /* Outputs for IfAction SubSystem: '<S200>/Hall Value of 7' incorporates:
+         *  ActionPort: '<S210>/Action Port'
+         */
+        mcb_pmsm_foc_h_HallValueof7(&mcb_pmsm_foc_hall_f28379d_B.Merge1_la);
+
+        /* End of Outputs for SubSystem: '<S200>/Hall Value of 7' */
         break;
       }
 
-      /* End of SwitchCase: '<S194>/Switch Case' */
+      /* End of SwitchCase: '<S200>/Switch Case' */
 
-      /* Merge: '<S193>/Merge' incorporates:
-       *  Sum: '<S194>/Sum'
+      /* Merge: '<S199>/Merge' incorporates:
+       *  Sum: '<S200>/Sum'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge_c =
         mcb_pmsm_foc_hall_f28379d_B.Merge1_la +
         mcb_pmsm_foc_hall_f28379d_B.Saturation_k;
 
-      /* End of Outputs for SubSystem: '<S193>/+ve Direction' */
+      /* End of Outputs for SubSystem: '<S199>/+ve Direction' */
     }
 
-    /* End of If: '<S193>/If' */
-    /* End of Outputs for SubSystem: '<S180>/Subsystem1' */
+    /* End of If: '<S199>/If' */
+    /* End of Outputs for SubSystem: '<S186>/Subsystem1' */
 
-    /* Merge: '<S166>/Merge1' incorporates:
-     *  SignalConversion generated from: '<S180>/rawPosition'
+    /* Merge: '<S172>/Merge1' incorporates:
+     *  SignalConversion generated from: '<S186>/rawPosition'
      */
     mcb_pmsm_foc_hall_f28379d_B.Merge1 = mcb_pmsm_foc_hall_f28379d_B.Merge_c;
 
-    /* End of Outputs for SubSystem: '<S166>/Speed and direction are valid Use speed to extrapolate position' */
+    /* End of Outputs for SubSystem: '<S172>/Speed and direction are valid Use speed to extrapolate position' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S166>/Speed and direction are not valid Position will be set to the middle of the Hall quadrant' incorporates:
-     *  ActionPort: '<S179>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S172>/Speed and direction are not valid Position will be set to the middle of the Hall quadrant' incorporates:
+     *  ActionPort: '<S185>/Action Port'
      */
-    /* SwitchCase: '<S183>/Switch Case' */
+    /* SwitchCase: '<S189>/Switch Case' */
     switch ((int32_T)mcb_pmsm_foc_hall_f28379d_B.Merge) {
      case 5L:
-      /* Outputs for IfAction SubSystem: '<S183>/Hall Value of 1' incorporates:
-       *  ActionPort: '<S184>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S189>/Hall Value of 1' incorporates:
+       *  ActionPort: '<S190>/Action Port'
        */
-      /* Merge: '<S166>/Merge1' incorporates:
-       *  Constant: '<S184>/Constant'
-       *  SignalConversion generated from: '<S184>/position'
+      /* Merge: '<S172>/Merge1' incorporates:
+       *  Constant: '<S190>/Constant'
+       *  SignalConversion generated from: '<S190>/position'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge1 = 0.083333F;
 
-      /* End of Outputs for SubSystem: '<S183>/Hall Value of 1' */
+      /* End of Outputs for SubSystem: '<S189>/Hall Value of 1' */
       break;
 
      case 4L:
-      /* Outputs for IfAction SubSystem: '<S183>/Hall Value of 2' incorporates:
-       *  ActionPort: '<S185>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S189>/Hall Value of 2' incorporates:
+       *  ActionPort: '<S191>/Action Port'
        */
-      /* Merge: '<S166>/Merge1' incorporates:
-       *  Constant: '<S185>/Constant'
-       *  SignalConversion generated from: '<S185>/position'
+      /* Merge: '<S172>/Merge1' incorporates:
+       *  Constant: '<S191>/Constant'
+       *  SignalConversion generated from: '<S191>/position'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge1 = 0.25F;
 
-      /* End of Outputs for SubSystem: '<S183>/Hall Value of 2' */
+      /* End of Outputs for SubSystem: '<S189>/Hall Value of 2' */
       break;
 
      case 6L:
-      /* Outputs for IfAction SubSystem: '<S183>/Hall Value of 3' incorporates:
-       *  ActionPort: '<S186>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S189>/Hall Value of 3' incorporates:
+       *  ActionPort: '<S192>/Action Port'
        */
-      /* Merge: '<S166>/Merge1' incorporates:
-       *  Constant: '<S186>/Constant'
-       *  SignalConversion generated from: '<S186>/position'
+      /* Merge: '<S172>/Merge1' incorporates:
+       *  Constant: '<S192>/Constant'
+       *  SignalConversion generated from: '<S192>/position'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge1 = 0.41667F;
 
-      /* End of Outputs for SubSystem: '<S183>/Hall Value of 3' */
+      /* End of Outputs for SubSystem: '<S189>/Hall Value of 3' */
       break;
 
      case 2L:
-      /* Outputs for IfAction SubSystem: '<S183>/Hall Value of 4' incorporates:
-       *  ActionPort: '<S187>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S189>/Hall Value of 4' incorporates:
+       *  ActionPort: '<S193>/Action Port'
        */
-      /* Merge: '<S166>/Merge1' incorporates:
-       *  Constant: '<S187>/Constant'
-       *  SignalConversion generated from: '<S187>/position'
+      /* Merge: '<S172>/Merge1' incorporates:
+       *  Constant: '<S193>/Constant'
+       *  SignalConversion generated from: '<S193>/position'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge1 = 0.58333F;
 
-      /* End of Outputs for SubSystem: '<S183>/Hall Value of 4' */
+      /* End of Outputs for SubSystem: '<S189>/Hall Value of 4' */
       break;
 
      case 3L:
-      /* Outputs for IfAction SubSystem: '<S183>/Hall Value of 5' incorporates:
-       *  ActionPort: '<S188>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S189>/Hall Value of 5' incorporates:
+       *  ActionPort: '<S194>/Action Port'
        */
-      /* Merge: '<S166>/Merge1' incorporates:
-       *  Constant: '<S188>/Constant'
-       *  SignalConversion generated from: '<S188>/position'
+      /* Merge: '<S172>/Merge1' incorporates:
+       *  Constant: '<S194>/Constant'
+       *  SignalConversion generated from: '<S194>/position'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge1 = 0.75F;
 
-      /* End of Outputs for SubSystem: '<S183>/Hall Value of 5' */
+      /* End of Outputs for SubSystem: '<S189>/Hall Value of 5' */
       break;
 
      case 1L:
-      /* Outputs for IfAction SubSystem: '<S183>/Hall Value of 6' incorporates:
-       *  ActionPort: '<S189>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S189>/Hall Value of 6' incorporates:
+       *  ActionPort: '<S195>/Action Port'
        */
-      /* Merge: '<S166>/Merge1' incorporates:
-       *  Constant: '<S189>/Constant'
-       *  SignalConversion generated from: '<S189>/position'
+      /* Merge: '<S172>/Merge1' incorporates:
+       *  Constant: '<S195>/Constant'
+       *  SignalConversion generated from: '<S195>/position'
        */
       mcb_pmsm_foc_hall_f28379d_B.Merge1 = 0.91667F;
 
-      /* End of Outputs for SubSystem: '<S183>/Hall Value of 6' */
+      /* End of Outputs for SubSystem: '<S189>/Hall Value of 6' */
       break;
 
      default:
-      /* Outputs for IfAction SubSystem: '<S183>/Hall Value of 7' incorporates:
-       *  ActionPort: '<S190>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S189>/Hall Value of 7' incorporates:
+       *  ActionPort: '<S196>/Action Port'
        */
       mcb_pmsm_foc_h_HallValueof7(&mcb_pmsm_foc_hall_f28379d_B.Merge1);
 
-      /* End of Outputs for SubSystem: '<S183>/Hall Value of 7' */
+      /* End of Outputs for SubSystem: '<S189>/Hall Value of 7' */
       break;
     }
 
-    /* End of SwitchCase: '<S183>/Switch Case' */
+    /* End of SwitchCase: '<S189>/Switch Case' */
 
-    /* Merge: '<S166>/Merge' incorporates:
-     *  Constant: '<S179>/Constant'
-     *  SignalConversion generated from: '<S179>/Speed(r.p.m)'
+    /* Merge: '<S172>/Merge' incorporates:
+     *  Constant: '<S185>/Constant'
+     *  SignalConversion generated from: '<S185>/Speed(r.p.m)'
      */
     mcb_pmsm_foc_hall_f28379d_B.Merge_d = 0.0F;
 
-    /* End of Outputs for SubSystem: '<S166>/Speed and direction are not valid Position will be set to the middle of the Hall quadrant' */
+    /* End of Outputs for SubSystem: '<S172>/Speed and direction are not valid Position will be set to the middle of the Hall quadrant' */
   }
 
-  /* End of If: '<S166>/If' */
+  /* End of If: '<S172>/If' */
 
-  /* Sum: '<S178>/Sum' incorporates:
-   *  Constant: '<S178>/Constant2'
+  /* Sum: '<S184>/Sum' incorporates:
+   *  Constant: '<S184>/Constant2'
    */
   mcb_pmsm_foc_hall_f28379d_B.Sum_m3 = mcb_pmsm_foc_hall_f28379d_B.DelayOneStep
     - 1U;
 
-  /* Switch: '<S213>/Switch' incorporates:
-   *  Constant: '<S213>/Constant1'
+  /* Switch: '<S219>/Switch' incorporates:
+   *  Constant: '<S219>/Constant1'
    */
-  mcb_pmsm_foc_hall_f28379d_B.Switch_h = 0.0533422157F;
+  mcb_pmsm_foc_hall_f28379d_B.Switch_h = 0.0534F;
 
-  /* If: '<S214>/If' */
-  if (mcb_pmsm_foc_hall_f28379d_B.Merge1 <= 0.0533422157F) {
-    /* Outputs for IfAction SubSystem: '<S214>/If Action Subsystem' incorporates:
-     *  ActionPort: '<S216>/Action Port'
+  /* If: '<S220>/If' */
+  if (mcb_pmsm_foc_hall_f28379d_B.Merge1 <= 0.0534F) {
+    /* Outputs for IfAction SubSystem: '<S220>/If Action Subsystem' incorporates:
+     *  ActionPort: '<S222>/Action Port'
      */
-    /* Merge: '<S214>/Merge' incorporates:
-     *  Constant: '<S216>/Constant'
-     *  Sum: '<S216>/Add'
+    /* Merge: '<S220>/Merge' incorporates:
+     *  Constant: '<S222>/Constant'
+     *  Sum: '<S222>/Add'
      */
     mcb_pmsm_foc_hall_f28379d_B.Merge_m = (mcb_pmsm_foc_hall_f28379d_B.Merge1 +
-      1.0F) - 0.0533422157F;
+      1.0F) - 0.0534F;
 
-    /* End of Outputs for SubSystem: '<S214>/If Action Subsystem' */
+    /* End of Outputs for SubSystem: '<S220>/If Action Subsystem' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S214>/If Action Subsystem1' incorporates:
-     *  ActionPort: '<S217>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S220>/If Action Subsystem1' incorporates:
+     *  ActionPort: '<S223>/Action Port'
      */
-    /* Merge: '<S214>/Merge' incorporates:
-     *  Sum: '<S217>/Add'
+    /* Merge: '<S220>/Merge' incorporates:
+     *  Sum: '<S223>/Add'
      */
     mcb_pmsm_foc_hall_f28379d_B.Merge_m = mcb_pmsm_foc_hall_f28379d_B.Merge1 -
-      0.0533422157F;
+      0.0534F;
 
-    /* End of Outputs for SubSystem: '<S214>/If Action Subsystem1' */
+    /* End of Outputs for SubSystem: '<S220>/If Action Subsystem1' */
   }
 
-  /* End of If: '<S214>/If' */
+  /* End of If: '<S220>/If' */
 
-  /* Rounding: '<S215>/Floor' */
+  /* Rounding: '<S221>/Floor' */
   mcb_pmsm_foc_hall_f28379d_B.Floor = (real32_T)floor
     (mcb_pmsm_foc_hall_f28379d_B.Merge_m);
 
-  /* Sum: '<S215>/Add' */
-  mcb_pmsm_foc_hall_f28379d_B.Add_e = mcb_pmsm_foc_hall_f28379d_B.Merge_m -
+  /* Sum: '<S221>/Add' */
+  mcb_pmsm_foc_hall_f28379d_B.Add = mcb_pmsm_foc_hall_f28379d_B.Merge_m -
     mcb_pmsm_foc_hall_f28379d_B.Floor;
 
-  /* DataStoreRead: '<S163>/Data Store Read' */
+  /* DataStoreRead: '<S169>/Data Store Read' */
   mcb_pmsm_foc_hall_f28379d_B.DataStoreRead_k =
     mcb_pmsm_foc_hall_f28379d_DWork.IaOffset;
 
-  /* DataStoreRead: '<S163>/Data Store Read1' */
-  mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_h =
+  /* DataStoreRead: '<S169>/Data Store Read1' */
+  mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1 =
     mcb_pmsm_foc_hall_f28379d_DWork.IbOffset;
 
-  /* S-Function (c2802xadc): '<S234>/ADC_C_IN2' */
+  /* S-Function (c2802xadc): '<S229>/ADC_C_IN2' */
   {
     /*  Internal Reference Voltage : Fixed scale 0 to 3.3 V range.  */
     /*  External Reference Voltage : Allowable ranges of VREFHI(ADCINA0) = 3.3 and VREFLO(tied to ground) = 0  */
     mcb_pmsm_foc_hall_f28379d_B.ADC_C_IN2 = (AdccResultRegs.ADCRESULT0);
   }
 
-  /* S-Function (c2802xadc): '<S234>/ADC_B_IN2' */
+  /* S-Function (c2802xadc): '<S229>/ADC_B_IN2' */
   {
     /*  Internal Reference Voltage : Fixed scale 0 to 3.3 V range.  */
     /*  External Reference Voltage : Allowable ranges of VREFHI(ADCINA0) = 3.3 and VREFLO(tied to ground) = 0  */
     mcb_pmsm_foc_hall_f28379d_B.ADC_B_IN2 = (AdcbResultRegs.ADCRESULT0);
   }
 
-  /* DataTypeConversion: '<S163>/Data Type Conversion' */
+  /* DataTypeConversion: '<S169>/Data Type Conversion' */
   mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_f[0] =
     mcb_pmsm_foc_hall_f28379d_B.ADC_C_IN2;
   mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_f[1] =
     mcb_pmsm_foc_hall_f28379d_B.ADC_B_IN2;
 
-  /* Sum: '<S163>/Add' */
+  /* Sum: '<S169>/Add' */
   mcb_pmsm_foc_hall_f28379d_B.Add_f[0] =
     mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_f[0] -
     mcb_pmsm_foc_hall_f28379d_B.DataStoreRead_k;
   mcb_pmsm_foc_hall_f28379d_B.Add_f[1] =
     mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_f[1] -
-    mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_h;
+    mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1;
 
-  /* Gain: '<S221>/Get ADC Voltage' */
+  /* Gain: '<S227>/Get ADC Voltage' */
   Bias = 0.000732600747F * (real32_T)mcb_pmsm_foc_hall_f28379d_B.Add_f[0];
   mcb_pmsm_foc_hall_f28379d_B.GetADCVoltage[0] = Bias;
 
-  /* Gain: '<S221>/Get Currents' */
+  /* Gain: '<S227>/Get Currents' */
   Bias *= 7.14285707F;
   mcb_pmsm_foc_hall_f28379d_B.GetCurrents[0] = Bias;
 
-  /* Gain: '<S221>/PU_Conversion' */
+  /* Gain: '<S227>/PU_Conversion' */
   mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[0] = 0.0933333337F * Bias;
 
-  /* Gain: '<S221>/Get ADC Voltage' */
+  /* Gain: '<S227>/Get ADC Voltage' */
   Bias = 0.000732600747F * (real32_T)mcb_pmsm_foc_hall_f28379d_B.Add_f[1];
   mcb_pmsm_foc_hall_f28379d_B.GetADCVoltage[1] = Bias;
 
-  /* Gain: '<S221>/Get Currents' */
+  /* Gain: '<S227>/Get Currents' */
   Bias *= 7.14285707F;
   mcb_pmsm_foc_hall_f28379d_B.GetCurrents[1] = Bias;
 
-  /* Gain: '<S221>/PU_Conversion' */
+  /* Gain: '<S227>/PU_Conversion' */
   mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[1] = 0.0933333337F * Bias;
 
-  /* UnitDelay: '<S228>/Output' */
-  mcb_pmsm_foc_hall_f28379d_B.Output =
-    mcb_pmsm_foc_hall_f28379d_DWork.Output_DSTATE;
-
-  /* DataStoreRead: '<S12>/Data Store Read1' */
-  mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1 =
-    mcb_pmsm_foc_hall_f28379d_DWork.Speed_ref;
-
-  /* Outputs for Atomic SubSystem: '<S24>/Two phase CRL wrap' */
-  /* Sum: '<S25>/a_plus_2b' */
+  /* Outputs for Atomic SubSystem: '<S22>/Two phase CRL wrap' */
+  /* Sum: '<S23>/a_plus_2b' */
   mcb_pmsm_foc_hall_f28379d_B.a_plus_2b =
     (mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[0] +
      mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[1]) +
     mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[1];
 
-  /* Gain: '<S25>/one_by_sqrt3' */
+  /* Gain: '<S23>/one_by_sqrt3' */
   mcb_pmsm_foc_hall_f28379d_B.one_by_sqrt3 = 0.577350259F *
     mcb_pmsm_foc_hall_f28379d_B.a_plus_2b;
 
-  /* AlgorithmDescriptorDelegate generated from: '<S25>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S23>/a16' */
   mcb_pmsm_foc_hall_f28379d_B.algDD_o1_a =
     mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[0];
 
-  /* AlgorithmDescriptorDelegate generated from: '<S25>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S23>/a16' */
   mcb_pmsm_foc_hall_f28379d_B.algDD_o2_n =
     mcb_pmsm_foc_hall_f28379d_B.one_by_sqrt3;
 
-  /* End of Outputs for SubSystem: '<S24>/Two phase CRL wrap' */
+  /* End of Outputs for SubSystem: '<S22>/Two phase CRL wrap' */
 
-  /* RelationalOperator: '<S151>/Compare' incorporates:
-   *  Constant: '<S151>/Constant'
+  /* Switch: '<S29>/Switch1' incorporates:
+   *  Constant: '<S29>/ChosenMethod'
    */
-  mcb_pmsm_foc_hall_f28379d_B.Compare_j = (mcb_pmsm_foc_hall_f28379d_B.Add_e <
+  mcb_pmsm_foc_hall_f28379d_B.Switch1_o = 3U;
+
+  /* RelationalOperator: '<S156>/Compare' incorporates:
+   *  Constant: '<S156>/Constant'
+   */
+  mcb_pmsm_foc_hall_f28379d_B.Compare_d = (mcb_pmsm_foc_hall_f28379d_B.Add <
     0.0F);
 
-  /* DataTypeConversion: '<S150>/Data Type Conversion' */
-  mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_l =
-    mcb_pmsm_foc_hall_f28379d_B.Compare_j;
+  /* DataTypeConversion: '<S155>/Data Type Conversion' */
+  mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_m =
+    mcb_pmsm_foc_hall_f28379d_B.Compare_d;
 
-  /* If: '<S150>/If' */
-  if (mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_l > 0U) {
-    /* Outputs for IfAction SubSystem: '<S150>/If Action Subsystem' incorporates:
-     *  ActionPort: '<S152>/Action Port'
+  /* If: '<S155>/If' */
+  if (mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_m > 0U) {
+    /* Outputs for IfAction SubSystem: '<S155>/If Action Subsystem' incorporates:
+     *  ActionPort: '<S157>/Action Port'
      */
-    /* DataTypeConversion: '<S152>/Convert_uint16' */
-    mcb_pmsm_foc_hall_f28379d_B.Convert_uint16_j = (int16_T)(real32_T)floor
-      (mcb_pmsm_foc_hall_f28379d_B.Add_e);
+    mcb_pmsm__IfActionSubsystem(mcb_pmsm_foc_hall_f28379d_B.Add,
+      &mcb_pmsm_foc_hall_f28379d_B.Merge_mm,
+      &mcb_pmsm_foc_hall_f28379d_B.IfActionSubsystem_n);
 
-    /* DataTypeConversion: '<S152>/Convert_back' */
-    mcb_pmsm_foc_hall_f28379d_B.Convert_back_h =
-      mcb_pmsm_foc_hall_f28379d_B.Convert_uint16_j;
-
-    /* Merge: '<S150>/Merge' incorporates:
-     *  Sum: '<S152>/Sum'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.Merge_j = mcb_pmsm_foc_hall_f28379d_B.Add_e -
-      mcb_pmsm_foc_hall_f28379d_B.Convert_back_h;
-
-    /* End of Outputs for SubSystem: '<S150>/If Action Subsystem' */
+    /* End of Outputs for SubSystem: '<S155>/If Action Subsystem' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S150>/If Action Subsystem1' incorporates:
-     *  ActionPort: '<S153>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S155>/If Action Subsystem1' incorporates:
+     *  ActionPort: '<S158>/Action Port'
      */
-    /* DataTypeConversion: '<S153>/Convert_uint16' */
-    mcb_pmsm_foc_hall_f28379d_B.Convert_uint16 = (int16_T)
-      mcb_pmsm_foc_hall_f28379d_B.Add_e;
+    mcb_pmsm_IfActionSubsystem1(mcb_pmsm_foc_hall_f28379d_B.Add,
+      &mcb_pmsm_foc_hall_f28379d_B.Merge_mm,
+      &mcb_pmsm_foc_hall_f28379d_B.IfActionSubsystem1_i);
 
-    /* DataTypeConversion: '<S153>/Convert_back' */
-    mcb_pmsm_foc_hall_f28379d_B.Convert_back =
-      mcb_pmsm_foc_hall_f28379d_B.Convert_uint16;
-
-    /* Merge: '<S150>/Merge' incorporates:
-     *  Sum: '<S153>/Sum'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.Merge_j = mcb_pmsm_foc_hall_f28379d_B.Add_e -
-      mcb_pmsm_foc_hall_f28379d_B.Convert_back;
-
-    /* End of Outputs for SubSystem: '<S150>/If Action Subsystem1' */
+    /* End of Outputs for SubSystem: '<S155>/If Action Subsystem1' */
   }
 
-  /* End of If: '<S150>/If' */
+  /* End of If: '<S155>/If' */
 
-  /* Gain: '<S22>/indexing' */
+  /* Gain: '<S153>/indexing' */
   mcb_pmsm_foc_hall_f28379d_B.indexing = 800.0F *
-    mcb_pmsm_foc_hall_f28379d_B.Merge_j;
+    mcb_pmsm_foc_hall_f28379d_B.Merge_mm;
 
-  /* DataTypeConversion: '<S22>/Get_Integer' */
+  /* DataTypeConversion: '<S153>/Get_Integer' */
   mcb_pmsm_foc_hall_f28379d_B.Get_Integer = (uint16_T)
     mcb_pmsm_foc_hall_f28379d_B.indexing;
 
-  /* Sum: '<S22>/Sum' incorporates:
-   *  Constant: '<S22>/offset'
+  /* Sum: '<S153>/Sum' incorporates:
+   *  Constant: '<S153>/offset'
    */
   u0 = mcb_pmsm_foc_hall_f28379d_B.Get_Integer + 1UL;
   mcb_pmsm_foc_hall_f28379d_B.Sum[0] = u0;
 
-  /* Selector: '<S22>/Lookup' incorporates:
-   *  Constant: '<S22>/sine_table_values'
+  /* Selector: '<S153>/Lookup' incorporates:
+   *  Constant: '<S153>/sine_table_values'
    */
   mcb_pmsm_foc_hall_f28379d_B.Lookup[0] =
-    mcb_pmsm_foc_hall_f28379_ConstP.sine_table_values_Value[(int16_T)u0];
+    mcb_pmsm_foc_hall_f28379_ConstP.pooled11[(int16_T)u0];
 
-  /* Sum: '<S22>/Sum' */
+  /* Sum: '<S153>/Sum' */
   u0 = mcb_pmsm_foc_hall_f28379d_B.Get_Integer;
   mcb_pmsm_foc_hall_f28379d_B.Sum[1] = u0;
 
-  /* Selector: '<S22>/Lookup' incorporates:
-   *  Constant: '<S22>/sine_table_values'
+  /* Selector: '<S153>/Lookup' incorporates:
+   *  Constant: '<S153>/sine_table_values'
    */
   mcb_pmsm_foc_hall_f28379d_B.Lookup[1] =
-    mcb_pmsm_foc_hall_f28379_ConstP.sine_table_values_Value[(int16_T)u0];
+    mcb_pmsm_foc_hall_f28379_ConstP.pooled11[(int16_T)u0];
 
-  /* Sum: '<S22>/Sum' incorporates:
-   *  Constant: '<S22>/offset'
+  /* Sum: '<S153>/Sum' incorporates:
+   *  Constant: '<S153>/offset'
    */
   u0 = mcb_pmsm_foc_hall_f28379d_B.Get_Integer + 201UL;
   mcb_pmsm_foc_hall_f28379d_B.Sum[2] = u0;
 
-  /* Selector: '<S22>/Lookup' incorporates:
-   *  Constant: '<S22>/sine_table_values'
+  /* Selector: '<S153>/Lookup' incorporates:
+   *  Constant: '<S153>/sine_table_values'
    */
   mcb_pmsm_foc_hall_f28379d_B.Lookup[2] =
-    mcb_pmsm_foc_hall_f28379_ConstP.sine_table_values_Value[(int16_T)u0];
+    mcb_pmsm_foc_hall_f28379_ConstP.pooled11[(int16_T)u0];
 
-  /* Sum: '<S22>/Sum' incorporates:
-   *  Constant: '<S22>/offset'
+  /* Sum: '<S153>/Sum' incorporates:
+   *  Constant: '<S153>/offset'
    */
   u0 = mcb_pmsm_foc_hall_f28379d_B.Get_Integer + 200UL;
   mcb_pmsm_foc_hall_f28379d_B.Sum[3] = u0;
 
-  /* Selector: '<S22>/Lookup' incorporates:
-   *  Constant: '<S22>/sine_table_values'
+  /* Selector: '<S153>/Lookup' incorporates:
+   *  Constant: '<S153>/sine_table_values'
    */
   mcb_pmsm_foc_hall_f28379d_B.Lookup[3] =
-    mcb_pmsm_foc_hall_f28379_ConstP.sine_table_values_Value[(int16_T)u0];
+    mcb_pmsm_foc_hall_f28379_ConstP.pooled11[(int16_T)u0];
 
-  /* Sum: '<S149>/Sum3' */
+  /* Sum: '<S154>/Sum3' */
   mcb_pmsm_foc_hall_f28379d_B.Sum3 = mcb_pmsm_foc_hall_f28379d_B.Lookup[0] -
     mcb_pmsm_foc_hall_f28379d_B.Lookup[1];
 
-  /* DataTypeConversion: '<S22>/Data Type Conversion1' */
+  /* DataTypeConversion: '<S153>/Data Type Conversion1' */
   mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1 =
     mcb_pmsm_foc_hall_f28379d_B.Get_Integer;
 
-  /* Sum: '<S22>/Sum2' */
+  /* Sum: '<S153>/Sum2' */
   mcb_pmsm_foc_hall_f28379d_B.Sum2 = mcb_pmsm_foc_hall_f28379d_B.indexing -
     mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1;
 
-  /* Product: '<S149>/Product' */
+  /* Product: '<S154>/Product' */
   mcb_pmsm_foc_hall_f28379d_B.Product = mcb_pmsm_foc_hall_f28379d_B.Sum3 *
     mcb_pmsm_foc_hall_f28379d_B.Sum2;
 
-  /* Sum: '<S149>/Sum4' */
+  /* Sum: '<S154>/Sum4' */
   mcb_pmsm_foc_hall_f28379d_B.Sum4 = mcb_pmsm_foc_hall_f28379d_B.Product +
     mcb_pmsm_foc_hall_f28379d_B.Lookup[1];
 
-  /* Sum: '<S149>/Sum5' */
+  /* Sum: '<S154>/Sum5' */
   mcb_pmsm_foc_hall_f28379d_B.Sum5 = mcb_pmsm_foc_hall_f28379d_B.Lookup[2] -
     mcb_pmsm_foc_hall_f28379d_B.Lookup[3];
 
-  /* Product: '<S149>/Product1' */
+  /* Product: '<S154>/Product1' */
   mcb_pmsm_foc_hall_f28379d_B.Product1 = mcb_pmsm_foc_hall_f28379d_B.Sum5 *
     mcb_pmsm_foc_hall_f28379d_B.Sum2;
 
-  /* Sum: '<S149>/Sum6' */
+  /* Sum: '<S154>/Sum6' */
   mcb_pmsm_foc_hall_f28379d_B.Sum6 = mcb_pmsm_foc_hall_f28379d_B.Product1 +
     mcb_pmsm_foc_hall_f28379d_B.Lookup[3];
 
-  /* Outputs for Atomic SubSystem: '<S21>/Two inputs CRL' */
-  /* Product: '<S147>/acos' */
+  /* Outputs for Atomic SubSystem: '<S20>/Two inputs CRL' */
+  /* Product: '<S152>/acos' */
   mcb_pmsm_foc_hall_f28379d_B.acos_e = mcb_pmsm_foc_hall_f28379d_B.algDD_o1_a *
     mcb_pmsm_foc_hall_f28379d_B.Sum6;
 
-  /* Product: '<S147>/bsin' */
+  /* Product: '<S152>/bsin' */
   mcb_pmsm_foc_hall_f28379d_B.bsin = mcb_pmsm_foc_hall_f28379d_B.algDD_o2_n *
     mcb_pmsm_foc_hall_f28379d_B.Sum4;
 
-  /* Sum: '<S147>/sum_Ds' */
+  /* Sum: '<S152>/sum_Ds' */
   mcb_pmsm_foc_hall_f28379d_B.sum_Ds = mcb_pmsm_foc_hall_f28379d_B.acos_e +
     mcb_pmsm_foc_hall_f28379d_B.bsin;
 
-  /* Product: '<S147>/bcos' */
+  /* Product: '<S152>/bcos' */
   mcb_pmsm_foc_hall_f28379d_B.bcos = mcb_pmsm_foc_hall_f28379d_B.algDD_o2_n *
     mcb_pmsm_foc_hall_f28379d_B.Sum6;
 
-  /* Product: '<S147>/asin' */
+  /* Product: '<S152>/asin' */
   mcb_pmsm_foc_hall_f28379d_B.asin_j = mcb_pmsm_foc_hall_f28379d_B.algDD_o1_a *
     mcb_pmsm_foc_hall_f28379d_B.Sum4;
 
-  /* Sum: '<S147>/sum_Qs' */
+  /* Sum: '<S152>/sum_Qs' */
   mcb_pmsm_foc_hall_f28379d_B.sum_Qs = mcb_pmsm_foc_hall_f28379d_B.bcos -
     mcb_pmsm_foc_hall_f28379d_B.asin_j;
 
-  /* Switch: '<S148>/Switch' */
+  /* Switch: '<S159>/Switch' */
   mcb_pmsm_foc_hall_f28379d_B.Switch_fd[0] = mcb_pmsm_foc_hall_f28379d_B.sum_Ds;
   mcb_pmsm_foc_hall_f28379d_B.Switch_fd[1] = mcb_pmsm_foc_hall_f28379d_B.sum_Qs;
 
-  /* AlgorithmDescriptorDelegate generated from: '<S147>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S152>/a16' */
   mcb_pmsm_foc_hall_f28379d_B.algDD_o1 = mcb_pmsm_foc_hall_f28379d_B.Switch_fd[0];
 
-  /* AlgorithmDescriptorDelegate generated from: '<S147>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S152>/a16' */
   mcb_pmsm_foc_hall_f28379d_B.algDD_o2 = mcb_pmsm_foc_hall_f28379d_B.Switch_fd[1];
 
-  /* End of Outputs for SubSystem: '<S21>/Two inputs CRL' */
+  /* End of Outputs for SubSystem: '<S20>/Two inputs CRL' */
 
-  /* SignalConversion generated from: '<S12>/Selector' */
-  mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[0] =
-    mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1;
-  mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[1] =
-    mcb_pmsm_foc_hall_f28379d_B.Merge_d;
-  mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[2] =
-    mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[0];
-  mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[3] =
-    mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[1];
-  mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[4] =
-    mcb_pmsm_foc_hall_f28379d_B.RT2[0];
-  mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[5] =
-    mcb_pmsm_foc_hall_f28379d_B.algDD_o1;
-  mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[6] =
-    mcb_pmsm_foc_hall_f28379d_B.RT2[1];
-  mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[7] =
-    mcb_pmsm_foc_hall_f28379d_B.algDD_o2;
-  mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[8] =
-    mcb_pmsm_foc_hall_f28379d_B.Add_e;
-
-  /* DataStoreRead: '<S12>/Data Store Read' */
-  mcb_pmsm_foc_hall_f28379d_B.DataStoreRead_g =
-    mcb_pmsm_foc_hall_f28379d_DWork.Debug_signals;
-
-  /* MultiPortSwitch: '<S12>/Multiport Switch' */
-  switch (mcb_pmsm_foc_hall_f28379d_B.DataStoreRead_g) {
-   case 1:
-    /* MultiPortSwitch: '<S12>/Multiport Switch' incorporates:
-     *  Constant: '<S12>/speed_control'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[0] = 1U;
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[1] = 2U;
-    break;
-
-   case 2:
-    /* MultiPortSwitch: '<S12>/Multiport Switch' incorporates:
-     *  Constant: '<S12>/Id_control'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[0] = 5U;
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[1] = 6U;
-    break;
-
-   case 3:
-    /* MultiPortSwitch: '<S12>/Multiport Switch' incorporates:
-     *  Constant: '<S12>/Iq_control'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[0] = 7U;
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[1] = 8U;
-    break;
-
-   case 4:
-    /* MultiPortSwitch: '<S12>/Multiport Switch' incorporates:
-     *  Constant: '<S12>/Iab'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[0] = 3U;
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[1] = 4U;
-    break;
-
-   default:
-    /* MultiPortSwitch: '<S12>/Multiport Switch' incorporates:
-     *  Constant: '<S12>/Ia_Pos'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[0] = 3U;
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[1] = 9U;
-    break;
-  }
-
-  /* End of MultiPortSwitch: '<S12>/Multiport Switch' */
-
-  /* Selector: '<S12>/Selector' */
-  mcb_pmsm_foc_hall_f28379d_B.Selector[0] =
-    mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[(int16_T)
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[0] - 1];
-  mcb_pmsm_foc_hall_f28379d_B.Selector[1] =
-    mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[(int16_T)
-    mcb_pmsm_foc_hall_f28379d_B.MultiportSwitch[1] - 1];
-
-  /* S-Function (any2byte_svd): '<S227>/Byte Pack' */
-
-  /* Pack: <S227>/Byte Pack */
-  {
-    uint32_T MW_outputPortOffset = 0;
-    uint32_T MW_inputPortWidth = 0;
-    uint32_T MW_remainder1 = 0;
-
-    /* Packed output data type - uint32_T */
-    /* Packing the values of Input 1 */
-    /* Input data type - real32_T, size - 2 */
-    {
-      MW_inputPortWidth = 2 * sizeof(real32_T);
-      memcpy((uint16_T*)&mcb_pmsm_foc_hall_f28379d_B.BytePack[0] +
-             MW_outputPortOffset, (uint16_T*)
-             &mcb_pmsm_foc_hall_f28379d_B.Selector[0], MW_inputPortWidth);
-    }
-  }
-
-  /* If: '<S225>/If' */
-  if (mcb_pmsm_foc_hall_f28379d_B.Output == 0U) {
-    /* Outputs for IfAction SubSystem: '<S225>/Start' incorporates:
-     *  ActionPort: '<S231>/Action Port'
-     */
-    /* Merge: '<S225>/Merge' incorporates:
-     *  Constant: '<S231>/Start'
-     *  SignalConversion generated from: '<S231>/Data_out'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[0] = 1397969747UL;
-
-    /* SignalConversion generated from: '<S231>/Data' */
-    u0 = mcb_pmsm_foc_hall_f28379d_B.BytePack[0];
-
-    /* End of Outputs for SubSystem: '<S225>/Start' */
-    mcb_pmsm_foc_hall_f28379d_B.Data_fw[0] = u0;
-
-    /* Outputs for IfAction SubSystem: '<S225>/Start' incorporates:
-     *  ActionPort: '<S231>/Action Port'
-     */
-    /* Merge: '<S225>/Merge' incorporates:
-     *  SignalConversion generated from: '<S231>/Data_out'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[1] = u0;
-
-    /* SignalConversion generated from: '<S231>/Data' */
-    u0 = mcb_pmsm_foc_hall_f28379d_B.BytePack[1];
-
-    /* End of Outputs for SubSystem: '<S225>/Start' */
-    mcb_pmsm_foc_hall_f28379d_B.Data_fw[1] = u0;
-
-    /* Outputs for IfAction SubSystem: '<S225>/Start' incorporates:
-     *  ActionPort: '<S231>/Action Port'
-     */
-    /* Merge: '<S225>/Merge' incorporates:
-     *  SignalConversion generated from: '<S231>/Data_out'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[2] = u0;
-
-    /* Merge: '<S225>/Merge1' incorporates:
-     *  Bias: '<S231>/Bias'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Iteration =
-      mcb_pmsm_foc_hall_f28379_ConstB.Width + 1UL;
-
-    /* End of Outputs for SubSystem: '<S225>/Start' */
-  } else if (mcb_pmsm_foc_hall_f28379d_B.Output == 599U) {
-    /* Outputs for IfAction SubSystem: '<S225>/End' incorporates:
-     *  ActionPort: '<S230>/Action Port'
-     */
-    /* SignalConversion generated from: '<S230>/Data' */
-    u0 = mcb_pmsm_foc_hall_f28379d_B.BytePack[0];
-
-    /* End of Outputs for SubSystem: '<S225>/End' */
-    mcb_pmsm_foc_hall_f28379d_B.Data_f[0] = u0;
-
-    /* Outputs for IfAction SubSystem: '<S225>/End' incorporates:
-     *  ActionPort: '<S230>/Action Port'
-     */
-    /* Merge: '<S225>/Merge' incorporates:
-     *  SignalConversion generated from: '<S230>/Data_out'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[0] = u0;
-
-    /* SignalConversion generated from: '<S230>/Data' */
-    u0 = mcb_pmsm_foc_hall_f28379d_B.BytePack[1];
-
-    /* End of Outputs for SubSystem: '<S225>/End' */
-    mcb_pmsm_foc_hall_f28379d_B.Data_f[1] = u0;
-
-    /* Outputs for IfAction SubSystem: '<S225>/End' incorporates:
-     *  ActionPort: '<S230>/Action Port'
-     */
-    /* Merge: '<S225>/Merge' incorporates:
-     *  Constant: '<S230>/End'
-     *  SignalConversion generated from: '<S230>/Data_out'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[1] = u0;
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[2] = 1162167621UL;
-
-    /* Merge: '<S225>/Merge1' incorporates:
-     *  Bias: '<S230>/Bias'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Iteration =
-      mcb_pmsm_foc_hall_f28379_ConstB.Width + 1UL;
-
-    /* End of Outputs for SubSystem: '<S225>/End' */
-  } else {
-    /* Outputs for IfAction SubSystem: '<S225>/Data' incorporates:
-     *  ActionPort: '<S229>/Action Port'
-     */
-    /* SignalConversion generated from: '<S229>/Data' */
-    u0 = mcb_pmsm_foc_hall_f28379d_B.BytePack[0];
-
-    /* End of Outputs for SubSystem: '<S225>/Data' */
-    mcb_pmsm_foc_hall_f28379d_B.Data[0] = u0;
-
-    /* Outputs for IfAction SubSystem: '<S225>/Data' incorporates:
-     *  ActionPort: '<S229>/Action Port'
-     */
-    /* Merge: '<S225>/Merge' incorporates:
-     *  SignalConversion generated from: '<S229>/Data_out'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[0] = u0;
-
-    /* SignalConversion generated from: '<S229>/Data' */
-    u0 = mcb_pmsm_foc_hall_f28379d_B.BytePack[1];
-
-    /* End of Outputs for SubSystem: '<S225>/Data' */
-    mcb_pmsm_foc_hall_f28379d_B.Data[1] = u0;
-
-    /* Outputs for IfAction SubSystem: '<S225>/Data' incorporates:
-     *  ActionPort: '<S229>/Action Port'
-     */
-    /* Merge: '<S225>/Merge' incorporates:
-     *  Constant: '<S229>/Dummy'
-     *  SignalConversion generated from: '<S229>/Data_out'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[1] = u0;
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[2] = 0UL;
-
-    /* Merge: '<S225>/Merge1' incorporates:
-     *  SignalConversion generated from: '<S229>/Data_width'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Iteration =
-      mcb_pmsm_foc_hall_f28379_ConstB.Width;
-
-    /* End of Outputs for SubSystem: '<S225>/Data' */
-  }
-
-  /* End of If: '<S225>/If' */
-
-  /* Outputs for Iterator SubSystem: '<S223>/While Iterator Subsystem' incorporates:
-   *  WhileIterator: '<S226>/While Iterator'
-   */
-  s226_iter = 1;
-  do {
-    mcb_pmsm_foc_hall_f28379d_B.WhileIterator = s226_iter;
-    mcb_pmsm_foc_hall_f28379d_B.IndexVector =
-      mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Data[mcb_pmsm_foc_hall_f28379d_B.WhileIterator
-      - 1];
-
-    {
-      if (checkSCITransmitInProgressA != 1U) {
-        checkSCITransmitInProgressA = 1U;
-        int16_T errFlgHeader = NOERROR;
-        int16_T errFlgData = NOERROR;
-        int16_T errFlgTail = NOERROR;
-        errFlgData = scia_xmit((unsigned char*)
-          &mcb_pmsm_foc_hall_f28379d_B.IndexVector, 4, 4);
-        checkSCITransmitInProgressA = 0U;
-      }
-    }
-
-    mcb_pmsm_foc_hall_f28379d_B.Add =
-      mcb_pmsm_foc_hall_f28379d_B.SCI_Tx_Iteration - (uint32_T)
-      mcb_pmsm_foc_hall_f28379d_B.WhileIterator;
-    s226_iter++;
-  } while (mcb_pmsm_foc_hall_f28379d_B.Add != 0UL);
-
-  /* End of Outputs for SubSystem: '<S223>/While Iterator Subsystem' */
-
-  /* Sum: '<S232>/FixPt Sum1' incorporates:
-   *  Constant: '<S232>/FixPt Constant'
-   */
-  mcb_pmsm_foc_hall_f28379d_B.FixPtSum1 = mcb_pmsm_foc_hall_f28379d_B.Output +
-    1U;
-
-  /* Switch: '<S233>/FixPt Switch' */
-  if (mcb_pmsm_foc_hall_f28379d_B.FixPtSum1 > 599U) {
-    /* Switch: '<S233>/FixPt Switch' incorporates:
-     *  Constant: '<S233>/Constant'
-     */
-    mcb_pmsm_foc_hall_f28379d_B.FixPtSwitch = 0U;
-  } else {
-    /* Switch: '<S233>/FixPt Switch' */
-    mcb_pmsm_foc_hall_f28379d_B.FixPtSwitch =
-      mcb_pmsm_foc_hall_f28379d_B.FixPtSum1;
-  }
-
-  /* End of Switch: '<S233>/FixPt Switch' */
-
-  /* Switch: '<S31>/Switch1' incorporates:
-   *  Constant: '<S31>/ChosenMethod'
-   */
-  mcb_pmsm_foc_hall_f28379d_B.Switch1_o = 3U;
-
-  /* Sum: '<S28>/Sum' */
+  /* Sum: '<S26>/Sum' */
   mcb_pmsm_foc_hall_f28379d_B.Sum_g = mcb_pmsm_foc_hall_f28379d_B.RT2[1] -
     mcb_pmsm_foc_hall_f28379d_B.algDD_o2;
 
-  /* Product: '<S133>/PProd Out' incorporates:
-   *  Constant: '<S28>/Kp'
+  /* Product: '<S131>/PProd Out' incorporates:
+   *  Constant: '<S26>/Kp'
    */
   mcb_pmsm_foc_hall_f28379d_B.PProdOut = mcb_pmsm_foc_hall_f28379d_B.Sum_g *
     2.0F;
 
-  /* DataStoreRead: '<S28>/Data Store Read1' */
+  /* DataStoreRead: '<S26>/Data Store Read1' */
   mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_b =
     mcb_pmsm_foc_hall_f28379d_DWork.Enable;
 
-  /* Logic: '<S28>/Logical Operator' */
+  /* Logic: '<S26>/Logical Operator' */
   mcb_pmsm_foc_hall_f28379d_B.LogicalOperator =
     !mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_b;
 
-  /* Constant: '<S28>/Kp1' */
+  /* Constant: '<S26>/Kp1' */
   mcb_pmsm_foc_hall_f28379d_B.Kp1 = 0.0F;
 
-  /* DiscreteIntegrator: '<S128>/Integrator' */
+  /* DiscreteIntegrator: '<S126>/Integrator' */
   if (mcb_pmsm_foc_hall_f28379d_B.LogicalOperator ||
       (mcb_pmsm_foc_hall_f28379d_DWork.Integrator_PrevResetState != 0)) {
     mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE = 0.0F;
   }
 
-  /* DiscreteIntegrator: '<S128>/Integrator' */
+  /* DiscreteIntegrator: '<S126>/Integrator' */
   mcb_pmsm_foc_hall_f28379d_B.Integrator =
     mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE;
 
-  /* Sum: '<S137>/Sum' */
+  /* Sum: '<S135>/Sum' */
   mcb_pmsm_foc_hall_f28379d_B.Sum_m = mcb_pmsm_foc_hall_f28379d_B.PProdOut +
     mcb_pmsm_foc_hall_f28379d_B.Integrator;
 
-  /* Saturate: '<S135>/Saturation' */
+  /* Saturate: '<S133>/Saturation' */
   u0_0 = mcb_pmsm_foc_hall_f28379d_B.Sum_m;
   if (u0_0 > 1.0F) {
-    /* Saturate: '<S135>/Saturation' */
+    /* Saturate: '<S133>/Saturation' */
     mcb_pmsm_foc_hall_f28379d_B.Saturation = 1.0F;
   } else if (u0_0 < -1.0F) {
-    /* Saturate: '<S135>/Saturation' */
+    /* Saturate: '<S133>/Saturation' */
     mcb_pmsm_foc_hall_f28379d_B.Saturation = -1.0F;
   } else {
-    /* Saturate: '<S135>/Saturation' */
+    /* Saturate: '<S133>/Saturation' */
     mcb_pmsm_foc_hall_f28379d_B.Saturation = u0_0;
   }
 
-  /* End of Saturate: '<S135>/Saturation' */
+  /* End of Saturate: '<S133>/Saturation' */
 
-  /* Sum: '<S27>/Sum' */
+  /* Sum: '<S25>/Sum' */
   mcb_pmsm_foc_hall_f28379d_B.Sum_b = mcb_pmsm_foc_hall_f28379d_B.RT2[0] -
     mcb_pmsm_foc_hall_f28379d_B.algDD_o1;
 
-  /* Product: '<S82>/PProd Out' incorporates:
-   *  Constant: '<S27>/Kp'
+  /* Product: '<S80>/PProd Out' incorporates:
+   *  Constant: '<S25>/Kp'
    */
   mcb_pmsm_foc_hall_f28379d_B.PProdOut_b = mcb_pmsm_foc_hall_f28379d_B.Sum_b *
     2.0F;
 
-  /* DataStoreRead: '<S27>/Data Store Read1' */
+  /* DataStoreRead: '<S25>/Data Store Read1' */
   mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_g =
     mcb_pmsm_foc_hall_f28379d_DWork.Enable;
 
-  /* Logic: '<S27>/Logical Operator' */
+  /* Logic: '<S25>/Logical Operator' */
   mcb_pmsm_foc_hall_f28379d_B.LogicalOperator_j =
     !mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_g;
 
-  /* Constant: '<S27>/Ki1' */
+  /* Constant: '<S25>/Ki1' */
   mcb_pmsm_foc_hall_f28379d_B.Ki1 = 0.0F;
 
-  /* DiscreteIntegrator: '<S77>/Integrator' */
+  /* DiscreteIntegrator: '<S75>/Integrator' */
   if (mcb_pmsm_foc_hall_f28379d_B.LogicalOperator_j ||
       (mcb_pmsm_foc_hall_f28379d_DWork.Integrator_PrevResetState_m != 0)) {
     mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE_j = 0.0F;
   }
 
-  /* DiscreteIntegrator: '<S77>/Integrator' */
+  /* DiscreteIntegrator: '<S75>/Integrator' */
   mcb_pmsm_foc_hall_f28379d_B.Integrator_o =
     mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE_j;
 
-  /* Sum: '<S86>/Sum' */
+  /* Sum: '<S84>/Sum' */
   mcb_pmsm_foc_hall_f28379d_B.Sum_h = mcb_pmsm_foc_hall_f28379d_B.PProdOut_b +
     mcb_pmsm_foc_hall_f28379d_B.Integrator_o;
 
-  /* Saturate: '<S84>/Saturation' */
+  /* Saturate: '<S82>/Saturation' */
   u0_0 = mcb_pmsm_foc_hall_f28379d_B.Sum_h;
   if (u0_0 > 1.0F) {
-    /* Saturate: '<S84>/Saturation' */
+    /* Saturate: '<S82>/Saturation' */
     mcb_pmsm_foc_hall_f28379d_B.Saturation_j = 1.0F;
   } else if (u0_0 < -1.0F) {
-    /* Saturate: '<S84>/Saturation' */
+    /* Saturate: '<S82>/Saturation' */
     mcb_pmsm_foc_hall_f28379d_B.Saturation_j = -1.0F;
   } else {
-    /* Saturate: '<S84>/Saturation' */
+    /* Saturate: '<S82>/Saturation' */
     mcb_pmsm_foc_hall_f28379d_B.Saturation_j = u0_0;
   }
 
-  /* End of Saturate: '<S84>/Saturation' */
+  /* End of Saturate: '<S82>/Saturation' */
 
-  /* Switch: '<S31>/Switch' incorporates:
-   *  Constant: '<S31>/Constant3'
+  /* Switch: '<S29>/Switch' incorporates:
+   *  Constant: '<S29>/Constant3'
    */
   mcb_pmsm_foc_hall_f28379d_B.Switch_j = 0.95F;
 
-  /* Product: '<S31>/Product' */
+  /* Product: '<S29>/Product' */
   mcb_pmsm_foc_hall_f28379d_B.Product_b = 0.9025F;
 
-  /* Product: '<S32>/Product' */
+  /* Product: '<S30>/Product' */
   mcb_pmsm_foc_hall_f28379d_B.Product_e =
     mcb_pmsm_foc_hall_f28379d_B.Saturation_j *
     mcb_pmsm_foc_hall_f28379d_B.Saturation_j;
 
-  /* Product: '<S32>/Product1' */
+  /* Product: '<S30>/Product1' */
   mcb_pmsm_foc_hall_f28379d_B.Product1_b =
     mcb_pmsm_foc_hall_f28379d_B.Saturation *
     mcb_pmsm_foc_hall_f28379d_B.Saturation;
 
-  /* Sum: '<S32>/Sum1' */
+  /* Sum: '<S30>/Sum1' */
   mcb_pmsm_foc_hall_f28379d_B.Sum1 = mcb_pmsm_foc_hall_f28379d_B.Product_e +
     mcb_pmsm_foc_hall_f28379d_B.Product1_b;
 
-  /* Outputs for IfAction SubSystem: '<S26>/D-Q Equivalence' incorporates:
-   *  ActionPort: '<S29>/Action Port'
+  /* Outputs for IfAction SubSystem: '<S24>/D-Q Equivalence' incorporates:
+   *  ActionPort: '<S27>/Action Port'
    */
-  /* If: '<S26>/If' incorporates:
-   *  DataTypeConversion: '<S29>/Data Type Conversion'
-   *  RelationalOperator: '<S29>/Relational Operator'
+  /* If: '<S24>/If' incorporates:
+   *  DataTypeConversion: '<S27>/Data Type Conversion'
+   *  RelationalOperator: '<S27>/Relational Operator'
    */
   mcb_pmsm_foc_hall_f28379d_B.RelationalOperator_h =
     (mcb_pmsm_foc_hall_f28379d_B.Sum1 > 0.9025F);
   mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_jg =
     mcb_pmsm_foc_hall_f28379d_B.RelationalOperator_h;
 
-  /* If: '<S29>/If' incorporates:
-   *  If: '<S26>/If'
+  /* If: '<S27>/If' incorporates:
+   *  If: '<S24>/If'
    */
   if (mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_jg != 0U) {
-    /* Outputs for IfAction SubSystem: '<S29>/Limiter' incorporates:
-     *  ActionPort: '<S33>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S27>/Limiter' incorporates:
+     *  ActionPort: '<S31>/Action Port'
      */
-    /* Product: '<S33>/Product' */
+    /* Product: '<S31>/Product' */
     mcb_pmsm_foc_hall_f28379d_B.Product_ie[0] =
       mcb_pmsm_foc_hall_f28379d_B.Saturation_j * 0.95F;
     mcb_pmsm_foc_hall_f28379d_B.Product_ie[1] =
       mcb_pmsm_foc_hall_f28379d_B.Saturation * 0.95F;
 
-    /* Sqrt: '<S33>/Square Root' */
+    /* Sqrt: '<S31>/Square Root' */
     mcb_pmsm_foc_hall_f28379d_B.SquareRoot = (real32_T)sqrt
       (mcb_pmsm_foc_hall_f28379d_B.Sum1);
 
-    /* Switch: '<S33>/Switch' */
+    /* Switch: '<S31>/Switch' */
     if (mcb_pmsm_foc_hall_f28379d_B.SquareRoot != 0.0F) {
-      /* Switch: '<S33>/Switch' */
+      /* Switch: '<S31>/Switch' */
       mcb_pmsm_foc_hall_f28379d_B.Switch_o =
         mcb_pmsm_foc_hall_f28379d_B.SquareRoot;
     } else {
-      /* Switch: '<S33>/Switch' incorporates:
-       *  Constant: '<S33>/Constant'
+      /* Switch: '<S31>/Switch' incorporates:
+       *  Constant: '<S31>/Constant'
        */
       mcb_pmsm_foc_hall_f28379d_B.Switch_o = 1.0F;
     }
 
-    /* End of Switch: '<S33>/Switch' */
+    /* End of Switch: '<S31>/Switch' */
 
-    /* Product: '<S33>/Reciprocal' */
+    /* Product: '<S31>/Reciprocal' */
     mcb_pmsm_foc_hall_f28379d_B.Reciprocal = 1.0F /
       mcb_pmsm_foc_hall_f28379d_B.Switch_o;
 
-    /* Merge: '<S26>/Merge' incorporates:
-     *  Product: '<S33>/Product1'
+    /* Merge: '<S24>/Merge' incorporates:
+     *  Product: '<S31>/Product1'
      */
     mcb_pmsm_foc_hall_f28379d_B.Merge_do[0] =
       mcb_pmsm_foc_hall_f28379d_B.Product_ie[0] *
@@ -2385,255 +2120,374 @@ void mcb_pmsm_foc_CurrentControl(void)
       mcb_pmsm_foc_hall_f28379d_B.Product_ie[1] *
       mcb_pmsm_foc_hall_f28379d_B.Reciprocal;
 
-    /* End of Outputs for SubSystem: '<S29>/Limiter' */
+    /* End of Outputs for SubSystem: '<S27>/Limiter' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S29>/Passthrough' incorporates:
-     *  ActionPort: '<S34>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S27>/Passthrough' incorporates:
+     *  ActionPort: '<S32>/Action Port'
      */
-    /* Merge: '<S26>/Merge' incorporates:
-     *  SignalConversion generated from: '<S34>/dqRef'
+    /* Merge: '<S24>/Merge' incorporates:
+     *  SignalConversion generated from: '<S32>/dqRef'
      */
     mcb_pmsm_foc_hall_f28379d_B.Merge_do[0] =
       mcb_pmsm_foc_hall_f28379d_B.Saturation_j;
     mcb_pmsm_foc_hall_f28379d_B.Merge_do[1] =
       mcb_pmsm_foc_hall_f28379d_B.Saturation;
 
-    /* End of Outputs for SubSystem: '<S29>/Passthrough' */
+    /* End of Outputs for SubSystem: '<S27>/Passthrough' */
   }
 
-  /* End of If: '<S29>/If' */
-  /* End of Outputs for SubSystem: '<S26>/D-Q Equivalence' */
+  /* End of If: '<S27>/If' */
+  /* End of Outputs for SubSystem: '<S24>/D-Q Equivalence' */
 
-  /* DeadZone: '<S70>/DeadZone' */
+  /* DeadZone: '<S68>/DeadZone' */
   if (mcb_pmsm_foc_hall_f28379d_B.Sum_h > 1.0F) {
-    /* DeadZone: '<S70>/DeadZone' */
+    /* DeadZone: '<S68>/DeadZone' */
     mcb_pmsm_foc_hall_f28379d_B.DeadZone = mcb_pmsm_foc_hall_f28379d_B.Sum_h -
       1.0F;
   } else if (mcb_pmsm_foc_hall_f28379d_B.Sum_h >= -1.0F) {
-    /* DeadZone: '<S70>/DeadZone' */
+    /* DeadZone: '<S68>/DeadZone' */
     mcb_pmsm_foc_hall_f28379d_B.DeadZone = 0.0F;
   } else {
-    /* DeadZone: '<S70>/DeadZone' */
+    /* DeadZone: '<S68>/DeadZone' */
     mcb_pmsm_foc_hall_f28379d_B.DeadZone = mcb_pmsm_foc_hall_f28379d_B.Sum_h -
       -1.0F;
   }
 
-  /* End of DeadZone: '<S70>/DeadZone' */
+  /* End of DeadZone: '<S68>/DeadZone' */
 
-  /* RelationalOperator: '<S68>/Relational Operator' incorporates:
-   *  Constant: '<S68>/Clamping_zero'
+  /* RelationalOperator: '<S66>/Relational Operator' incorporates:
+   *  Constant: '<S66>/Clamping_zero'
    */
   mcb_pmsm_foc_hall_f28379d_B.RelationalOperator =
     (mcb_pmsm_foc_hall_f28379d_B.DeadZone != 0.0F);
 
-  /* RelationalOperator: '<S68>/fix for DT propagation issue' incorporates:
-   *  Constant: '<S68>/Clamping_zero'
+  /* RelationalOperator: '<S66>/fix for DT propagation issue' incorporates:
+   *  Constant: '<S66>/Clamping_zero'
    */
   mcb_pmsm_foc_hall_f28379d_B.fixforDTpropagationissue =
     (mcb_pmsm_foc_hall_f28379d_B.DeadZone > 0.0F);
 
-  /* Switch: '<S68>/Switch1' */
+  /* Switch: '<S66>/Switch1' */
   if (mcb_pmsm_foc_hall_f28379d_B.fixforDTpropagationissue) {
-    /* Switch: '<S68>/Switch1' incorporates:
-     *  Constant: '<S68>/Constant'
+    /* Switch: '<S66>/Switch1' incorporates:
+     *  Constant: '<S66>/Constant'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch1_i = 1;
   } else {
-    /* Switch: '<S68>/Switch1' incorporates:
-     *  Constant: '<S68>/Constant2'
+    /* Switch: '<S66>/Switch1' incorporates:
+     *  Constant: '<S66>/Constant2'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch1_i = -1;
   }
 
-  /* End of Switch: '<S68>/Switch1' */
+  /* End of Switch: '<S66>/Switch1' */
 
-  /* Product: '<S74>/IProd Out' incorporates:
-   *  Constant: '<S27>/Ki'
+  /* Product: '<S72>/IProd Out' incorporates:
+   *  Constant: '<S25>/Ki'
    */
   mcb_pmsm_foc_hall_f28379d_B.IProdOut = mcb_pmsm_foc_hall_f28379d_B.Sum_b *
-    6.25E-6F;
+    5.0E-7F;
 
-  /* RelationalOperator: '<S68>/fix for DT propagation issue1' incorporates:
-   *  Constant: '<S68>/Clamping_zero'
+  /* RelationalOperator: '<S66>/fix for DT propagation issue1' incorporates:
+   *  Constant: '<S66>/Clamping_zero'
    */
   mcb_pmsm_foc_hall_f28379d_B.fixforDTpropagationissue1 =
     (mcb_pmsm_foc_hall_f28379d_B.IProdOut > 0.0F);
 
-  /* Switch: '<S68>/Switch2' */
+  /* Switch: '<S66>/Switch2' */
   if (mcb_pmsm_foc_hall_f28379d_B.fixforDTpropagationissue1) {
-    /* Switch: '<S68>/Switch2' incorporates:
-     *  Constant: '<S68>/Constant3'
+    /* Switch: '<S66>/Switch2' incorporates:
+     *  Constant: '<S66>/Constant3'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch2_a = 1;
   } else {
-    /* Switch: '<S68>/Switch2' incorporates:
-     *  Constant: '<S68>/Constant4'
+    /* Switch: '<S66>/Switch2' incorporates:
+     *  Constant: '<S66>/Constant4'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch2_a = -1;
   }
 
-  /* End of Switch: '<S68>/Switch2' */
+  /* End of Switch: '<S66>/Switch2' */
 
-  /* RelationalOperator: '<S68>/Equal1' incorporates:
-   *  Switch: '<S68>/Switch1'
-   *  Switch: '<S68>/Switch2'
+  /* RelationalOperator: '<S66>/Equal1' incorporates:
+   *  Switch: '<S66>/Switch1'
+   *  Switch: '<S66>/Switch2'
    */
   mcb_pmsm_foc_hall_f28379d_B.Equal1 = (mcb_pmsm_foc_hall_f28379d_B.Switch1_i ==
     mcb_pmsm_foc_hall_f28379d_B.Switch2_a);
 
-  /* Logic: '<S68>/AND3' */
+  /* Logic: '<S66>/AND3' */
   mcb_pmsm_foc_hall_f28379d_B.AND3 =
     (mcb_pmsm_foc_hall_f28379d_B.RelationalOperator &&
      mcb_pmsm_foc_hall_f28379d_B.Equal1);
 
-  /* Switch: '<S68>/Switch' */
+  /* Switch: '<S66>/Switch' */
   if (mcb_pmsm_foc_hall_f28379d_B.AND3) {
-    /* Switch: '<S68>/Switch' incorporates:
-     *  Constant: '<S68>/Constant1'
+    /* Switch: '<S66>/Switch' incorporates:
+     *  Constant: '<S66>/Constant1'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch_b = 0.0F;
   } else {
-    /* Switch: '<S68>/Switch' */
+    /* Switch: '<S66>/Switch' */
     mcb_pmsm_foc_hall_f28379d_B.Switch_b = mcb_pmsm_foc_hall_f28379d_B.IProdOut;
   }
 
-  /* End of Switch: '<S68>/Switch' */
+  /* End of Switch: '<S66>/Switch' */
 
-  /* DeadZone: '<S121>/DeadZone' */
+  /* DeadZone: '<S119>/DeadZone' */
   if (mcb_pmsm_foc_hall_f28379d_B.Sum_m > 1.0F) {
-    /* DeadZone: '<S121>/DeadZone' */
+    /* DeadZone: '<S119>/DeadZone' */
     mcb_pmsm_foc_hall_f28379d_B.DeadZone_g = mcb_pmsm_foc_hall_f28379d_B.Sum_m -
       1.0F;
   } else if (mcb_pmsm_foc_hall_f28379d_B.Sum_m >= -1.0F) {
-    /* DeadZone: '<S121>/DeadZone' */
+    /* DeadZone: '<S119>/DeadZone' */
     mcb_pmsm_foc_hall_f28379d_B.DeadZone_g = 0.0F;
   } else {
-    /* DeadZone: '<S121>/DeadZone' */
+    /* DeadZone: '<S119>/DeadZone' */
     mcb_pmsm_foc_hall_f28379d_B.DeadZone_g = mcb_pmsm_foc_hall_f28379d_B.Sum_m -
       -1.0F;
   }
 
-  /* End of DeadZone: '<S121>/DeadZone' */
+  /* End of DeadZone: '<S119>/DeadZone' */
 
-  /* RelationalOperator: '<S119>/Relational Operator' incorporates:
-   *  Constant: '<S119>/Clamping_zero'
+  /* RelationalOperator: '<S117>/Relational Operator' incorporates:
+   *  Constant: '<S117>/Clamping_zero'
    */
   mcb_pmsm_foc_hall_f28379d_B.RelationalOperator_m =
     (mcb_pmsm_foc_hall_f28379d_B.DeadZone_g != 0.0F);
 
-  /* RelationalOperator: '<S119>/fix for DT propagation issue' incorporates:
-   *  Constant: '<S119>/Clamping_zero'
+  /* RelationalOperator: '<S117>/fix for DT propagation issue' incorporates:
+   *  Constant: '<S117>/Clamping_zero'
    */
   mcb_pmsm_foc_hall_f28379d_B.fixforDTpropagationissue_b =
     (mcb_pmsm_foc_hall_f28379d_B.DeadZone_g > 0.0F);
 
-  /* Switch: '<S119>/Switch1' */
+  /* Switch: '<S117>/Switch1' */
   if (mcb_pmsm_foc_hall_f28379d_B.fixforDTpropagationissue_b) {
-    /* Switch: '<S119>/Switch1' incorporates:
-     *  Constant: '<S119>/Constant'
+    /* Switch: '<S117>/Switch1' incorporates:
+     *  Constant: '<S117>/Constant'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch1_j = 1;
   } else {
-    /* Switch: '<S119>/Switch1' incorporates:
-     *  Constant: '<S119>/Constant2'
+    /* Switch: '<S117>/Switch1' incorporates:
+     *  Constant: '<S117>/Constant2'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch1_j = -1;
   }
 
-  /* End of Switch: '<S119>/Switch1' */
+  /* End of Switch: '<S117>/Switch1' */
 
-  /* Product: '<S125>/IProd Out' incorporates:
-   *  Constant: '<S28>/Ki'
+  /* Product: '<S123>/IProd Out' incorporates:
+   *  Constant: '<S26>/Ki'
    */
   mcb_pmsm_foc_hall_f28379d_B.IProdOut_h = mcb_pmsm_foc_hall_f28379d_B.Sum_g *
-    6.25E-6F;
+    5.0E-7F;
 
-  /* RelationalOperator: '<S119>/fix for DT propagation issue1' incorporates:
-   *  Constant: '<S119>/Clamping_zero'
+  /* RelationalOperator: '<S117>/fix for DT propagation issue1' incorporates:
+   *  Constant: '<S117>/Clamping_zero'
    */
   mcb_pmsm_foc_hall_f28379d_B.fixforDTpropagationissue1_h =
     (mcb_pmsm_foc_hall_f28379d_B.IProdOut_h > 0.0F);
 
-  /* Switch: '<S119>/Switch2' */
+  /* Switch: '<S117>/Switch2' */
   if (mcb_pmsm_foc_hall_f28379d_B.fixforDTpropagationissue1_h) {
-    /* Switch: '<S119>/Switch2' incorporates:
-     *  Constant: '<S119>/Constant3'
+    /* Switch: '<S117>/Switch2' incorporates:
+     *  Constant: '<S117>/Constant3'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch2_b = 1;
   } else {
-    /* Switch: '<S119>/Switch2' incorporates:
-     *  Constant: '<S119>/Constant4'
+    /* Switch: '<S117>/Switch2' incorporates:
+     *  Constant: '<S117>/Constant4'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch2_b = -1;
   }
 
-  /* End of Switch: '<S119>/Switch2' */
+  /* End of Switch: '<S117>/Switch2' */
 
-  /* RelationalOperator: '<S119>/Equal1' incorporates:
-   *  Switch: '<S119>/Switch1'
-   *  Switch: '<S119>/Switch2'
+  /* RelationalOperator: '<S117>/Equal1' incorporates:
+   *  Switch: '<S117>/Switch1'
+   *  Switch: '<S117>/Switch2'
    */
   mcb_pmsm_foc_hall_f28379d_B.Equal1_d = (mcb_pmsm_foc_hall_f28379d_B.Switch1_j ==
     mcb_pmsm_foc_hall_f28379d_B.Switch2_b);
 
-  /* Logic: '<S119>/AND3' */
+  /* Logic: '<S117>/AND3' */
   mcb_pmsm_foc_hall_f28379d_B.AND3_f =
     (mcb_pmsm_foc_hall_f28379d_B.RelationalOperator_m &&
      mcb_pmsm_foc_hall_f28379d_B.Equal1_d);
 
-  /* Switch: '<S119>/Switch' */
+  /* Switch: '<S117>/Switch' */
   if (mcb_pmsm_foc_hall_f28379d_B.AND3_f) {
-    /* Switch: '<S119>/Switch' incorporates:
-     *  Constant: '<S119>/Constant1'
+    /* Switch: '<S117>/Switch' incorporates:
+     *  Constant: '<S117>/Constant1'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch_ls = 0.0F;
   } else {
-    /* Switch: '<S119>/Switch' */
+    /* Switch: '<S117>/Switch' */
     mcb_pmsm_foc_hall_f28379d_B.Switch_ls =
       mcb_pmsm_foc_hall_f28379d_B.IProdOut_h;
   }
 
-  /* End of Switch: '<S119>/Switch' */
+  /* End of Switch: '<S117>/Switch' */
 
-  /* Outputs for Atomic SubSystem: '<S20>/Two inputs CRL' */
-  /* Product: '<S145>/qcos' */
+  /* RelationalOperator: '<S147>/Compare' incorporates:
+   *  Constant: '<S147>/Constant'
+   */
+  mcb_pmsm_foc_hall_f28379d_B.Compare_nf = (mcb_pmsm_foc_hall_f28379d_B.Add <
+    0.0F);
+
+  /* DataTypeConversion: '<S146>/Data Type Conversion' */
+  mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_e =
+    mcb_pmsm_foc_hall_f28379d_B.Compare_nf;
+
+  /* If: '<S146>/If' */
+  if (mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_e > 0U) {
+    /* Outputs for IfAction SubSystem: '<S146>/If Action Subsystem' incorporates:
+     *  ActionPort: '<S148>/Action Port'
+     */
+    mcb_pmsm__IfActionSubsystem(mcb_pmsm_foc_hall_f28379d_B.Add,
+      &mcb_pmsm_foc_hall_f28379d_B.Merge_p,
+      &mcb_pmsm_foc_hall_f28379d_B.IfActionSubsystem);
+
+    /* End of Outputs for SubSystem: '<S146>/If Action Subsystem' */
+  } else {
+    /* Outputs for IfAction SubSystem: '<S146>/If Action Subsystem1' incorporates:
+     *  ActionPort: '<S149>/Action Port'
+     */
+    mcb_pmsm_IfActionSubsystem1(mcb_pmsm_foc_hall_f28379d_B.Add,
+      &mcb_pmsm_foc_hall_f28379d_B.Merge_p,
+      &mcb_pmsm_foc_hall_f28379d_B.IfActionSubsystem1);
+
+    /* End of Outputs for SubSystem: '<S146>/If Action Subsystem1' */
+  }
+
+  /* End of If: '<S146>/If' */
+
+  /* Gain: '<S143>/indexing' */
+  mcb_pmsm_foc_hall_f28379d_B.indexing_i = 800.0F *
+    mcb_pmsm_foc_hall_f28379d_B.Merge_p;
+
+  /* DataTypeConversion: '<S143>/Get_Integer' */
+  mcb_pmsm_foc_hall_f28379d_B.Get_Integer_f = (uint16_T)
+    mcb_pmsm_foc_hall_f28379d_B.indexing_i;
+
+  /* DataTypeConversion: '<S143>/Data Type Conversion1' */
+  mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_f =
+    mcb_pmsm_foc_hall_f28379d_B.Get_Integer_f;
+
+  /* Sum: '<S143>/Sum' incorporates:
+   *  Constant: '<S143>/offset'
+   */
+  u0 = mcb_pmsm_foc_hall_f28379d_B.Get_Integer_f + 1UL;
+  mcb_pmsm_foc_hall_f28379d_B.Sum_k[0] = u0;
+
+  /* Selector: '<S143>/Lookup' incorporates:
+   *  Constant: '<S143>/sine_table_values'
+   */
+  mcb_pmsm_foc_hall_f28379d_B.Lookup_f[0] =
+    mcb_pmsm_foc_hall_f28379_ConstP.pooled11[(int16_T)u0];
+
+  /* Sum: '<S143>/Sum' */
+  u0 = mcb_pmsm_foc_hall_f28379d_B.Get_Integer_f;
+  mcb_pmsm_foc_hall_f28379d_B.Sum_k[1] = u0;
+
+  /* Selector: '<S143>/Lookup' incorporates:
+   *  Constant: '<S143>/sine_table_values'
+   */
+  mcb_pmsm_foc_hall_f28379d_B.Lookup_f[1] =
+    mcb_pmsm_foc_hall_f28379_ConstP.pooled11[(int16_T)u0];
+
+  /* Sum: '<S143>/Sum' incorporates:
+   *  Constant: '<S143>/offset'
+   */
+  u0 = mcb_pmsm_foc_hall_f28379d_B.Get_Integer_f + 201UL;
+  mcb_pmsm_foc_hall_f28379d_B.Sum_k[2] = u0;
+
+  /* Selector: '<S143>/Lookup' incorporates:
+   *  Constant: '<S143>/sine_table_values'
+   */
+  mcb_pmsm_foc_hall_f28379d_B.Lookup_f[2] =
+    mcb_pmsm_foc_hall_f28379_ConstP.pooled11[(int16_T)u0];
+
+  /* Sum: '<S143>/Sum' incorporates:
+   *  Constant: '<S143>/offset'
+   */
+  u0 = mcb_pmsm_foc_hall_f28379d_B.Get_Integer_f + 200UL;
+  mcb_pmsm_foc_hall_f28379d_B.Sum_k[3] = u0;
+
+  /* Selector: '<S143>/Lookup' incorporates:
+   *  Constant: '<S143>/sine_table_values'
+   */
+  mcb_pmsm_foc_hall_f28379d_B.Lookup_f[3] =
+    mcb_pmsm_foc_hall_f28379_ConstP.pooled11[(int16_T)u0];
+
+  /* Sum: '<S145>/Sum3' */
+  mcb_pmsm_foc_hall_f28379d_B.Sum3_c = mcb_pmsm_foc_hall_f28379d_B.Lookup_f[0] -
+    mcb_pmsm_foc_hall_f28379d_B.Lookup_f[1];
+
+  /* Sum: '<S143>/Sum2' */
+  mcb_pmsm_foc_hall_f28379d_B.Sum2_p = mcb_pmsm_foc_hall_f28379d_B.indexing_i -
+    mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_f;
+
+  /* Product: '<S145>/Product' */
+  mcb_pmsm_foc_hall_f28379d_B.Product_d = mcb_pmsm_foc_hall_f28379d_B.Sum3_c *
+    mcb_pmsm_foc_hall_f28379d_B.Sum2_p;
+
+  /* Sum: '<S145>/Sum5' */
+  mcb_pmsm_foc_hall_f28379d_B.Sum5_k = mcb_pmsm_foc_hall_f28379d_B.Lookup_f[2] -
+    mcb_pmsm_foc_hall_f28379d_B.Lookup_f[3];
+
+  /* Product: '<S145>/Product1' */
+  mcb_pmsm_foc_hall_f28379d_B.Product1_p = mcb_pmsm_foc_hall_f28379d_B.Sum5_k *
+    mcb_pmsm_foc_hall_f28379d_B.Sum2_p;
+
+  /* Sum: '<S145>/Sum4' */
+  mcb_pmsm_foc_hall_f28379d_B.Sum4_j = mcb_pmsm_foc_hall_f28379d_B.Product_d +
+    mcb_pmsm_foc_hall_f28379d_B.Lookup_f[1];
+
+  /* Sum: '<S145>/Sum6' */
+  mcb_pmsm_foc_hall_f28379d_B.Sum6_e = mcb_pmsm_foc_hall_f28379d_B.Product1_p +
+    mcb_pmsm_foc_hall_f28379d_B.Lookup_f[3];
+
+  /* Outputs for Atomic SubSystem: '<S19>/Two inputs CRL' */
+  /* Product: '<S144>/qcos' */
   mcb_pmsm_foc_hall_f28379d_B.qcos = mcb_pmsm_foc_hall_f28379d_B.Merge_do[1] *
-    mcb_pmsm_foc_hall_f28379d_B.Sum6;
+    mcb_pmsm_foc_hall_f28379d_B.Sum6_e;
 
-  /* Product: '<S145>/dsin' */
+  /* Product: '<S144>/dsin' */
   mcb_pmsm_foc_hall_f28379d_B.dsin = mcb_pmsm_foc_hall_f28379d_B.Merge_do[0] *
-    mcb_pmsm_foc_hall_f28379d_B.Sum4;
+    mcb_pmsm_foc_hall_f28379d_B.Sum4_j;
 
-  /* Sum: '<S145>/sum_beta' */
+  /* Sum: '<S144>/sum_beta' */
   mcb_pmsm_foc_hall_f28379d_B.sum_beta = mcb_pmsm_foc_hall_f28379d_B.qcos +
     mcb_pmsm_foc_hall_f28379d_B.dsin;
 
-  /* Product: '<S145>/dcos' */
+  /* Product: '<S144>/dcos' */
   mcb_pmsm_foc_hall_f28379d_B.dcos = mcb_pmsm_foc_hall_f28379d_B.Merge_do[0] *
-    mcb_pmsm_foc_hall_f28379d_B.Sum6;
+    mcb_pmsm_foc_hall_f28379d_B.Sum6_e;
 
-  /* Product: '<S145>/qsin' */
+  /* Product: '<S144>/qsin' */
   mcb_pmsm_foc_hall_f28379d_B.qsin = mcb_pmsm_foc_hall_f28379d_B.Merge_do[1] *
-    mcb_pmsm_foc_hall_f28379d_B.Sum4;
+    mcb_pmsm_foc_hall_f28379d_B.Sum4_j;
 
-  /* Sum: '<S145>/sum_alpha' */
+  /* Sum: '<S144>/sum_alpha' */
   mcb_pmsm_foc_hall_f28379d_B.sum_alpha = mcb_pmsm_foc_hall_f28379d_B.dcos -
     mcb_pmsm_foc_hall_f28379d_B.qsin;
 
-  /* Switch: '<S146>/Switch' */
+  /* Switch: '<S150>/Switch' */
   mcb_pmsm_foc_hall_f28379d_B.Switch_k[0] =
     mcb_pmsm_foc_hall_f28379d_B.sum_alpha;
   mcb_pmsm_foc_hall_f28379d_B.Switch_k[1] = mcb_pmsm_foc_hall_f28379d_B.sum_beta;
 
-  /* AlgorithmDescriptorDelegate generated from: '<S145>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S144>/a16' */
   mcb_pmsm_foc_hall_f28379d_B.algDD_o1_c = mcb_pmsm_foc_hall_f28379d_B.Switch_k
     [0];
 
-  /* AlgorithmDescriptorDelegate generated from: '<S145>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S144>/a16' */
   mcb_pmsm_foc_hall_f28379d_B.algDD_o2_e = mcb_pmsm_foc_hall_f28379d_B.Switch_k
     [1];
 
-  /* End of Outputs for SubSystem: '<S20>/Two inputs CRL' */
+  /* End of Outputs for SubSystem: '<S19>/Two inputs CRL' */
 
   /* DataStoreRead: '<S15>/Enable' */
   mcb_pmsm_foc_hall_f28379d_B.Enable = mcb_pmsm_foc_hall_f28379d_DWork.Enable;
@@ -2642,11 +2496,11 @@ void mcb_pmsm_foc_CurrentControl(void)
   mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion =
     mcb_pmsm_foc_hall_f28379d_B.Enable;
 
-  /* Switch: '<S222>/Switch' */
+  /* Switch: '<S228>/Switch' */
   mcb_pmsm_foc_hall_f28379d_B.Switch_f =
     mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion;
 
-  /* S-Function (c280xgpio_do): '<S222>/Inverter Enable' */
+  /* S-Function (c280xgpio_do): '<S228>/Inverter Enable' */
   {
     if (mcb_pmsm_foc_hall_f28379d_B.Switch_f) {
       GpioDataRegs.GPDSET.bit.GPIO124 = 1U;
@@ -2655,26 +2509,26 @@ void mcb_pmsm_foc_CurrentControl(void)
     }
   }
 
-  /* Switch: '<S222>/Switch1' */
+  /* Switch: '<S228>/Switch1' */
   if (mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion >= 0.5F) {
-    /* Gain: '<S160>/sqrt3_by_two' */
+    /* Gain: '<S166>/sqrt3_by_two' */
     mcb_pmsm_foc_hall_f28379d_B.sqrt3_by_two = 0.866025388F *
       mcb_pmsm_foc_hall_f28379d_B.algDD_o2_e;
 
-    /* Gain: '<S160>/one_by_two' */
+    /* Gain: '<S166>/one_by_two' */
     mcb_pmsm_foc_hall_f28379d_B.one_by_two = 0.5F *
       mcb_pmsm_foc_hall_f28379d_B.algDD_o1_c;
 
-    /* Sum: '<S160>/add_c' */
+    /* Sum: '<S166>/add_c' */
     mcb_pmsm_foc_hall_f28379d_B.add_c = (0.0F -
       mcb_pmsm_foc_hall_f28379d_B.one_by_two) -
       mcb_pmsm_foc_hall_f28379d_B.sqrt3_by_two;
 
-    /* Sum: '<S160>/add_b' */
+    /* Sum: '<S166>/add_b' */
     mcb_pmsm_foc_hall_f28379d_B.add_b = mcb_pmsm_foc_hall_f28379d_B.sqrt3_by_two
       - mcb_pmsm_foc_hall_f28379d_B.one_by_two;
 
-    /* MinMax: '<S157>/Min' */
+    /* MinMax: '<S163>/Min' */
     u0_0 = mcb_pmsm_foc_hall_f28379d_B.algDD_o1_c;
     Bias = mcb_pmsm_foc_hall_f28379d_B.add_b;
     if ((u0_0 <= Bias) || rtIsNaNF(Bias)) {
@@ -2686,10 +2540,10 @@ void mcb_pmsm_foc_CurrentControl(void)
       Bias = u0_0;
     }
 
-    /* MinMax: '<S157>/Min' */
+    /* MinMax: '<S163>/Min' */
     mcb_pmsm_foc_hall_f28379d_B.Min_a = Bias;
 
-    /* MinMax: '<S157>/Max' */
+    /* MinMax: '<S163>/Max' */
     u0_0 = mcb_pmsm_foc_hall_f28379d_B.algDD_o1_c;
     Bias = mcb_pmsm_foc_hall_f28379d_B.add_b;
     if ((u0_0 >= Bias) || rtIsNaNF(Bias)) {
@@ -2701,30 +2555,30 @@ void mcb_pmsm_foc_CurrentControl(void)
       Bias = u0_0;
     }
 
-    /* MinMax: '<S157>/Max' */
+    /* MinMax: '<S163>/Max' */
     mcb_pmsm_foc_hall_f28379d_B.Max_h = Bias;
 
-    /* Sum: '<S157>/Add' */
+    /* Sum: '<S163>/Add' */
     mcb_pmsm_foc_hall_f28379d_B.Add_i = mcb_pmsm_foc_hall_f28379d_B.Max_h +
       mcb_pmsm_foc_hall_f28379d_B.Min_a;
 
-    /* Gain: '<S157>/one_by_two' */
+    /* Gain: '<S163>/one_by_two' */
     mcb_pmsm_foc_hall_f28379d_B.one_by_two_b = -0.5F *
       mcb_pmsm_foc_hall_f28379d_B.Add_i;
 
-    /* Sum: '<S156>/Add3' */
+    /* Sum: '<S162>/Add3' */
     mcb_pmsm_foc_hall_f28379d_B.Add3 = mcb_pmsm_foc_hall_f28379d_B.algDD_o1_c +
       mcb_pmsm_foc_hall_f28379d_B.one_by_two_b;
 
-    /* Sum: '<S156>/Add2' */
+    /* Sum: '<S162>/Add2' */
     mcb_pmsm_foc_hall_f28379d_B.Add2 = mcb_pmsm_foc_hall_f28379d_B.one_by_two_b
       + mcb_pmsm_foc_hall_f28379d_B.add_c;
 
-    /* Sum: '<S156>/Add1' */
+    /* Sum: '<S162>/Add1' */
     mcb_pmsm_foc_hall_f28379d_B.Add1 = mcb_pmsm_foc_hall_f28379d_B.add_b +
       mcb_pmsm_foc_hall_f28379d_B.one_by_two_b;
 
-    /* Gain: '<S156>/Gain' */
+    /* Gain: '<S162>/Gain' */
     mcb_pmsm_foc_hall_f28379d_B.Gain[0] = 1.15470052F *
       mcb_pmsm_foc_hall_f28379d_B.Add3;
     mcb_pmsm_foc_hall_f28379d_B.Gain[1] = 1.15470052F *
@@ -2742,12 +2596,12 @@ void mcb_pmsm_foc_CurrentControl(void)
     Bias += 0.5F;
     mcb_pmsm_foc_hall_f28379d_B.PWM_Duty_Cycles[0] = Bias;
 
-    /* Gain: '<S222>/Scale_to_PWM_Counter_PRD' */
-    Scale_to_PWM_Counter_PRD = (uint16_T)(6250.0F * Bias);
+    /* Gain: '<S228>/Scale_to_PWM_Counter_PRD' */
+    Scale_to_PWM_Counter_PRD = (uint16_T)(500.0F * Bias);
     mcb_pmsm_foc_hall_f28379d_B.Scale_to_PWM_Counter_PRD[0] =
       Scale_to_PWM_Counter_PRD;
 
-    /* Switch: '<S222>/Switch1' */
+    /* Switch: '<S228>/Switch1' */
     mcb_pmsm_foc_hall_f28379d_B.Switch1_f[0] = Scale_to_PWM_Counter_PRD;
 
     /* Gain: '<S15>/Gain' */
@@ -2760,12 +2614,12 @@ void mcb_pmsm_foc_CurrentControl(void)
     Bias += 0.5F;
     mcb_pmsm_foc_hall_f28379d_B.PWM_Duty_Cycles[1] = Bias;
 
-    /* Gain: '<S222>/Scale_to_PWM_Counter_PRD' */
-    Scale_to_PWM_Counter_PRD = (uint16_T)(6250.0F * Bias);
+    /* Gain: '<S228>/Scale_to_PWM_Counter_PRD' */
+    Scale_to_PWM_Counter_PRD = (uint16_T)(500.0F * Bias);
     mcb_pmsm_foc_hall_f28379d_B.Scale_to_PWM_Counter_PRD[1] =
       Scale_to_PWM_Counter_PRD;
 
-    /* Switch: '<S222>/Switch1' */
+    /* Switch: '<S228>/Switch1' */
     mcb_pmsm_foc_hall_f28379d_B.Switch1_f[1] = Scale_to_PWM_Counter_PRD;
 
     /* Gain: '<S15>/Gain' */
@@ -2778,71 +2632,67 @@ void mcb_pmsm_foc_CurrentControl(void)
     Bias += 0.5F;
     mcb_pmsm_foc_hall_f28379d_B.PWM_Duty_Cycles[2] = Bias;
 
-    /* Gain: '<S222>/Scale_to_PWM_Counter_PRD' */
-    Scale_to_PWM_Counter_PRD = (uint16_T)(6250.0F * Bias);
+    /* Gain: '<S228>/Scale_to_PWM_Counter_PRD' */
+    Scale_to_PWM_Counter_PRD = (uint16_T)(500.0F * Bias);
     mcb_pmsm_foc_hall_f28379d_B.Scale_to_PWM_Counter_PRD[2] =
       Scale_to_PWM_Counter_PRD;
 
-    /* Switch: '<S222>/Switch1' */
+    /* Switch: '<S228>/Switch1' */
     mcb_pmsm_foc_hall_f28379d_B.Switch1_f[2] = Scale_to_PWM_Counter_PRD;
   } else {
-    /* Switch: '<S222>/Switch1' incorporates:
-     *  Constant: '<S222>/stop'
+    /* Switch: '<S228>/Switch1' incorporates:
+     *  Constant: '<S228>/stop'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch1_f[0] = 0U;
     mcb_pmsm_foc_hall_f28379d_B.Switch1_f[1] = 0U;
     mcb_pmsm_foc_hall_f28379d_B.Switch1_f[2] = 0U;
   }
 
-  /* End of Switch: '<S222>/Switch1' */
+  /* End of Switch: '<S228>/Switch1' */
 
-  /* S-Function (c2802xpwm): '<S222>/ePWM1' */
+  /* S-Function (c2802xpwm): '<S228>/ePWM1' */
 
   /*-- Update CMPA value for ePWM1 --*/
   {
     EPwm1Regs.CMPA.bit.CMPA = (uint16_T)(mcb_pmsm_foc_hall_f28379d_B.Switch1_f[0]);
   }
 
-  /* S-Function (c2802xpwm): '<S222>/ePWM2' */
+  /* S-Function (c2802xpwm): '<S228>/ePWM2' */
 
   /*-- Update CMPA value for ePWM2 --*/
   {
     EPwm2Regs.CMPA.bit.CMPA = (uint16_T)(mcb_pmsm_foc_hall_f28379d_B.Switch1_f[1]);
   }
 
-  /* S-Function (c2802xpwm): '<S222>/ePWM3' */
+  /* S-Function (c2802xpwm): '<S228>/ePWM3' */
 
   /*-- Update CMPA value for ePWM3 --*/
   {
     EPwm3Regs.CMPA.bit.CMPA = (uint16_T)(mcb_pmsm_foc_hall_f28379d_B.Switch1_f[2]);
   }
 
-  /* SignalConversion generated from: '<S1>/Speed_fb' */
+  /* SignalConversion generated from: '<S2>/Speed_fb' */
   mcb_pmsm_foc_hall_f28379d_B.Speed_PU = mcb_pmsm_foc_hall_f28379d_B.Merge_d;
 
-  /* Update for Delay: '<S178>/Delay One Step1' */
+  /* Update for Delay: '<S184>/Delay One Step1' */
   mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep1_DSTATE =
     mcb_pmsm_foc_hall_f28379d_B.Compare_n;
 
-  /* Update for Delay: '<S178>/Delay One Step' */
+  /* Update for Delay: '<S184>/Delay One Step' */
   if (mcb_pmsm_foc_hall_f28379d_B.OR) {
     mcb_pmsm_foc_hall_f28379d_DWork.DelayOneStep_DSTATE =
       mcb_pmsm_foc_hall_f28379d_B.Sum_m3;
   }
 
-  /* End of Update for Delay: '<S178>/Delay One Step' */
+  /* End of Update for Delay: '<S184>/Delay One Step' */
 
-  /* Update for UnitDelay: '<S228>/Output' */
-  mcb_pmsm_foc_hall_f28379d_DWork.Output_DSTATE =
-    mcb_pmsm_foc_hall_f28379d_B.FixPtSwitch;
-
-  /* Update for DiscreteIntegrator: '<S128>/Integrator' */
+  /* Update for DiscreteIntegrator: '<S126>/Integrator' */
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE +=
     mcb_pmsm_foc_hall_f28379d_B.Switch_ls;
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_PrevResetState = (int16_T)
     mcb_pmsm_foc_hall_f28379d_B.LogicalOperator;
 
-  /* Update for DiscreteIntegrator: '<S77>/Integrator' */
+  /* Update for DiscreteIntegrator: '<S75>/Integrator' */
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_DSTATE_j +=
     mcb_pmsm_foc_hall_f28379d_B.Switch_b;
   mcb_pmsm_foc_hall_f28379d_DWork.Integrator_PrevResetState_m = (int16_T)
@@ -2851,178 +2701,178 @@ void mcb_pmsm_foc_CurrentControl(void)
 
 /*
  * Output and update for action system:
- *    '<S251>/Output 1'
- *    '<S273>/Output 1'
- *    '<S295>/Output 1'
+ *    '<S246>/Output 1'
+ *    '<S268>/Output 1'
+ *    '<S290>/Output 1'
  */
 void mcb_pmsm_foc_hall_f_Output1(boolean_T *rty_Out1)
 {
-  /* SignalConversion generated from: '<S256>/Out1' incorporates:
-   *  Constant: '<S256>/Constant'
+  /* SignalConversion generated from: '<S251>/Out1' incorporates:
+   *  Constant: '<S251>/Constant'
    */
   *rty_Out1 = true;
 }
 
 /*
  * Output and update for action system:
- *    '<S251>/Output 0'
- *    '<S273>/Output 0'
- *    '<S295>/Output 0'
+ *    '<S246>/Output 0'
+ *    '<S268>/Output 0'
+ *    '<S290>/Output 0'
  */
 void mcb_pmsm_foc_hall_f_Output0(boolean_T *rty_Out1)
 {
-  /* SignalConversion generated from: '<S255>/Out1' incorporates:
-   *  Constant: '<S255>/Constant'
+  /* SignalConversion generated from: '<S250>/Out1' incorporates:
+   *  Constant: '<S250>/Constant'
    */
   *rty_Out1 = false;
 }
 
 /*
  * System initialize for action system:
- *    '<S257>/Valid Halls'
- *    '<S279>/Valid Halls'
- *    '<S301>/Valid Halls'
+ *    '<S252>/Valid Halls'
+ *    '<S274>/Valid Halls'
+ *    '<S296>/Valid Halls'
  */
 void mcb_pmsm_fo_ValidHalls_Init(rtB_ValidHalls_mcb_pmsm_foc_hal *localB)
 {
-  /* SystemInitialize for Merge: '<S259>/Merge' */
+  /* SystemInitialize for Merge: '<S254>/Merge' */
   localB->Merge = 0U;
 
-  /* SystemInitialize for Merge: '<S259>/Merge1' */
+  /* SystemInitialize for Merge: '<S254>/Merge1' */
   localB->Merge1 = 0U;
 
-  /* SystemInitialize for Merge: '<S259>/Merge2' */
+  /* SystemInitialize for Merge: '<S254>/Merge2' */
   localB->Merge2 = 0;
 
-  /* SystemInitialize for Merge: '<S259>/Merge3' */
+  /* SystemInitialize for Merge: '<S254>/Merge3' */
   localB->Merge3 = 0U;
 }
 
 /*
  * Output and update for action system:
- *    '<S257>/Valid Halls'
- *    '<S279>/Valid Halls'
- *    '<S301>/Valid Halls'
+ *    '<S252>/Valid Halls'
+ *    '<S274>/Valid Halls'
+ *    '<S296>/Valid Halls'
  */
 void mcb_pmsm_foc_hal_ValidHalls(uint16_T rtu_hallReading, uint16_T
   rtu_previousState, int16_T rtu_previous_direction, boolean_T
   *rty_directional_speed_valid_fla, int16_T *rty_direction, uint16_T
   *rty_inValidHall, rtB_ValidHalls_mcb_pmsm_foc_hal *localB)
 {
-  /* SwitchCase: '<S259>/Switch Case' */
+  /* SwitchCase: '<S254>/Switch Case' */
   switch ((int32_T)rtu_hallReading) {
    case 5L:
-    /* Outputs for IfAction SubSystem: '<S259>/If Action Subsystem' incorporates:
-     *  ActionPort: '<S260>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S254>/If Action Subsystem' incorporates:
+     *  ActionPort: '<S255>/Action Port'
      */
-    /* Merge: '<S259>/Merge' incorporates:
-     *  Constant: '<S260>/previous'
-     *  SignalConversion generated from: '<S260>/Out1'
+    /* Merge: '<S254>/Merge' incorporates:
+     *  Constant: '<S255>/previous'
+     *  SignalConversion generated from: '<S255>/Out1'
      */
     localB->Merge = 1U;
 
-    /* Merge: '<S259>/Merge1' incorporates:
-     *  Constant: '<S260>/next'
-     *  SignalConversion generated from: '<S260>/Out2'
+    /* Merge: '<S254>/Merge1' incorporates:
+     *  Constant: '<S255>/next'
+     *  SignalConversion generated from: '<S255>/Out2'
      */
     localB->Merge1 = 4U;
 
-    /* End of Outputs for SubSystem: '<S259>/If Action Subsystem' */
+    /* End of Outputs for SubSystem: '<S254>/If Action Subsystem' */
     break;
 
    case 4L:
-    /* Outputs for IfAction SubSystem: '<S259>/If Action Subsystem1' incorporates:
-     *  ActionPort: '<S261>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S254>/If Action Subsystem1' incorporates:
+     *  ActionPort: '<S256>/Action Port'
      */
-    /* Merge: '<S259>/Merge' incorporates:
-     *  Constant: '<S261>/previous'
-     *  SignalConversion generated from: '<S261>/Out1'
+    /* Merge: '<S254>/Merge' incorporates:
+     *  Constant: '<S256>/previous'
+     *  SignalConversion generated from: '<S256>/Out1'
      */
     localB->Merge = 5U;
 
-    /* Merge: '<S259>/Merge1' incorporates:
-     *  Constant: '<S261>/next'
-     *  SignalConversion generated from: '<S261>/Out2'
+    /* Merge: '<S254>/Merge1' incorporates:
+     *  Constant: '<S256>/next'
+     *  SignalConversion generated from: '<S256>/Out2'
      */
     localB->Merge1 = 6U;
 
-    /* End of Outputs for SubSystem: '<S259>/If Action Subsystem1' */
+    /* End of Outputs for SubSystem: '<S254>/If Action Subsystem1' */
     break;
 
    case 6L:
-    /* Outputs for IfAction SubSystem: '<S259>/If Action Subsystem2' incorporates:
-     *  ActionPort: '<S262>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S254>/If Action Subsystem2' incorporates:
+     *  ActionPort: '<S257>/Action Port'
      */
-    /* Merge: '<S259>/Merge' incorporates:
-     *  Constant: '<S262>/previous'
-     *  SignalConversion generated from: '<S262>/Out1'
+    /* Merge: '<S254>/Merge' incorporates:
+     *  Constant: '<S257>/previous'
+     *  SignalConversion generated from: '<S257>/Out1'
      */
     localB->Merge = 4U;
 
-    /* Merge: '<S259>/Merge1' incorporates:
-     *  Constant: '<S262>/next'
-     *  SignalConversion generated from: '<S262>/Out2'
+    /* Merge: '<S254>/Merge1' incorporates:
+     *  Constant: '<S257>/next'
+     *  SignalConversion generated from: '<S257>/Out2'
      */
     localB->Merge1 = 2U;
 
-    /* End of Outputs for SubSystem: '<S259>/If Action Subsystem2' */
+    /* End of Outputs for SubSystem: '<S254>/If Action Subsystem2' */
     break;
 
    case 2L:
-    /* Outputs for IfAction SubSystem: '<S259>/If Action Subsystem3' incorporates:
-     *  ActionPort: '<S263>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S254>/If Action Subsystem3' incorporates:
+     *  ActionPort: '<S258>/Action Port'
      */
-    /* Merge: '<S259>/Merge' incorporates:
-     *  Constant: '<S263>/previous'
-     *  SignalConversion generated from: '<S263>/Out1'
+    /* Merge: '<S254>/Merge' incorporates:
+     *  Constant: '<S258>/previous'
+     *  SignalConversion generated from: '<S258>/Out1'
      */
     localB->Merge = 6U;
 
-    /* Merge: '<S259>/Merge1' incorporates:
-     *  Constant: '<S263>/next'
-     *  SignalConversion generated from: '<S263>/Out2'
+    /* Merge: '<S254>/Merge1' incorporates:
+     *  Constant: '<S258>/next'
+     *  SignalConversion generated from: '<S258>/Out2'
      */
     localB->Merge1 = 3U;
 
-    /* End of Outputs for SubSystem: '<S259>/If Action Subsystem3' */
+    /* End of Outputs for SubSystem: '<S254>/If Action Subsystem3' */
     break;
 
    case 3L:
-    /* Outputs for IfAction SubSystem: '<S259>/If Action Subsystem4' incorporates:
-     *  ActionPort: '<S264>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S254>/If Action Subsystem4' incorporates:
+     *  ActionPort: '<S259>/Action Port'
      */
-    /* Merge: '<S259>/Merge' incorporates:
-     *  Constant: '<S264>/previous'
-     *  SignalConversion generated from: '<S264>/Out1'
+    /* Merge: '<S254>/Merge' incorporates:
+     *  Constant: '<S259>/previous'
+     *  SignalConversion generated from: '<S259>/Out1'
      */
     localB->Merge = 2U;
 
-    /* Merge: '<S259>/Merge1' incorporates:
-     *  Constant: '<S264>/next'
-     *  SignalConversion generated from: '<S264>/Out2'
+    /* Merge: '<S254>/Merge1' incorporates:
+     *  Constant: '<S259>/next'
+     *  SignalConversion generated from: '<S259>/Out2'
      */
     localB->Merge1 = 1U;
 
-    /* End of Outputs for SubSystem: '<S259>/If Action Subsystem4' */
+    /* End of Outputs for SubSystem: '<S254>/If Action Subsystem4' */
     break;
 
    case 1L:
-    /* Outputs for IfAction SubSystem: '<S259>/If Action Subsystem5' incorporates:
-     *  ActionPort: '<S265>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S254>/If Action Subsystem5' incorporates:
+     *  ActionPort: '<S260>/Action Port'
      */
-    /* Merge: '<S259>/Merge' incorporates:
-     *  Constant: '<S265>/previous'
-     *  SignalConversion generated from: '<S265>/Out1'
+    /* Merge: '<S254>/Merge' incorporates:
+     *  Constant: '<S260>/previous'
+     *  SignalConversion generated from: '<S260>/Out1'
      */
     localB->Merge = 3U;
 
-    /* Merge: '<S259>/Merge1' incorporates:
-     *  Constant: '<S265>/next'
-     *  SignalConversion generated from: '<S265>/Out2'
+    /* Merge: '<S254>/Merge1' incorporates:
+     *  Constant: '<S260>/next'
+     *  SignalConversion generated from: '<S260>/Out2'
      */
     localB->Merge1 = 5U;
 
-    /* End of Outputs for SubSystem: '<S259>/If Action Subsystem5' */
+    /* End of Outputs for SubSystem: '<S254>/If Action Subsystem5' */
     break;
 
    default:
@@ -3030,98 +2880,98 @@ void mcb_pmsm_foc_hal_ValidHalls(uint16_T rtu_hallReading, uint16_T
     break;
   }
 
-  /* End of SwitchCase: '<S259>/Switch Case' */
+  /* End of SwitchCase: '<S254>/Switch Case' */
 
-  /* If: '<S259>/If' */
+  /* If: '<S254>/If' */
   if (rtu_previousState == localB->Merge) {
-    /* Outputs for IfAction SubSystem: '<S259>/If Action Subsystem6' incorporates:
-     *  ActionPort: '<S266>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S254>/If Action Subsystem6' incorporates:
+     *  ActionPort: '<S261>/Action Port'
      */
-    /* Merge: '<S259>/Merge2' incorporates:
-     *  Constant: '<S266>/Constant'
-     *  SignalConversion generated from: '<S266>/direction'
+    /* Merge: '<S254>/Merge2' incorporates:
+     *  Constant: '<S261>/Constant'
+     *  SignalConversion generated from: '<S261>/direction'
      */
     localB->Merge2 = 1;
 
-    /* Merge: '<S259>/Merge3' incorporates:
-     *  Constant: '<S266>/Constant1'
-     *  SignalConversion generated from: '<S266>/sequence_check'
+    /* Merge: '<S254>/Merge3' incorporates:
+     *  Constant: '<S261>/Constant1'
+     *  SignalConversion generated from: '<S261>/sequence_check'
      */
     localB->Merge3 = 0U;
 
-    /* End of Outputs for SubSystem: '<S259>/If Action Subsystem6' */
+    /* End of Outputs for SubSystem: '<S254>/If Action Subsystem6' */
   } else if (rtu_previousState == localB->Merge1) {
-    /* Outputs for IfAction SubSystem: '<S259>/If Action Subsystem7' incorporates:
-     *  ActionPort: '<S267>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S254>/If Action Subsystem7' incorporates:
+     *  ActionPort: '<S262>/Action Port'
      */
-    /* Merge: '<S259>/Merge2' incorporates:
-     *  Constant: '<S267>/Constant'
-     *  SignalConversion generated from: '<S267>/direction'
+    /* Merge: '<S254>/Merge2' incorporates:
+     *  Constant: '<S262>/Constant'
+     *  SignalConversion generated from: '<S262>/direction'
      */
     localB->Merge2 = -1;
 
-    /* Merge: '<S259>/Merge3' incorporates:
-     *  Constant: '<S267>/Constant1'
-     *  SignalConversion generated from: '<S267>/sequence_check'
+    /* Merge: '<S254>/Merge3' incorporates:
+     *  Constant: '<S262>/Constant1'
+     *  SignalConversion generated from: '<S262>/sequence_check'
      */
     localB->Merge3 = 0U;
 
-    /* End of Outputs for SubSystem: '<S259>/If Action Subsystem7' */
+    /* End of Outputs for SubSystem: '<S254>/If Action Subsystem7' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S259>/If Action Subsystem8' incorporates:
-     *  ActionPort: '<S268>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S254>/If Action Subsystem8' incorporates:
+     *  ActionPort: '<S263>/Action Port'
      */
-    /* Merge: '<S259>/Merge3' incorporates:
-     *  Constant: '<S268>/Constant'
-     *  SignalConversion generated from: '<S268>/sequence_check'
+    /* Merge: '<S254>/Merge3' incorporates:
+     *  Constant: '<S263>/Constant'
+     *  SignalConversion generated from: '<S263>/sequence_check'
      */
     localB->Merge3 = 1U;
 
-    /* End of Outputs for SubSystem: '<S259>/If Action Subsystem8' */
+    /* End of Outputs for SubSystem: '<S254>/If Action Subsystem8' */
   }
 
-  /* End of If: '<S259>/If' */
+  /* End of If: '<S254>/If' */
 
-  /* SignalConversion: '<S259>/Signal Conversion' */
+  /* SignalConversion: '<S254>/Signal Conversion' */
   *rty_inValidHall = localB->Merge3;
 
-  /* SignalConversion: '<S259>/Signal Conversion1' */
+  /* SignalConversion: '<S254>/Signal Conversion1' */
   *rty_direction = localB->Merge2;
 
-  /* Switch: '<S259>/Switch' incorporates:
-   *  Constant: '<S259>/Constant'
+  /* Switch: '<S254>/Switch' incorporates:
+   *  Constant: '<S254>/Constant'
    */
   if (localB->Merge3 != 0U) {
     *rty_directional_speed_valid_fla = false;
   } else {
-    /* RelationalOperator: '<S259>/Relational Operator' */
+    /* RelationalOperator: '<S254>/Relational Operator' */
     localB->RelationalOperator = (localB->Merge2 == rtu_previous_direction);
     *rty_directional_speed_valid_fla = localB->RelationalOperator;
   }
 
-  /* End of Switch: '<S259>/Switch' */
+  /* End of Switch: '<S254>/Switch' */
 }
 
 /*
  * Output and update for action system:
- *    '<S257>/Bad hall (glitch or wrong connection)'
- *    '<S279>/Bad hall (glitch or wrong connection)'
- *    '<S301>/Bad hall (glitch or wrong connection)'
+ *    '<S252>/Bad hall (glitch or wrong connection)'
+ *    '<S274>/Bad hall (glitch or wrong connection)'
+ *    '<S296>/Bad hall (glitch or wrong connection)'
  */
 void Badhallglitchorwrongconnect(int16_T rtu_previous_direction, uint16_T
   *rty_inValidHall, int16_T *rty_direction, boolean_T
   *rty_directional_speed_valid_fla)
 {
-  /* SignalConversion generated from: '<S258>/inValidHall' incorporates:
-   *  Constant: '<S258>/Constant'
+  /* SignalConversion generated from: '<S253>/inValidHall' incorporates:
+   *  Constant: '<S253>/Constant'
    */
   *rty_inValidHall = 1U;
 
-  /* SignalConversion: '<S258>/Signal Conversion' */
+  /* SignalConversion: '<S253>/Signal Conversion' */
   *rty_direction = rtu_previous_direction;
 
-  /* SignalConversion generated from: '<S258>/directional_speed_valid_flag' incorporates:
-   *  Constant: '<S258>/Constant1'
+  /* SignalConversion generated from: '<S253>/directional_speed_valid_flag' incorporates:
+   *  Constant: '<S253>/Constant1'
    */
   *rty_directional_speed_valid_fla = false;
 }
@@ -3131,7 +2981,7 @@ void mcb_SPIMasterTransfer2_Init(rtDW_SPIMasterTransfer2_mcb_pms *localDW)
 {
   uint32_T SPIPinsLoc;
 
-  /* Start for MATLABSystem: '<S328>/SPI Master Transfer2' */
+  /* Start for MATLABSystem: '<S323>/SPI Master Transfer2' */
   localDW->obj.matlabCodegenIsDeleted = false;
   localDW->objisempty = true;
   localDW->obj.isInitialized = 1L;
@@ -3150,7 +3000,7 @@ void mcb_pmsm_SPIMasterTransfer2(uint16_T rtu_0, rtB_SPIMasterTransfer2_mcb_pmsm
   uint16_T rdDataRaw;
   uint16_T status;
 
-  /* MATLABSystem: '<S328>/SPI Master Transfer2' */
+  /* MATLABSystem: '<S323>/SPI Master Transfer2' */
   MW_SPI_SetSlaveSelect(localDW->obj.MW_SPI_HANDLE, 0U, true);
   status = MW_SPI_SetFormat(localDW->obj.MW_SPI_HANDLE, 16U, MW_SPI_MODE_0,
     MW_SPI_MOST_SIGNIFICANT_BIT_FIRST);
@@ -3159,7 +3009,7 @@ void mcb_pmsm_SPIMasterTransfer2(uint16_T rtu_0, rtB_SPIMasterTransfer2_mcb_pmsm
       1UL);
   }
 
-  /* MATLABSystem: '<S328>/SPI Master Transfer2' */
+  /* MATLABSystem: '<S323>/SPI Master Transfer2' */
   localB->SPIMasterTransfer2 = rdDataRaw;
 }
 
@@ -3168,7 +3018,7 @@ void mcb_SPIMasterTransfer2_Term(rtDW_SPIMasterTransfer2_mcb_pms *localDW)
 {
   uint32_T SPIPinsLoc;
 
-  /* Terminate for MATLABSystem: '<S328>/SPI Master Transfer2' */
+  /* Terminate for MATLABSystem: '<S323>/SPI Master Transfer2' */
   if (!localDW->obj.matlabCodegenIsDeleted) {
     localDW->obj.matlabCodegenIsDeleted = true;
     if ((localDW->obj.isInitialized == 1L) && localDW->obj.isSetupComplete) {
@@ -3178,17 +3028,17 @@ void mcb_SPIMasterTransfer2_Term(rtDW_SPIMasterTransfer2_mcb_pms *localDW)
     }
   }
 
-  /* End of Terminate for MATLABSystem: '<S328>/SPI Master Transfer2' */
+  /* End of Terminate for MATLABSystem: '<S323>/SPI Master Transfer2' */
 }
 
 /* System initialize for atomic system: '<Root>/Speed Control' */
 void mcb_pmsm__SpeedControl_Init(rtB_SpeedControl_mcb_pmsm_foc_h *localB,
   rtDW_SpeedControl_mcb_pmsm_foc_ *localDW)
 {
-  /* Start for Constant: '<S338>/Ki2' */
+  /* Start for Constant: '<S333>/Ki2' */
   localB->Ki2 = 0.0F;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S375>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S370>/Integrator' */
   localDW->Integrator_DSTATE = 0.0F;
   localDW->Integrator_PrevResetState = 0;
 }
@@ -3201,180 +3051,180 @@ void mcb_pmsm_foc_h_SpeedControl(real32_T rtu_Speed_Ref_PU, real32_T
 {
   real32_T u0;
 
-  /* Constant: '<S10>/Id_ref' */
+  /* Constant: '<S11>/Id_ref' */
   localB->Id_ref = 0.0F;
 
-  /* DataStoreRead: '<S338>/Data Store Read2' */
+  /* DataStoreRead: '<S333>/Data Store Read2' */
   localB->DataStoreRead2 = *rtd_Enable;
 
-  /* DataStoreRead: '<S339>/Data Store Read1' */
+  /* DataStoreRead: '<S334>/Data Store Read1' */
   localB->DataStoreRead1 = *rtd_Enable;
 
-  /* Switch: '<S339>/Switch' */
+  /* Switch: '<S334>/Switch' */
   if (localB->DataStoreRead1) {
-    /* Switch: '<S339>/Switch' */
+    /* Switch: '<S334>/Switch' */
     localB->Switch = rtu_Speed_Ref_PU;
   } else {
-    /* Switch: '<S339>/Switch' */
+    /* Switch: '<S334>/Switch' */
     localB->Switch = rtu_Speed_Meas_PU;
   }
 
-  /* End of Switch: '<S339>/Switch' */
+  /* End of Switch: '<S334>/Switch' */
 
-  /* Product: '<S394>/Product' incorporates:
-   *  Constant: '<S394>/Filter_Constant'
+  /* Product: '<S389>/Product' incorporates:
+   *  Constant: '<S389>/Filter_Constant'
    */
   localB->Product = localB->Switch * 0.1F;
 
-  /* UnitDelay: '<S394>/Unit Delay' */
+  /* UnitDelay: '<S389>/Unit Delay' */
   localB->UnitDelay = localDW->UnitDelay_DSTATE;
 
-  /* Product: '<S394>/Product1' incorporates:
-   *  Constant: '<S394>/One'
+  /* Product: '<S389>/Product1' incorporates:
+   *  Constant: '<S389>/One'
    */
   localB->Product1 = 0.9F * localB->UnitDelay;
 
-  /* Sum: '<S394>/Add1' */
+  /* Sum: '<S389>/Add1' */
   localB->Add1 = localB->Product + localB->Product1;
 
-  /* Sum: '<S338>/Sum' */
+  /* Sum: '<S333>/Sum' */
   localB->Sum = localB->Add1 - rtu_Speed_Meas_PU;
 
-  /* Product: '<S380>/PProd Out' incorporates:
-   *  Constant: '<S338>/Kp1'
+  /* Product: '<S375>/PProd Out' incorporates:
+   *  Constant: '<S333>/Kp1'
    */
   localB->PProdOut = localB->Sum * 0.3F;
 
-  /* Logic: '<S338>/Logical Operator' */
+  /* Logic: '<S333>/Logical Operator' */
   localB->LogicalOperator = !localB->DataStoreRead2;
 
-  /* Constant: '<S338>/Ki2' */
+  /* Constant: '<S333>/Ki2' */
   localB->Ki2 = 0.0F;
 
-  /* DiscreteIntegrator: '<S375>/Integrator' */
+  /* DiscreteIntegrator: '<S370>/Integrator' */
   if (localB->LogicalOperator || (localDW->Integrator_PrevResetState != 0)) {
     localDW->Integrator_DSTATE = 0.0F;
   }
 
-  /* DiscreteIntegrator: '<S375>/Integrator' */
+  /* DiscreteIntegrator: '<S370>/Integrator' */
   localB->Integrator = localDW->Integrator_DSTATE;
 
-  /* Sum: '<S384>/Sum' */
+  /* Sum: '<S379>/Sum' */
   localB->Sum_i = localB->PProdOut + localB->Integrator;
 
-  /* DeadZone: '<S368>/DeadZone' */
+  /* DeadZone: '<S363>/DeadZone' */
   if (localB->Sum_i > 1.0F) {
-    /* DeadZone: '<S368>/DeadZone' */
+    /* DeadZone: '<S363>/DeadZone' */
     localB->DeadZone = localB->Sum_i - 1.0F;
   } else if (localB->Sum_i >= -1.0F) {
-    /* DeadZone: '<S368>/DeadZone' */
+    /* DeadZone: '<S363>/DeadZone' */
     localB->DeadZone = 0.0F;
   } else {
-    /* DeadZone: '<S368>/DeadZone' */
+    /* DeadZone: '<S363>/DeadZone' */
     localB->DeadZone = localB->Sum_i - -1.0F;
   }
 
-  /* End of DeadZone: '<S368>/DeadZone' */
+  /* End of DeadZone: '<S363>/DeadZone' */
 
-  /* RelationalOperator: '<S366>/Relational Operator' incorporates:
-   *  Constant: '<S366>/Clamping_zero'
+  /* RelationalOperator: '<S361>/Relational Operator' incorporates:
+   *  Constant: '<S361>/Clamping_zero'
    */
   localB->RelationalOperator = (localB->DeadZone != 0.0F);
 
-  /* RelationalOperator: '<S366>/fix for DT propagation issue' incorporates:
-   *  Constant: '<S366>/Clamping_zero'
+  /* RelationalOperator: '<S361>/fix for DT propagation issue' incorporates:
+   *  Constant: '<S361>/Clamping_zero'
    */
   localB->fixforDTpropagationissue = (localB->DeadZone > 0.0F);
 
-  /* Switch: '<S366>/Switch1' */
+  /* Switch: '<S361>/Switch1' */
   if (localB->fixforDTpropagationissue) {
-    /* Switch: '<S366>/Switch1' incorporates:
-     *  Constant: '<S366>/Constant'
+    /* Switch: '<S361>/Switch1' incorporates:
+     *  Constant: '<S361>/Constant'
      */
     localB->Switch1 = 1;
   } else {
-    /* Switch: '<S366>/Switch1' incorporates:
-     *  Constant: '<S366>/Constant2'
+    /* Switch: '<S361>/Switch1' incorporates:
+     *  Constant: '<S361>/Constant2'
      */
     localB->Switch1 = -1;
   }
 
-  /* End of Switch: '<S366>/Switch1' */
+  /* End of Switch: '<S361>/Switch1' */
 
-  /* Product: '<S372>/IProd Out' incorporates:
-   *  Constant: '<S338>/Ki1'
+  /* Product: '<S367>/IProd Out' incorporates:
+   *  Constant: '<S333>/Ki1'
    */
-  localB->IProdOut = localB->Sum * 6.25E-5F;
+  localB->IProdOut = localB->Sum * 5.0E-6F;
 
-  /* RelationalOperator: '<S366>/fix for DT propagation issue1' incorporates:
-   *  Constant: '<S366>/Clamping_zero'
+  /* RelationalOperator: '<S361>/fix for DT propagation issue1' incorporates:
+   *  Constant: '<S361>/Clamping_zero'
    */
   localB->fixforDTpropagationissue1 = (localB->IProdOut > 0.0F);
 
-  /* Switch: '<S366>/Switch2' */
+  /* Switch: '<S361>/Switch2' */
   if (localB->fixforDTpropagationissue1) {
-    /* Switch: '<S366>/Switch2' incorporates:
-     *  Constant: '<S366>/Constant3'
+    /* Switch: '<S361>/Switch2' incorporates:
+     *  Constant: '<S361>/Constant3'
      */
     localB->Switch2 = 1;
   } else {
-    /* Switch: '<S366>/Switch2' incorporates:
-     *  Constant: '<S366>/Constant4'
+    /* Switch: '<S361>/Switch2' incorporates:
+     *  Constant: '<S361>/Constant4'
      */
     localB->Switch2 = -1;
   }
 
-  /* End of Switch: '<S366>/Switch2' */
+  /* End of Switch: '<S361>/Switch2' */
 
-  /* RelationalOperator: '<S366>/Equal1' incorporates:
-   *  Switch: '<S366>/Switch1'
-   *  Switch: '<S366>/Switch2'
+  /* RelationalOperator: '<S361>/Equal1' incorporates:
+   *  Switch: '<S361>/Switch1'
+   *  Switch: '<S361>/Switch2'
    */
   localB->Equal1 = (localB->Switch1 == localB->Switch2);
 
-  /* Logic: '<S366>/AND3' */
+  /* Logic: '<S361>/AND3' */
   localB->AND3 = (localB->RelationalOperator && localB->Equal1);
 
-  /* Switch: '<S366>/Switch' */
+  /* Switch: '<S361>/Switch' */
   if (localB->AND3) {
-    /* Switch: '<S366>/Switch' incorporates:
-     *  Constant: '<S366>/Constant1'
+    /* Switch: '<S361>/Switch' incorporates:
+     *  Constant: '<S361>/Constant1'
      */
     localB->Switch_b = 0.0F;
   } else {
-    /* Switch: '<S366>/Switch' */
+    /* Switch: '<S361>/Switch' */
     localB->Switch_b = localB->IProdOut;
   }
 
-  /* End of Switch: '<S366>/Switch' */
+  /* End of Switch: '<S361>/Switch' */
 
-  /* Saturate: '<S382>/Saturation' */
+  /* Saturate: '<S377>/Saturation' */
   u0 = localB->Sum_i;
   if (u0 > 1.0F) {
-    /* Saturate: '<S382>/Saturation' */
+    /* Saturate: '<S377>/Saturation' */
     localB->Saturation = 1.0F;
   } else if (u0 < -1.0F) {
-    /* Saturate: '<S382>/Saturation' */
+    /* Saturate: '<S377>/Saturation' */
     localB->Saturation = -1.0F;
   } else {
-    /* Saturate: '<S382>/Saturation' */
+    /* Saturate: '<S377>/Saturation' */
     localB->Saturation = u0;
   }
 
-  /* End of Saturate: '<S382>/Saturation' */
+  /* End of Saturate: '<S377>/Saturation' */
 
-  /* Update for UnitDelay: '<S394>/Unit Delay' */
+  /* Update for UnitDelay: '<S389>/Unit Delay' */
   localDW->UnitDelay_DSTATE = localB->Add1;
 
-  /* Update for DiscreteIntegrator: '<S375>/Integrator' */
+  /* Update for DiscreteIntegrator: '<S370>/Integrator' */
   localDW->Integrator_DSTATE += localB->Switch_b;
   localDW->Integrator_PrevResetState = (int16_T)localB->LogicalOperator;
 }
 
 /* Model step function for TID0 */
-void mcb_pmsm_foc_hall_f28379d_step0(void) /* Sample time: [0.000625s, 0.0s] */
+void mcb_pmsm_foc_hall_f28379d_step0(void) /* Sample time: [5.0E-5s, 0.0s] */
 {
-  {                                    /* Sample time: [0.000625s, 0.0s] */
+  {                                    /* Sample time: [5.0E-5s, 0.0s] */
     rate_monotonic_scheduler();
   }
 
@@ -3387,8 +3237,12 @@ void mcb_pmsm_foc_hall_f28379d_step0(void) /* Sample time: [0.000625s, 0.0s] */
     mcb_pmsm_foc_hall_f28379d_DWork.RT1_Buffer[mcb_pmsm_foc_hall_f28379d_DWork.RT1_semaphoreTaken];
 
   /* RateTransition: '<Root>/RT6' */
+  mcb_pmsm_foc_hall_f28379d_DWork.RT6_semaphoreTaken =
+    mcb_pmsm_foc_hall_f28379d_DWork.RT6_ActiveBufIdx;
+
+  /* RateTransition: '<Root>/RT6' */
   mcb_pmsm_foc_hall_f28379d_B.RT6 =
-    mcb_pmsm_foc_hall_f28379d_DWork.RT6_Buffer[mcb_pmsm_foc_hall_f28379d_DWork.RT6_ActiveBufIdx];
+    mcb_pmsm_foc_hall_f28379d_DWork.RT6_Buffer[mcb_pmsm_foc_hall_f28379d_DWork.RT6_semaphoreTaken];
 
   /* RateTransition: '<Root>/RT7' */
   mcb_pmsm_foc_hall_f28379d_B.RT7 = mcb_pmsm_foc_hall_f28379d_B.RT1;
@@ -3416,14 +3270,20 @@ void mcb_pmsm_foc_hall_f28379d_step0(void) /* Sample time: [0.000625s, 0.0s] */
 void mcb_pmsm_foc_hall_f28379d_step1(void) /* Sample time: [0.5s, 0.0s] */
 {
   /* Outputs for Atomic SubSystem: '<Root>/Heartbeat LED' */
-  /* S-Function (c280xgpio_do): '<S330>/Digital Output2' incorporates:
-   *  Constant: '<S7>/RED_LED'
+  /* S-Function (c280xgpio_do): '<S325>/Digital Output2' incorporates:
+   *  Constant: '<S8>/RED_LED'
    */
   {
     GpioDataRegs.GPBTOGGLE.bit.GPIO34 = (uint16_T)((1U) != 0);
   }
 
   /* End of Outputs for SubSystem: '<Root>/Heartbeat LED' */
+}
+
+/* Model step function for TID2 */
+void mcb_pmsm_foc_hall_f28379d_step2(void) /* Sample time: [1.0s, 0.0s] */
+{
+  /* (no output/update code required) */
 }
 
 /* Model initialize function */
@@ -3443,11 +3303,6 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
                 sizeof(BlockIO_mcb_pmsm_foc_hall_f2837));
 
   {
-    int16_T i;
-    for (i = 0; i < 9; i++) {
-      mcb_pmsm_foc_hall_f28379d_B.TmpSignalConversionAtSelectorIn[i] = 0.0F;
-    }
-
     mcb_pmsm_foc_hall_f28379d_B.RT1 = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.RT6 = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.RT7 = 0.0F;
@@ -3460,15 +3315,14 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
     mcb_pmsm_foc_hall_f28379d_B.Switch_h = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Merge_m = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Floor = 0.0F;
-    mcb_pmsm_foc_hall_f28379d_B.Add_e = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Add = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.GetADCVoltage[0] = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.GetADCVoltage[1] = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.GetCurrents[0] = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.GetCurrents[1] = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[0] = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.PU_Conversion[1] = 0.0F;
-    mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1 = 0.0F;
-    mcb_pmsm_foc_hall_f28379d_B.Merge_j = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Merge_mm = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.indexing = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Lookup[0] = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Lookup[1] = 0.0F;
@@ -3482,8 +3336,6 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
     mcb_pmsm_foc_hall_f28379d_B.Sum5 = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Product1 = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Sum6 = 0.0F;
-    mcb_pmsm_foc_hall_f28379d_B.Selector[0] = 0.0F;
-    mcb_pmsm_foc_hall_f28379d_B.Selector[1] = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Sum_g = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.PProdOut = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Kp1 = 0.0F;
@@ -3509,6 +3361,20 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
     mcb_pmsm_foc_hall_f28379d_B.DeadZone_g = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.IProdOut_h = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Switch_ls = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Merge_p = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.indexing_i = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_f = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Lookup_f[0] = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Lookup_f[1] = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Lookup_f[2] = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Lookup_f[3] = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Sum3_c = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Sum2_p = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Product_d = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Sum5_k = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Product1_p = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Sum4_j = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.Sum6_e = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Switch_f = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Speed_PU = 0.0F;
@@ -3552,8 +3418,6 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
     mcb_pmsm_foc_hall_f28379d_B.Product_i = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Merge1_la = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.Merge1_d = 0.0F;
-    mcb_pmsm_foc_hall_f28379d_B.Convert_back = 0.0F;
-    mcb_pmsm_foc_hall_f28379d_B.Convert_back_h = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.acos_e = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.bsin = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.sum_Ds = 0.0F;
@@ -3610,6 +3474,10 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
     mcb_pmsm_foc_hall_f28379d_B.SpeedControl.IProdOut = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.SpeedControl.Switch_b = 0.0F;
     mcb_pmsm_foc_hall_f28379d_B.SpeedControl.Saturation = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.IfActionSubsystem1_i.Convert_back = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.IfActionSubsystem_n.Convert_back = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.IfActionSubsystem1.Convert_back = 0.0F;
+    mcb_pmsm_foc_hall_f28379d_B.IfActionSubsystem.Convert_back = 0.0F;
   }
 
   /* states (dwork) */
@@ -3630,7 +3498,7 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
   mcb_pmsm_foc_hall_f28379d_DWork.SpeedControl.Integrator_DSTATE = 0.0F;
 
   {
-    uint16_T s322_iter;
+    uint16_T s317_iter;
 
     /* Start for DataStoreMemory: '<Root>/Data Store Memory5' */
     mcb_pmsm_foc_hall_f28379d_DWork.IaOffset = 2295U;
@@ -3641,47 +3509,47 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
     /* Start for DataStoreMemory: '<Root>/Data Store Memory7' */
     mcb_pmsm_foc_hall_f28379d_DWork.Debug_signals = 5U;
 
-    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S244>/Hardware Interrupt' incorporates:
+    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S239>/Hardware Interrupt' incorporates:
      *  SubSystem: '<Root>/Hall Sensor A'
      */
     /* System initialize for function-call system: '<Root>/Hall Sensor A' */
 
-    /* SystemInitialize for IfAction SubSystem: '<S257>/Valid Halls' */
+    /* SystemInitialize for IfAction SubSystem: '<S252>/Valid Halls' */
     mcb_pmsm_fo_ValidHalls_Init(&mcb_pmsm_foc_hall_f28379d_B.ValidHalls);
 
-    /* End of SystemInitialize for SubSystem: '<S257>/Valid Halls' */
+    /* End of SystemInitialize for SubSystem: '<S252>/Valid Halls' */
 
-    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S246>/Hardware Interrupt' incorporates:
+    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S241>/Hardware Interrupt' incorporates:
      *  SubSystem: '<Root>/Hall Sensor B'
      */
     /* System initialize for function-call system: '<Root>/Hall Sensor B' */
 
-    /* SystemInitialize for IfAction SubSystem: '<S279>/Valid Halls' */
+    /* SystemInitialize for IfAction SubSystem: '<S274>/Valid Halls' */
     mcb_pmsm_fo_ValidHalls_Init(&mcb_pmsm_foc_hall_f28379d_B.ValidHalls_h);
 
-    /* End of SystemInitialize for SubSystem: '<S279>/Valid Halls' */
+    /* End of SystemInitialize for SubSystem: '<S274>/Valid Halls' */
 
-    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S248>/Hardware Interrupt' incorporates:
+    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S243>/Hardware Interrupt' incorporates:
      *  SubSystem: '<Root>/Hall Sensor C'
      */
     /* System initialize for function-call system: '<Root>/Hall Sensor C' */
 
-    /* SystemInitialize for IfAction SubSystem: '<S301>/Valid Halls' */
+    /* SystemInitialize for IfAction SubSystem: '<S296>/Valid Halls' */
     mcb_pmsm_fo_ValidHalls_Init(&mcb_pmsm_foc_hall_f28379d_B.ValidHalls_hi);
 
-    /* End of SystemInitialize for SubSystem: '<S301>/Valid Halls' */
+    /* End of SystemInitialize for SubSystem: '<S296>/Valid Halls' */
 
-    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S242>/Hardware Interrupt' incorporates:
+    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S237>/Hardware Interrupt' incorporates:
      *  SubSystem: '<Root>/Current Control'
      */
     mcb_pms_CurrentControl_Init();
 
-    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S250>/Hardware Interrupt' incorporates:
+    /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S245>/Hardware Interrupt' incorporates:
      *  SubSystem: '<Root>/Serial Receive'
      */
     /* System initialize for function-call system: '<Root>/Serial Receive' */
 
-    /* Start for S-Function (c28xsci_rx): '<S337>/SCI Receive' */
+    /* Start for S-Function (c28xsci_rx): '<S332>/SCI Receive' */
 
     /* Initialize out port */
     {
@@ -3707,7 +3575,7 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
     /* End of SystemInitialize for SubSystem: '<Root>/Speed Control' */
 
     /* SystemInitialize for Atomic SubSystem: '<Root>/Heartbeat LED' */
-    /* Start for S-Function (c280xgpio_do): '<S330>/Digital Output2' */
+    /* Start for S-Function (c280xgpio_do): '<S325>/Digital Output2' */
     EALLOW;
     GpioCtrlRegs.GPBMUX1.all &= 0xFFFFFFCFU;
     GpioCtrlRegs.GPBDIR.all |= 0x4U;
@@ -3716,23 +3584,23 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
     /* End of SystemInitialize for SubSystem: '<Root>/Heartbeat LED' */
 
     /* SystemInitialize for Atomic SubSystem: '<Root>/Hardware Init' */
-    /* Start for S-Function (c280xgpio_do): '<S320>/DRV830x Enable' */
+    /* Start for S-Function (c280xgpio_do): '<S315>/DRV830x Enable' */
     EALLOW;
     GpioCtrlRegs.GPDMUX2.all &= 0xFCFFFFFFU;
     GpioCtrlRegs.GPDDIR.all |= 0x10000000U;
     EDIS;
 
-    /* SystemInitialize for Enabled SubSystem: '<S320>/ADC Gain Setting' */
+    /* SystemInitialize for Enabled SubSystem: '<S315>/ADC Gain Setting' */
     mcb_SPIMasterTransfer2_Init
       (&mcb_pmsm_foc_hall_f28379d_DWork.SPIMasterTransfer2);
     mcb_SPIMasterTransfer2_Init
       (&mcb_pmsm_foc_hall_f28379d_DWork.SPIMasterTransfer3);
 
-    /* End of SystemInitialize for SubSystem: '<S320>/ADC Gain Setting' */
+    /* End of SystemInitialize for SubSystem: '<S315>/ADC Gain Setting' */
 
-    /* SystemInitialize for Enabled SubSystem: '<S318>/Calculate ADC Offset ' */
-    /* SystemInitialize for Iterator SubSystem: '<S319>/For Iterator Subsystem' */
-    /* Start for S-Function (c2802xadc): '<S322>/ADC_A_IN0' */
+    /* SystemInitialize for Enabled SubSystem: '<S313>/Calculate ADC Offset ' */
+    /* SystemInitialize for Iterator SubSystem: '<S314>/For Iterator Subsystem' */
+    /* Start for S-Function (c2802xadc): '<S317>/ADC_A_IN0' */
     if (MW_adcCInitFlag == 0U) {
       InitAdcC();
       MW_adcCInitFlag = 1U;
@@ -3740,7 +3608,7 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
 
     config_ADCC_SOC2 ();
 
-    /* Start for S-Function (c2802xadc): '<S322>/ADC_B_IN0' */
+    /* Start for S-Function (c2802xadc): '<S317>/ADC_B_IN0' */
     if (MW_adcBInitFlag == 0U) {
       InitAdcB();
       MW_adcBInitFlag = 1U;
@@ -3748,32 +3616,32 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
 
     config_ADCB_SOC2 ();
 
-    /* End of SystemInitialize for SubSystem: '<S319>/For Iterator Subsystem' */
-    /* End of SystemInitialize for SubSystem: '<S318>/Calculate ADC Offset ' */
+    /* End of SystemInitialize for SubSystem: '<S314>/For Iterator Subsystem' */
+    /* End of SystemInitialize for SubSystem: '<S313>/Calculate ADC Offset ' */
     /* End of SystemInitialize for SubSystem: '<Root>/Hardware Init' */
 
     /* Outputs for Atomic SubSystem: '<Root>/Hardware Init' */
-    /* Outputs for Enabled SubSystem: '<S320>/ADC Gain Setting' incorporates:
-     *  EnablePort: '<S328>/Enable'
+    /* Outputs for Enabled SubSystem: '<S315>/ADC Gain Setting' incorporates:
+     *  EnablePort: '<S323>/Enable'
      */
-    /* Constant: '<S6>/6PWM_Mode' */
+    /* Constant: '<S7>/6PWM_Mode' */
     mcb_pmsm_SPIMasterTransfer2(14870U,
       &mcb_pmsm_foc_hall_f28379d_B.SPIMasterTransfer2,
       &mcb_pmsm_foc_hall_f28379d_DWork.SPIMasterTransfer2);
 
-    /* Constant: '<S6>/ADC_Gain_Setting' */
+    /* Constant: '<S7>/ADC_Gain_Setting' */
     mcb_pmsm_SPIMasterTransfer2(20501U,
       &mcb_pmsm_foc_hall_f28379d_B.SPIMasterTransfer3,
       &mcb_pmsm_foc_hall_f28379d_DWork.SPIMasterTransfer3);
 
-    /* End of Outputs for SubSystem: '<S320>/ADC Gain Setting' */
+    /* End of Outputs for SubSystem: '<S315>/ADC Gain Setting' */
 
-    /* Switch: '<S320>/Switch' incorporates:
-     *  Constant: '<S320>/Constant'
+    /* Switch: '<S315>/Switch' incorporates:
+     *  Constant: '<S315>/Constant'
      */
     mcb_pmsm_foc_hall_f28379d_B.Switch_bt = true;
 
-    /* S-Function (c280xgpio_do): '<S320>/DRV830x Enable' */
+    /* S-Function (c280xgpio_do): '<S315>/DRV830x Enable' */
     {
       if (mcb_pmsm_foc_hall_f28379d_B.Switch_bt) {
         GpioDataRegs.GPDSET.bit.GPIO124 = 1U;
@@ -3782,19 +3650,19 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
       }
     }
 
-    /* Outputs for Enabled SubSystem: '<S318>/Calculate ADC Offset ' incorporates:
-     *  EnablePort: '<S319>/Enable'
+    /* Outputs for Enabled SubSystem: '<S313>/Calculate ADC Offset ' incorporates:
+     *  EnablePort: '<S314>/Enable'
      */
-    /* Outputs for Iterator SubSystem: '<S319>/For Iterator Subsystem' incorporates:
-     *  ForIterator: '<S322>/For Iterator'
+    /* Outputs for Iterator SubSystem: '<S314>/For Iterator Subsystem' incorporates:
+     *  ForIterator: '<S317>/For Iterator'
      */
-    for (s322_iter = 1U; s322_iter < 17U; s322_iter++) {
-      /* Outputs for Iterator SubSystem: '<S319>/For Iterator Subsystem' incorporates:
-       *  ForIterator: '<S322>/For Iterator'
+    for (s317_iter = 1U; s317_iter < 17U; s317_iter++) {
+      /* Outputs for Iterator SubSystem: '<S314>/For Iterator Subsystem' incorporates:
+       *  ForIterator: '<S317>/For Iterator'
        */
-      mcb_pmsm_foc_hall_f28379d_B.ForIterator = s322_iter;
+      mcb_pmsm_foc_hall_f28379d_B.ForIterator = s317_iter;
 
-      /* S-Function (c2802xadc): '<S322>/ADC_A_IN0' */
+      /* S-Function (c2802xadc): '<S317>/ADC_A_IN0' */
       {
         /*  Internal Reference Voltage : Fixed scale 0 to 3.3 V range.  */
         /*  External Reference Voltage : Allowable ranges of VREFHI(ADCINA0) = 3.3 and VREFLO(tied to ground) = 0  */
@@ -3818,7 +3686,7 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
         mcb_pmsm_foc_hall_f28379d_B.ADC_A_IN0 = (AdccResultRegs.ADCRESULT2);
       }
 
-      /* S-Function (c2802xadc): '<S322>/ADC_B_IN0' */
+      /* S-Function (c2802xadc): '<S317>/ADC_B_IN0' */
       {
         /*  Internal Reference Voltage : Fixed scale 0 to 3.3 V range.  */
         /*  External Reference Voltage : Allowable ranges of VREFHI(ADCINA0) = 3.3 and VREFLO(tied to ground) = 0  */
@@ -3842,133 +3710,133 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
         mcb_pmsm_foc_hall_f28379d_B.ADC_B_IN0 = (AdcbResultRegs.ADCRESULT2);
       }
 
-      /* If: '<S322>/If' */
+      /* If: '<S317>/If' */
       if (mcb_pmsm_foc_hall_f28379d_B.ForIterator > 8U) {
-        /* Outputs for IfAction SubSystem: '<S322>/If Action Subsystem' incorporates:
-         *  ActionPort: '<S327>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S317>/If Action Subsystem' incorporates:
+         *  ActionPort: '<S322>/Action Port'
          */
-        /* Memory: '<S327>/Memory' */
+        /* Memory: '<S322>/Memory' */
         mcb_pmsm_foc_hall_f28379d_B.Memory =
           mcb_pmsm_foc_hall_f28379d_DWork.Memory_PreviousInput;
 
-        /* Sum: '<S327>/Sum' */
+        /* Sum: '<S322>/Sum' */
         mcb_pmsm_foc_hall_f28379d_B.Sum_i =
           mcb_pmsm_foc_hall_f28379d_B.ADC_A_IN0 +
           mcb_pmsm_foc_hall_f28379d_B.Memory;
 
-        /* Memory: '<S327>/Memory1' */
+        /* Memory: '<S322>/Memory1' */
         mcb_pmsm_foc_hall_f28379d_B.Memory1 =
           mcb_pmsm_foc_hall_f28379d_DWork.Memory1_PreviousInput;
 
-        /* Sum: '<S327>/Sum1' */
+        /* Sum: '<S322>/Sum1' */
         mcb_pmsm_foc_hall_f28379d_B.Sum1_j =
           mcb_pmsm_foc_hall_f28379d_B.ADC_B_IN0 +
           mcb_pmsm_foc_hall_f28379d_B.Memory1;
 
-        /* Update for Memory: '<S327>/Memory' */
+        /* Update for Memory: '<S322>/Memory' */
         mcb_pmsm_foc_hall_f28379d_DWork.Memory_PreviousInput =
           mcb_pmsm_foc_hall_f28379d_B.Sum_i;
 
-        /* Update for Memory: '<S327>/Memory1' */
+        /* Update for Memory: '<S322>/Memory1' */
         mcb_pmsm_foc_hall_f28379d_DWork.Memory1_PreviousInput =
           mcb_pmsm_foc_hall_f28379d_B.Sum1_j;
 
-        /* End of Outputs for SubSystem: '<S322>/If Action Subsystem' */
+        /* End of Outputs for SubSystem: '<S317>/If Action Subsystem' */
       }
 
-      /* End of If: '<S322>/If' */
+      /* End of If: '<S317>/If' */
     }
 
-    /* End of Outputs for SubSystem: '<S319>/For Iterator Subsystem' */
+    /* End of Outputs for SubSystem: '<S314>/For Iterator Subsystem' */
 
-    /* Product: '<S319>/Divide' incorporates:
-     *  Constant: '<S319>/Constant'
+    /* Product: '<S314>/Divide' incorporates:
+     *  Constant: '<S314>/Constant'
      */
     mcb_pmsm_foc_hall_f28379d_B.Divide_ir = (uint16_T)((real_T)
       mcb_pmsm_foc_hall_f28379d_B.Sum_i / 8.0);
 
-    /* If: '<S319>/If' incorporates:
-     *  Constant: '<S319>/Constant1'
-     *  Constant: '<S319>/Constant2'
+    /* If: '<S314>/If' incorporates:
+     *  Constant: '<S314>/Constant1'
+     *  Constant: '<S314>/Constant2'
      */
     if ((mcb_pmsm_foc_hall_f28379d_B.Divide_ir > 1500U) &&
         (mcb_pmsm_foc_hall_f28379d_B.Divide_ir < 2500U)) {
-      /* Outputs for IfAction SubSystem: '<S319>/If Action Subsystem' incorporates:
-       *  ActionPort: '<S323>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S314>/If Action Subsystem' incorporates:
+       *  ActionPort: '<S318>/Action Port'
        */
-      /* DataStoreWrite: '<S323>/Data Store Write1' */
+      /* DataStoreWrite: '<S318>/Data Store Write1' */
       mcb_pmsm_foc_hall_f28379d_DWork.IaOffset =
         mcb_pmsm_foc_hall_f28379d_B.Divide_ir;
 
-      /* End of Outputs for SubSystem: '<S319>/If Action Subsystem' */
+      /* End of Outputs for SubSystem: '<S314>/If Action Subsystem' */
     } else {
-      /* Outputs for IfAction SubSystem: '<S319>/If Action Subsystem1' incorporates:
-       *  ActionPort: '<S324>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S314>/If Action Subsystem1' incorporates:
+       *  ActionPort: '<S319>/Action Port'
        */
-      /* DataStoreWrite: '<S324>/Data Store Write1' incorporates:
-       *  Constant: '<S324>/Constant'
+      /* DataStoreWrite: '<S319>/Data Store Write1' incorporates:
+       *  Constant: '<S319>/Constant'
        */
       mcb_pmsm_foc_hall_f28379d_DWork.IaOffset = 2295U;
 
-      /* End of Outputs for SubSystem: '<S319>/If Action Subsystem1' */
+      /* End of Outputs for SubSystem: '<S314>/If Action Subsystem1' */
     }
 
-    /* End of If: '<S319>/If' */
+    /* End of If: '<S314>/If' */
 
-    /* Product: '<S319>/Divide1' incorporates:
-     *  Constant: '<S319>/Constant'
+    /* Product: '<S314>/Divide1' incorporates:
+     *  Constant: '<S314>/Constant'
      */
     mcb_pmsm_foc_hall_f28379d_B.Divide1_e = (uint16_T)((real_T)
       mcb_pmsm_foc_hall_f28379d_B.Sum1_j / 8.0);
 
-    /* If: '<S319>/If1' incorporates:
-     *  Constant: '<S319>/Constant1'
-     *  Constant: '<S319>/Constant2'
+    /* If: '<S314>/If1' incorporates:
+     *  Constant: '<S314>/Constant1'
+     *  Constant: '<S314>/Constant2'
      */
     if ((mcb_pmsm_foc_hall_f28379d_B.Divide1_e > 1500U) &&
         (mcb_pmsm_foc_hall_f28379d_B.Divide1_e < 2500U)) {
-      /* Outputs for IfAction SubSystem: '<S319>/If Action Subsystem2' incorporates:
-       *  ActionPort: '<S325>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S314>/If Action Subsystem2' incorporates:
+       *  ActionPort: '<S320>/Action Port'
        */
-      /* DataStoreWrite: '<S325>/Data Store Write2' */
+      /* DataStoreWrite: '<S320>/Data Store Write2' */
       mcb_pmsm_foc_hall_f28379d_DWork.IbOffset =
         mcb_pmsm_foc_hall_f28379d_B.Divide1_e;
 
-      /* End of Outputs for SubSystem: '<S319>/If Action Subsystem2' */
+      /* End of Outputs for SubSystem: '<S314>/If Action Subsystem2' */
     } else {
-      /* Outputs for IfAction SubSystem: '<S319>/If Action Subsystem3' incorporates:
-       *  ActionPort: '<S326>/Action Port'
+      /* Outputs for IfAction SubSystem: '<S314>/If Action Subsystem3' incorporates:
+       *  ActionPort: '<S321>/Action Port'
        */
-      /* DataStoreWrite: '<S326>/Data Store Write2' incorporates:
-       *  Constant: '<S326>/Constant1'
-       */
-      mcb_pmsm_foc_hall_f28379d_DWork.IbOffset = 2286U;
-
-      /* End of Outputs for SubSystem: '<S319>/If Action Subsystem3' */
-    }
-
-    /* End of If: '<S319>/If1' */
-    /* End of Outputs for SubSystem: '<S318>/Calculate ADC Offset ' */
-
-    /* Logic: '<S318>/NOT' */
-    mcb_pmsm_foc_hall_f28379d_B.NOT = false;
-
-    /* Outputs for Enabled SubSystem: '<S318>/Default ADC Offset' incorporates:
-     *  EnablePort: '<S321>/Enable'
-     */
-    if (mcb_pmsm_foc_hall_f28379d_B.NOT) {
-      /* DataStoreWrite: '<S321>/Data Store Write1' incorporates:
-       *  Constant: '<S321>/Constant'
-       */
-      mcb_pmsm_foc_hall_f28379d_DWork.IaOffset = 2295U;
-
       /* DataStoreWrite: '<S321>/Data Store Write2' incorporates:
        *  Constant: '<S321>/Constant1'
        */
       mcb_pmsm_foc_hall_f28379d_DWork.IbOffset = 2286U;
+
+      /* End of Outputs for SubSystem: '<S314>/If Action Subsystem3' */
     }
 
-    /* End of Outputs for SubSystem: '<S318>/Default ADC Offset' */
+    /* End of If: '<S314>/If1' */
+    /* End of Outputs for SubSystem: '<S313>/Calculate ADC Offset ' */
+
+    /* Logic: '<S313>/NOT' */
+    mcb_pmsm_foc_hall_f28379d_B.NOT = false;
+
+    /* Outputs for Enabled SubSystem: '<S313>/Default ADC Offset' incorporates:
+     *  EnablePort: '<S316>/Enable'
+     */
+    if (mcb_pmsm_foc_hall_f28379d_B.NOT) {
+      /* DataStoreWrite: '<S316>/Data Store Write1' incorporates:
+       *  Constant: '<S316>/Constant'
+       */
+      mcb_pmsm_foc_hall_f28379d_DWork.IaOffset = 2295U;
+
+      /* DataStoreWrite: '<S316>/Data Store Write2' incorporates:
+       *  Constant: '<S316>/Constant1'
+       */
+      mcb_pmsm_foc_hall_f28379d_DWork.IbOffset = 2286U;
+    }
+
+    /* End of Outputs for SubSystem: '<S313>/Default ADC Offset' */
     /* End of Outputs for SubSystem: '<Root>/Hardware Init' */
   }
 }
@@ -3977,13 +3845,13 @@ void mcb_pmsm_foc_hall_f28379d_initialize(void)
 void mcb_pmsm_foc_hall_f28379d_terminate(void)
 {
   /* Terminate for Atomic SubSystem: '<Root>/Hardware Init' */
-  /* Terminate for Enabled SubSystem: '<S320>/ADC Gain Setting' */
+  /* Terminate for Enabled SubSystem: '<S315>/ADC Gain Setting' */
   mcb_SPIMasterTransfer2_Term
     (&mcb_pmsm_foc_hall_f28379d_DWork.SPIMasterTransfer2);
   mcb_SPIMasterTransfer2_Term
     (&mcb_pmsm_foc_hall_f28379d_DWork.SPIMasterTransfer3);
 
-  /* End of Terminate for SubSystem: '<S320>/ADC Gain Setting' */
+  /* End of Terminate for SubSystem: '<S315>/ADC Gain Setting' */
   /* End of Terminate for SubSystem: '<Root>/Hardware Init' */
 }
 
@@ -4006,11 +3874,11 @@ void mcb_pmsm_foc_hall_f28379d_configure_interrupts(void)
   HWI_TIC28x_EnableIRQ(33);
 
   /* Register interrupt service routine */
-  HWI_TIC28x_ConfigureIRQ(96,&SCIA_RX_INT,3);
+  HWI_TIC28x_ConfigureIRQ(96,&SCIA_RX_INT,1);
   HWI_TIC28x_EnableIRQ(96);
 }
 
-/* Hardware Interrupt Block: '<S242>/Hardware Interrupt' */
+/* Hardware Interrupt Block: '<S237>/Hardware Interrupt' */
 interrupt void ADCB1_INT(void)
 {
   volatile unsigned int PIEIER1_stack_save = PieCtrlRegs.PIEIER1.all;
@@ -4038,10 +3906,10 @@ interrupt void ADCB1_INT(void)
       mcb_pmsm_foc_hall_f28379d_B.RT2[1] =
         mcb_pmsm_foc_hall_f28379d_DWork.RT2_Buffer[tmp + 1];
 
-      /* S-Function (HardwareInterrupt_sfun): '<S242>/Hardware Interrupt' */
+      /* S-Function (HardwareInterrupt_sfun): '<S237>/Hardware Interrupt' */
       mcb_pmsm_foc_CurrentControl();
 
-      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S242>/Hardware Interrupt' */
+      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S237>/Hardware Interrupt' */
 
       /* RateTransition: '<Root>/RT1' */
       mcb_pmsm_foc_hall_f28379d_DWork.RT1_Buffer[mcb_pmsm_foc_hall_f28379d_DWork.RT1_semaphoreTaken
@@ -4065,21 +3933,21 @@ interrupt void ADCB1_INT(void)
   HWI_TIC28x_AcknowledgeIrq(33);
 }
 
-/* Hardware Interrupt Block: '<S244>/Hardware Interrupt' */
+/* Hardware Interrupt Block: '<S239>/Hardware Interrupt' */
 interrupt void ECAP1_INT(void)
 {
   /* Event: Default Event */
   if (1 == runModel) {
     {
-      /* S-Function (HardwareInterrupt_sfun): '<S244>/Hardware Interrupt' */
+      /* S-Function (HardwareInterrupt_sfun): '<S239>/Hardware Interrupt' */
 
       /* Output and update for function-call system: '<Root>/Hall Sensor A' */
 
-      /* DataStoreRead: '<S3>/Data Store Read' */
+      /* DataStoreRead: '<S4>/Data Store Read' */
       mcb_pmsm_foc_hall_f28379d_B.DataStoreRead_p =
         mcb_pmsm_foc_hall_f28379d_DWork.GlobalHallState;
 
-      /* S-Function (memorycopy): '<S271>/Read GPIO DAT register' */
+      /* S-Function (memorycopy): '<S266>/Read GPIO DAT register' */
       {
         uint32_T *memindsrc6 = (uint32_T *) (&GpioDataRegs.GPBDAT.all);
         uint32_T *meminddst6 = (uint32_T *)
@@ -4087,55 +3955,55 @@ interrupt void ECAP1_INT(void)
         *(uint32_T *) (meminddst6) = *(uint32_T *) (memindsrc6);
       }
 
-      /* S-Function (sfix_bitop): '<S271>/Hall_C' */
+      /* S-Function (sfix_bitop): '<S266>/Hall_C' */
       mcb_pmsm_foc_hall_f28379d_B.Hall_C_n =
         mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_g & 33554432UL;
 
-      /* ArithShift: '<S271>/Shift Arithmetic' incorporates:
-       *  S-Function (sfix_bitop): '<S271>/Hall_C'
+      /* ArithShift: '<S266>/Shift Arithmetic' incorporates:
+       *  S-Function (sfix_bitop): '<S266>/Hall_C'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic_e =
         mcb_pmsm_foc_hall_f28379d_B.Hall_C_n >> 23U;
 
-      /* S-Function (sfix_bitop): '<S271>/Hall_B' */
+      /* S-Function (sfix_bitop): '<S266>/Hall_B' */
       mcb_pmsm_foc_hall_f28379d_B.Hall_B_i =
         mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_g & 8388608UL;
 
-      /* ArithShift: '<S271>/Shift Arithmetic1' incorporates:
-       *  S-Function (sfix_bitop): '<S271>/Hall_B'
+      /* ArithShift: '<S266>/Shift Arithmetic1' incorporates:
+       *  S-Function (sfix_bitop): '<S266>/Hall_B'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_jb =
         mcb_pmsm_foc_hall_f28379d_B.Hall_B_i >> 22U;
 
-      /* S-Function (sfix_bitop): '<S271>/Hall_A' */
+      /* S-Function (sfix_bitop): '<S266>/Hall_A' */
       mcb_pmsm_foc_hall_f28379d_B.Hall_A_k =
         mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_g & 4194304UL;
 
-      /* ArithShift: '<S271>/Shift Arithmetic2' incorporates:
-       *  S-Function (sfix_bitop): '<S271>/Hall_A'
+      /* ArithShift: '<S266>/Shift Arithmetic2' incorporates:
+       *  S-Function (sfix_bitop): '<S266>/Hall_A'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2_i =
         mcb_pmsm_foc_hall_f28379d_B.Hall_A_k >> 22U;
 
-      /* S-Function (sfix_bitop): '<S271>/Bitwise Operator2' */
+      /* S-Function (sfix_bitop): '<S266>/Bitwise Operator2' */
       mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_n = (uint32_T)((int16_T)
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic_e | (int16_T)
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_jb | (int16_T)
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2_i);
 
-      /* DataTypeConversion: '<S252>/Data Type Conversion1' */
+      /* DataTypeConversion: '<S247>/Data Type Conversion1' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_d = (uint16_T)
         mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_n;
 
-      /* DataTypeConversion: '<S252>/Data Type Conversion2' */
+      /* DataTypeConversion: '<S247>/Data Type Conversion2' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion2_c = (uint16_T)
         mcb_pmsm_foc_hall_f28379d_B.DataStoreRead_p;
 
-      /* DataStoreRead: '<S3>/Data Store Read1' */
+      /* DataStoreRead: '<S4>/Data Store Read1' */
       mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_o =
         mcb_pmsm_foc_hall_f28379d_DWork.GlobalDirection;
 
-      /* SwitchCase: '<S252>/Detects if the halls reading is valid' */
+      /* SwitchCase: '<S247>/Detects if the halls reading is valid' */
       switch ((int32_T)mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_d) {
        case 5L:
        case 4L:
@@ -4143,8 +4011,8 @@ interrupt void ECAP1_INT(void)
        case 2L:
        case 3L:
        case 1L:
-        /* Outputs for IfAction SubSystem: '<S257>/Valid Halls' incorporates:
-         *  ActionPort: '<S259>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S252>/Valid Halls' incorporates:
+         *  ActionPort: '<S254>/Action Port'
          */
         mcb_pmsm_foc_hal_ValidHalls
           (mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_d,
@@ -4155,87 +4023,87 @@ interrupt void ECAP1_INT(void)
            &mcb_pmsm_foc_hall_f28379d_B.Merge_k,
            &mcb_pmsm_foc_hall_f28379d_B.ValidHalls);
 
-        /* End of Outputs for SubSystem: '<S257>/Valid Halls' */
+        /* End of Outputs for SubSystem: '<S252>/Valid Halls' */
         break;
 
        default:
-        /* Outputs for IfAction SubSystem: '<S257>/Bad hall (glitch or wrong connection)' incorporates:
-         *  ActionPort: '<S258>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S252>/Bad hall (glitch or wrong connection)' incorporates:
+         *  ActionPort: '<S253>/Action Port'
          */
         Badhallglitchorwrongconnect(mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_o,
           &mcb_pmsm_foc_hall_f28379d_B.Merge_k,
           &mcb_pmsm_foc_hall_f28379d_B.Merge1_kl,
           &mcb_pmsm_foc_hall_f28379d_B.Merge3_m);
 
-        /* End of Outputs for SubSystem: '<S257>/Bad hall (glitch or wrong connection)' */
+        /* End of Outputs for SubSystem: '<S252>/Bad hall (glitch or wrong connection)' */
         break;
       }
 
-      /* End of SwitchCase: '<S252>/Detects if the halls reading is valid' */
+      /* End of SwitchCase: '<S247>/Detects if the halls reading is valid' */
 
-      /* DataTypeConversion: '<S257>/Data Type Conversion' */
+      /* DataTypeConversion: '<S252>/Data Type Conversion' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_p =
         mcb_pmsm_foc_hall_f28379d_B.Merge3_m;
 
-      /* DataStoreWrite: '<S3>/Data Store Write' */
+      /* DataStoreWrite: '<S4>/Data Store Write' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalSpeedValidity =
         mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_p;
 
-      /* DataStoreWrite: '<S3>/Data Store Write1' */
+      /* DataStoreWrite: '<S4>/Data Store Write1' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalDirection =
         mcb_pmsm_foc_hall_f28379d_B.Merge1_kl;
 
-      /* DataStoreWrite: '<S3>/Data Store Write2' incorporates:
-       *  Constant: '<S252>/Constant'
+      /* DataStoreWrite: '<S4>/Data Store Write2' incorporates:
+       *  Constant: '<S247>/Constant'
        */
       mcb_pmsm_foc_hall_f28379d_DWork.HallStateChangeFlag = 1U;
 
-      /* S-Function (c280xcap): '<S272>/eCAP' */
+      /* S-Function (c280xcap): '<S267>/eCAP' */
       mcb_pmsm_foc_hall_f28379d_B.eCAP_l[0] = ECap1Regs.CAP1;
       mcb_pmsm_foc_hall_f28379d_B.eCAP_l[1] = ECap1Regs.CAP2;
 
-      /* If: '<S251>/If' */
+      /* If: '<S246>/If' */
       if (((uint16_T)mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_n == 5U) ||
           ((uint16_T)mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_n == 3U)) {
-        /* Outputs for IfAction SubSystem: '<S251>/Output 1' incorporates:
-         *  ActionPort: '<S256>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S246>/Output 1' incorporates:
+         *  ActionPort: '<S251>/Action Port'
          */
         mcb_pmsm_foc_hall_f_Output1(&mcb_pmsm_foc_hall_f28379d_B.Merge_n);
 
-        /* End of Outputs for SubSystem: '<S251>/Output 1' */
+        /* End of Outputs for SubSystem: '<S246>/Output 1' */
       } else {
-        /* Outputs for IfAction SubSystem: '<S251>/Output 0' incorporates:
-         *  ActionPort: '<S255>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S246>/Output 0' incorporates:
+         *  ActionPort: '<S250>/Action Port'
          */
         mcb_pmsm_foc_hall_f_Output0(&mcb_pmsm_foc_hall_f28379d_B.Merge_n);
 
-        /* End of Outputs for SubSystem: '<S251>/Output 0' */
+        /* End of Outputs for SubSystem: '<S246>/Output 0' */
       }
 
-      /* End of If: '<S251>/If' */
+      /* End of If: '<S246>/If' */
 
-      /* Switch: '<S3>/Switch' */
+      /* Switch: '<S4>/Switch' */
       if (mcb_pmsm_foc_hall_f28379d_B.Merge_n) {
-        /* Switch: '<S3>/Switch' */
+        /* Switch: '<S4>/Switch' */
         mcb_pmsm_foc_hall_f28379d_B.Switch_e =
           mcb_pmsm_foc_hall_f28379d_B.eCAP_l[0];
       } else {
-        /* Switch: '<S3>/Switch' */
+        /* Switch: '<S4>/Switch' */
         mcb_pmsm_foc_hall_f28379d_B.Switch_e =
           mcb_pmsm_foc_hall_f28379d_B.eCAP_l[1];
       }
 
-      /* End of Switch: '<S3>/Switch' */
+      /* End of Switch: '<S4>/Switch' */
 
-      /* DataStoreWrite: '<S3>/Data Store Write3' */
+      /* DataStoreWrite: '<S4>/Data Store Write3' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalSpeedCount =
         mcb_pmsm_foc_hall_f28379d_B.Switch_e;
 
-      /* DataStoreWrite: '<S3>/Data Store Write4' */
+      /* DataStoreWrite: '<S4>/Data Store Write4' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalHallState =
         mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_n;
 
-      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S244>/Hardware Interrupt' */
+      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S239>/Hardware Interrupt' */
     }
   }
 
@@ -4263,21 +4131,21 @@ interrupt void ECAP1_INT(void)
   HWI_TIC28x_AcknowledgeIrq(56);
 }
 
-/* Hardware Interrupt Block: '<S246>/Hardware Interrupt' */
+/* Hardware Interrupt Block: '<S241>/Hardware Interrupt' */
 interrupt void ECAP2_INT(void)
 {
   /* Event: Default Event */
   if (1 == runModel) {
     {
-      /* S-Function (HardwareInterrupt_sfun): '<S246>/Hardware Interrupt' */
+      /* S-Function (HardwareInterrupt_sfun): '<S241>/Hardware Interrupt' */
 
       /* Output and update for function-call system: '<Root>/Hall Sensor B' */
 
-      /* DataStoreRead: '<S4>/Data Store Read' */
+      /* DataStoreRead: '<S5>/Data Store Read' */
       mcb_pmsm_foc_hall_f28379d_B.DataStoreRead_o =
         mcb_pmsm_foc_hall_f28379d_DWork.GlobalHallState;
 
-      /* S-Function (memorycopy): '<S293>/Read GPIO DAT register' */
+      /* S-Function (memorycopy): '<S288>/Read GPIO DAT register' */
       {
         uint32_T *memindsrc7 = (uint32_T *) (&GpioDataRegs.GPBDAT.all);
         uint32_T *meminddst7 = (uint32_T *)
@@ -4285,55 +4153,55 @@ interrupt void ECAP2_INT(void)
         *(uint32_T *) (meminddst7) = *(uint32_T *) (memindsrc7);
       }
 
-      /* S-Function (sfix_bitop): '<S293>/Hall_C' */
+      /* S-Function (sfix_bitop): '<S288>/Hall_C' */
       mcb_pmsm_foc_hall_f28379d_B.Hall_C_f =
         mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_n & 33554432UL;
 
-      /* ArithShift: '<S293>/Shift Arithmetic' incorporates:
-       *  S-Function (sfix_bitop): '<S293>/Hall_C'
+      /* ArithShift: '<S288>/Shift Arithmetic' incorporates:
+       *  S-Function (sfix_bitop): '<S288>/Hall_C'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic_b =
         mcb_pmsm_foc_hall_f28379d_B.Hall_C_f >> 23U;
 
-      /* S-Function (sfix_bitop): '<S293>/Hall_B' */
+      /* S-Function (sfix_bitop): '<S288>/Hall_B' */
       mcb_pmsm_foc_hall_f28379d_B.Hall_B_m =
         mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_n & 8388608UL;
 
-      /* ArithShift: '<S293>/Shift Arithmetic1' incorporates:
-       *  S-Function (sfix_bitop): '<S293>/Hall_B'
+      /* ArithShift: '<S288>/Shift Arithmetic1' incorporates:
+       *  S-Function (sfix_bitop): '<S288>/Hall_B'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_j =
         mcb_pmsm_foc_hall_f28379d_B.Hall_B_m >> 22U;
 
-      /* S-Function (sfix_bitop): '<S293>/Hall_A' */
+      /* S-Function (sfix_bitop): '<S288>/Hall_A' */
       mcb_pmsm_foc_hall_f28379d_B.Hall_A_e =
         mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister_n & 4194304UL;
 
-      /* ArithShift: '<S293>/Shift Arithmetic2' incorporates:
-       *  S-Function (sfix_bitop): '<S293>/Hall_A'
+      /* ArithShift: '<S288>/Shift Arithmetic2' incorporates:
+       *  S-Function (sfix_bitop): '<S288>/Hall_A'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2_k =
         mcb_pmsm_foc_hall_f28379d_B.Hall_A_e >> 22U;
 
-      /* S-Function (sfix_bitop): '<S293>/Bitwise Operator2' */
+      /* S-Function (sfix_bitop): '<S288>/Bitwise Operator2' */
       mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_m = (uint32_T)((int16_T)
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic_b | (int16_T)
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_j | (int16_T)
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2_k);
 
-      /* DataTypeConversion: '<S274>/Data Type Conversion1' */
+      /* DataTypeConversion: '<S269>/Data Type Conversion1' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_n = (uint16_T)
         mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_m;
 
-      /* DataTypeConversion: '<S274>/Data Type Conversion2' */
+      /* DataTypeConversion: '<S269>/Data Type Conversion2' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion2_g = (uint16_T)
         mcb_pmsm_foc_hall_f28379d_B.DataStoreRead_o;
 
-      /* DataStoreRead: '<S4>/Data Store Read1' */
+      /* DataStoreRead: '<S5>/Data Store Read1' */
       mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_kl =
         mcb_pmsm_foc_hall_f28379d_DWork.GlobalDirection;
 
-      /* SwitchCase: '<S274>/Detects if the halls reading is valid' */
+      /* SwitchCase: '<S269>/Detects if the halls reading is valid' */
       switch ((int32_T)mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_n) {
        case 5L:
        case 4L:
@@ -4341,8 +4209,8 @@ interrupt void ECAP2_INT(void)
        case 2L:
        case 3L:
        case 1L:
-        /* Outputs for IfAction SubSystem: '<S279>/Valid Halls' incorporates:
-         *  ActionPort: '<S281>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S274>/Valid Halls' incorporates:
+         *  ActionPort: '<S276>/Action Port'
          */
         mcb_pmsm_foc_hal_ValidHalls
           (mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_n,
@@ -4350,91 +4218,91 @@ interrupt void ECAP2_INT(void)
            mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_kl,
            &mcb_pmsm_foc_hall_f28379d_B.Merge3_o,
            &mcb_pmsm_foc_hall_f28379d_B.Merge1_a,
-           &mcb_pmsm_foc_hall_f28379d_B.Merge_ji,
+           &mcb_pmsm_foc_hall_f28379d_B.Merge_j,
            &mcb_pmsm_foc_hall_f28379d_B.ValidHalls_h);
 
-        /* End of Outputs for SubSystem: '<S279>/Valid Halls' */
+        /* End of Outputs for SubSystem: '<S274>/Valid Halls' */
         break;
 
        default:
-        /* Outputs for IfAction SubSystem: '<S279>/Bad hall (glitch or wrong connection)' incorporates:
-         *  ActionPort: '<S280>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S274>/Bad hall (glitch or wrong connection)' incorporates:
+         *  ActionPort: '<S275>/Action Port'
          */
         Badhallglitchorwrongconnect
           (mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_kl,
-           &mcb_pmsm_foc_hall_f28379d_B.Merge_ji,
+           &mcb_pmsm_foc_hall_f28379d_B.Merge_j,
            &mcb_pmsm_foc_hall_f28379d_B.Merge1_a,
            &mcb_pmsm_foc_hall_f28379d_B.Merge3_o);
 
-        /* End of Outputs for SubSystem: '<S279>/Bad hall (glitch or wrong connection)' */
+        /* End of Outputs for SubSystem: '<S274>/Bad hall (glitch or wrong connection)' */
         break;
       }
 
-      /* End of SwitchCase: '<S274>/Detects if the halls reading is valid' */
+      /* End of SwitchCase: '<S269>/Detects if the halls reading is valid' */
 
-      /* DataTypeConversion: '<S279>/Data Type Conversion' */
+      /* DataTypeConversion: '<S274>/Data Type Conversion' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_j =
         mcb_pmsm_foc_hall_f28379d_B.Merge3_o;
 
-      /* DataStoreWrite: '<S4>/Data Store Write' */
+      /* DataStoreWrite: '<S5>/Data Store Write' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalSpeedValidity =
         mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_j;
 
-      /* DataStoreWrite: '<S4>/Data Store Write1' */
+      /* DataStoreWrite: '<S5>/Data Store Write1' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalDirection =
         mcb_pmsm_foc_hall_f28379d_B.Merge1_a;
 
-      /* DataStoreWrite: '<S4>/Data Store Write2' incorporates:
-       *  Constant: '<S274>/Constant'
+      /* DataStoreWrite: '<S5>/Data Store Write2' incorporates:
+       *  Constant: '<S269>/Constant'
        */
       mcb_pmsm_foc_hall_f28379d_DWork.HallStateChangeFlag = 1U;
 
-      /* S-Function (c280xcap): '<S294>/eCAP' */
+      /* S-Function (c280xcap): '<S289>/eCAP' */
       mcb_pmsm_foc_hall_f28379d_B.eCAP_c[0] = ECap2Regs.CAP1;
       mcb_pmsm_foc_hall_f28379d_B.eCAP_c[1] = ECap2Regs.CAP2;
 
-      /* If: '<S273>/If' */
+      /* If: '<S268>/If' */
       if (((uint16_T)mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_m == 3U) ||
           ((uint16_T)mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_m == 6U)) {
-        /* Outputs for IfAction SubSystem: '<S273>/Output 1' incorporates:
-         *  ActionPort: '<S278>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S268>/Output 1' incorporates:
+         *  ActionPort: '<S273>/Action Port'
          */
         mcb_pmsm_foc_hall_f_Output1(&mcb_pmsm_foc_hall_f28379d_B.Merge_f);
 
-        /* End of Outputs for SubSystem: '<S273>/Output 1' */
+        /* End of Outputs for SubSystem: '<S268>/Output 1' */
       } else {
-        /* Outputs for IfAction SubSystem: '<S273>/Output 0' incorporates:
-         *  ActionPort: '<S277>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S268>/Output 0' incorporates:
+         *  ActionPort: '<S272>/Action Port'
          */
         mcb_pmsm_foc_hall_f_Output0(&mcb_pmsm_foc_hall_f28379d_B.Merge_f);
 
-        /* End of Outputs for SubSystem: '<S273>/Output 0' */
+        /* End of Outputs for SubSystem: '<S268>/Output 0' */
       }
 
-      /* End of If: '<S273>/If' */
+      /* End of If: '<S268>/If' */
 
-      /* Switch: '<S4>/Switch' */
+      /* Switch: '<S5>/Switch' */
       if (mcb_pmsm_foc_hall_f28379d_B.Merge_f) {
-        /* Switch: '<S4>/Switch' */
+        /* Switch: '<S5>/Switch' */
         mcb_pmsm_foc_hall_f28379d_B.Switch_l =
           mcb_pmsm_foc_hall_f28379d_B.eCAP_c[0];
       } else {
-        /* Switch: '<S4>/Switch' */
+        /* Switch: '<S5>/Switch' */
         mcb_pmsm_foc_hall_f28379d_B.Switch_l =
           mcb_pmsm_foc_hall_f28379d_B.eCAP_c[1];
       }
 
-      /* End of Switch: '<S4>/Switch' */
+      /* End of Switch: '<S5>/Switch' */
 
-      /* DataStoreWrite: '<S4>/Data Store Write3' */
+      /* DataStoreWrite: '<S5>/Data Store Write3' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalSpeedCount =
         mcb_pmsm_foc_hall_f28379d_B.Switch_l;
 
-      /* DataStoreWrite: '<S4>/Data Store Write4' */
+      /* DataStoreWrite: '<S5>/Data Store Write4' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalHallState =
         mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2_m;
 
-      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S246>/Hardware Interrupt' */
+      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S241>/Hardware Interrupt' */
     }
   }
 
@@ -4462,21 +4330,21 @@ interrupt void ECAP2_INT(void)
   HWI_TIC28x_AcknowledgeIrq(57);
 }
 
-/* Hardware Interrupt Block: '<S248>/Hardware Interrupt' */
+/* Hardware Interrupt Block: '<S243>/Hardware Interrupt' */
 interrupt void ECAP3_INT(void)
 {
   /* Event: Default Event */
   if (1 == runModel) {
     {
-      /* S-Function (HardwareInterrupt_sfun): '<S248>/Hardware Interrupt' */
+      /* S-Function (HardwareInterrupt_sfun): '<S243>/Hardware Interrupt' */
 
       /* Output and update for function-call system: '<Root>/Hall Sensor C' */
 
-      /* DataStoreRead: '<S5>/Data Store Read' */
+      /* DataStoreRead: '<S6>/Data Store Read' */
       mcb_pmsm_foc_hall_f28379d_B.DataStoreRead =
         mcb_pmsm_foc_hall_f28379d_DWork.GlobalHallState;
 
-      /* S-Function (memorycopy): '<S315>/Read GPIO DAT register' */
+      /* S-Function (memorycopy): '<S310>/Read GPIO DAT register' */
       {
         uint32_T *memindsrc8 = (uint32_T *) (&GpioDataRegs.GPBDAT.all);
         uint32_T *meminddst8 = (uint32_T *)
@@ -4484,55 +4352,55 @@ interrupt void ECAP3_INT(void)
         *(uint32_T *) (meminddst8) = *(uint32_T *) (memindsrc8);
       }
 
-      /* S-Function (sfix_bitop): '<S315>/Hall_C' */
+      /* S-Function (sfix_bitop): '<S310>/Hall_C' */
       mcb_pmsm_foc_hall_f28379d_B.Hall_C =
         mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister & 33554432UL;
 
-      /* ArithShift: '<S315>/Shift Arithmetic' incorporates:
-       *  S-Function (sfix_bitop): '<S315>/Hall_C'
+      /* ArithShift: '<S310>/Shift Arithmetic' incorporates:
+       *  S-Function (sfix_bitop): '<S310>/Hall_C'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic =
         mcb_pmsm_foc_hall_f28379d_B.Hall_C >> 23U;
 
-      /* S-Function (sfix_bitop): '<S315>/Hall_B' */
+      /* S-Function (sfix_bitop): '<S310>/Hall_B' */
       mcb_pmsm_foc_hall_f28379d_B.Hall_B =
         mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister & 8388608UL;
 
-      /* ArithShift: '<S315>/Shift Arithmetic1' incorporates:
-       *  S-Function (sfix_bitop): '<S315>/Hall_B'
+      /* ArithShift: '<S310>/Shift Arithmetic1' incorporates:
+       *  S-Function (sfix_bitop): '<S310>/Hall_B'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1 =
         mcb_pmsm_foc_hall_f28379d_B.Hall_B >> 22U;
 
-      /* S-Function (sfix_bitop): '<S315>/Hall_A' */
+      /* S-Function (sfix_bitop): '<S310>/Hall_A' */
       mcb_pmsm_foc_hall_f28379d_B.Hall_A =
         mcb_pmsm_foc_hall_f28379d_B.ReadGPIODATregister & 4194304UL;
 
-      /* ArithShift: '<S315>/Shift Arithmetic2' incorporates:
-       *  S-Function (sfix_bitop): '<S315>/Hall_A'
+      /* ArithShift: '<S310>/Shift Arithmetic2' incorporates:
+       *  S-Function (sfix_bitop): '<S310>/Hall_A'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2 =
         mcb_pmsm_foc_hall_f28379d_B.Hall_A >> 22U;
 
-      /* S-Function (sfix_bitop): '<S315>/Bitwise Operator2' */
+      /* S-Function (sfix_bitop): '<S310>/Bitwise Operator2' */
       mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2 = (uint32_T)((int16_T)
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic | (int16_T)
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1 | (int16_T)
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic2);
 
-      /* DataTypeConversion: '<S296>/Data Type Conversion1' */
+      /* DataTypeConversion: '<S291>/Data Type Conversion1' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_o = (uint16_T)
         mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2;
 
-      /* DataTypeConversion: '<S296>/Data Type Conversion2' */
+      /* DataTypeConversion: '<S291>/Data Type Conversion2' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion2_p = (uint16_T)
         mcb_pmsm_foc_hall_f28379d_B.DataStoreRead;
 
-      /* DataStoreRead: '<S5>/Data Store Read1' */
+      /* DataStoreRead: '<S6>/Data Store Read1' */
       mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_k =
         mcb_pmsm_foc_hall_f28379d_DWork.GlobalDirection;
 
-      /* SwitchCase: '<S296>/Detects if the halls reading is valid' */
+      /* SwitchCase: '<S291>/Detects if the halls reading is valid' */
       switch ((int32_T)mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_o) {
        case 5L:
        case 4L:
@@ -4540,8 +4408,8 @@ interrupt void ECAP3_INT(void)
        case 2L:
        case 3L:
        case 1L:
-        /* Outputs for IfAction SubSystem: '<S301>/Valid Halls' incorporates:
-         *  ActionPort: '<S303>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S296>/Valid Halls' incorporates:
+         *  ActionPort: '<S298>/Action Port'
          */
         mcb_pmsm_foc_hal_ValidHalls
           (mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion1_o,
@@ -4549,88 +4417,88 @@ interrupt void ECAP3_INT(void)
            mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_k,
            &mcb_pmsm_foc_hall_f28379d_B.Merge3,
            &mcb_pmsm_foc_hall_f28379d_B.Merge1_k,
-           &mcb_pmsm_foc_hall_f28379d_B.Merge_p,
+           &mcb_pmsm_foc_hall_f28379d_B.Merge_pc,
            &mcb_pmsm_foc_hall_f28379d_B.ValidHalls_hi);
 
-        /* End of Outputs for SubSystem: '<S301>/Valid Halls' */
+        /* End of Outputs for SubSystem: '<S296>/Valid Halls' */
         break;
 
        default:
-        /* Outputs for IfAction SubSystem: '<S301>/Bad hall (glitch or wrong connection)' incorporates:
-         *  ActionPort: '<S302>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S296>/Bad hall (glitch or wrong connection)' incorporates:
+         *  ActionPort: '<S297>/Action Port'
          */
         Badhallglitchorwrongconnect(mcb_pmsm_foc_hall_f28379d_B.DataStoreRead1_k,
-          &mcb_pmsm_foc_hall_f28379d_B.Merge_p,
+          &mcb_pmsm_foc_hall_f28379d_B.Merge_pc,
           &mcb_pmsm_foc_hall_f28379d_B.Merge1_k,
           &mcb_pmsm_foc_hall_f28379d_B.Merge3);
 
-        /* End of Outputs for SubSystem: '<S301>/Bad hall (glitch or wrong connection)' */
+        /* End of Outputs for SubSystem: '<S296>/Bad hall (glitch or wrong connection)' */
         break;
       }
 
-      /* End of SwitchCase: '<S296>/Detects if the halls reading is valid' */
+      /* End of SwitchCase: '<S291>/Detects if the halls reading is valid' */
 
-      /* DataTypeConversion: '<S301>/Data Type Conversion' */
+      /* DataTypeConversion: '<S296>/Data Type Conversion' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_n =
         mcb_pmsm_foc_hall_f28379d_B.Merge3;
 
-      /* DataStoreWrite: '<S5>/Data Store Write' */
+      /* DataStoreWrite: '<S6>/Data Store Write' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalSpeedValidity =
         mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion_n;
 
-      /* DataStoreWrite: '<S5>/Data Store Write1' */
+      /* DataStoreWrite: '<S6>/Data Store Write1' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalDirection =
         mcb_pmsm_foc_hall_f28379d_B.Merge1_k;
 
-      /* DataStoreWrite: '<S5>/Data Store Write2' incorporates:
-       *  Constant: '<S296>/Constant'
+      /* DataStoreWrite: '<S6>/Data Store Write2' incorporates:
+       *  Constant: '<S291>/Constant'
        */
       mcb_pmsm_foc_hall_f28379d_DWork.HallStateChangeFlag = 1U;
 
-      /* S-Function (c280xcap): '<S316>/eCAP' */
+      /* S-Function (c280xcap): '<S311>/eCAP' */
       mcb_pmsm_foc_hall_f28379d_B.eCAP[0] = ECap3Regs.CAP1;
       mcb_pmsm_foc_hall_f28379d_B.eCAP[1] = ECap3Regs.CAP2;
 
-      /* If: '<S295>/If' */
+      /* If: '<S290>/If' */
       if (((uint16_T)mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2 == 5U) ||
           ((uint16_T)mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2 == 6U)) {
-        /* Outputs for IfAction SubSystem: '<S295>/Output 1' incorporates:
-         *  ActionPort: '<S300>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S290>/Output 1' incorporates:
+         *  ActionPort: '<S295>/Action Port'
          */
         mcb_pmsm_foc_hall_f_Output1(&mcb_pmsm_foc_hall_f28379d_B.Merge_pt);
 
-        /* End of Outputs for SubSystem: '<S295>/Output 1' */
+        /* End of Outputs for SubSystem: '<S290>/Output 1' */
       } else {
-        /* Outputs for IfAction SubSystem: '<S295>/Output 0' incorporates:
-         *  ActionPort: '<S299>/Action Port'
+        /* Outputs for IfAction SubSystem: '<S290>/Output 0' incorporates:
+         *  ActionPort: '<S294>/Action Port'
          */
         mcb_pmsm_foc_hall_f_Output0(&mcb_pmsm_foc_hall_f28379d_B.Merge_pt);
 
-        /* End of Outputs for SubSystem: '<S295>/Output 0' */
+        /* End of Outputs for SubSystem: '<S290>/Output 0' */
       }
 
-      /* End of If: '<S295>/If' */
+      /* End of If: '<S290>/If' */
 
-      /* Switch: '<S5>/Switch' */
+      /* Switch: '<S6>/Switch' */
       if (mcb_pmsm_foc_hall_f28379d_B.Merge_pt) {
-        /* Switch: '<S5>/Switch' */
+        /* Switch: '<S6>/Switch' */
         mcb_pmsm_foc_hall_f28379d_B.Switch = mcb_pmsm_foc_hall_f28379d_B.eCAP[0];
       } else {
-        /* Switch: '<S5>/Switch' */
+        /* Switch: '<S6>/Switch' */
         mcb_pmsm_foc_hall_f28379d_B.Switch = mcb_pmsm_foc_hall_f28379d_B.eCAP[1];
       }
 
-      /* End of Switch: '<S5>/Switch' */
+      /* End of Switch: '<S6>/Switch' */
 
-      /* DataStoreWrite: '<S5>/Data Store Write3' */
+      /* DataStoreWrite: '<S6>/Data Store Write3' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalSpeedCount =
         mcb_pmsm_foc_hall_f28379d_B.Switch;
 
-      /* DataStoreWrite: '<S5>/Data Store Write4' */
+      /* DataStoreWrite: '<S6>/Data Store Write4' */
       mcb_pmsm_foc_hall_f28379d_DWork.GlobalHallState =
         mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator2;
 
-      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S248>/Hardware Interrupt' */
+      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S243>/Hardware Interrupt' */
     }
   }
 
@@ -4658,17 +4526,17 @@ interrupt void ECAP3_INT(void)
   HWI_TIC28x_AcknowledgeIrq(58);
 }
 
-/* Hardware Interrupt Block: '<S250>/Hardware Interrupt' */
+/* Hardware Interrupt Block: '<S245>/Hardware Interrupt' */
 interrupt void SCIA_RX_INT(void)
 {
   /* Event: Default Event */
   if (1 == runModel) {
     {
-      /* S-Function (HardwareInterrupt_sfun): '<S250>/Hardware Interrupt' */
+      /* S-Function (HardwareInterrupt_sfun): '<S245>/Hardware Interrupt' */
 
       /* Output and update for function-call system: '<Root>/Serial Receive' */
 
-      /* S-Function (c28xsci_rx): '<S337>/SCI Receive' */
+      /* S-Function (c28xsci_rx): '<S332>/SCI Receive' */
       {
         int16_T i;
         int16_T errFlg = NOERROR;
@@ -4692,47 +4560,47 @@ interrupt void SCIA_RX_INT(void)
         }
       }
 
-      /* DataTypeConversion: '<S335>/Data Type Conversion2' */
+      /* DataTypeConversion: '<S330>/Data Type Conversion2' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion2 = (uint16_T)
         mcb_pmsm_foc_hall_f28379d_B.SCIReceive[1];
 
-      /* S-Function (sfix_bitop): '<S334>/Bitwise Operator' */
+      /* S-Function (sfix_bitop): '<S329>/Bitwise Operator' */
       mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator =
         mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion2 & 1U;
 
-      /* DataTypeConversion: '<S334>/Data Type Conversion3' */
+      /* DataTypeConversion: '<S329>/Data Type Conversion3' */
       mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion3 =
         (mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator != 0U);
 
-      /* DataStoreWrite: '<S9>/Data Store Write' */
+      /* DataStoreWrite: '<S10>/Data Store Write' */
       mcb_pmsm_foc_hall_f28379d_DWork.Enable =
         mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion3;
 
-      /* DataStoreWrite: '<S9>/Data Store Write1' */
+      /* DataStoreWrite: '<S10>/Data Store Write1' */
       mcb_pmsm_foc_hall_f28379d_DWork.Speed_ref =
         mcb_pmsm_foc_hall_f28379d_B.SCIReceive[0];
 
-      /* S-Function (sfix_bitop): '<S334>/Bitwise Operator1' */
+      /* S-Function (sfix_bitop): '<S329>/Bitwise Operator1' */
       mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator1 =
         mcb_pmsm_foc_hall_f28379d_B.DataTypeConversion2 & 240U;
 
-      /* ArithShift: '<S334>/Shift Arithmetic1' incorporates:
-       *  S-Function (sfix_bitop): '<S334>/Bitwise Operator1'
+      /* ArithShift: '<S329>/Shift Arithmetic1' incorporates:
+       *  S-Function (sfix_bitop): '<S329>/Bitwise Operator1'
        */
       mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_d =
         mcb_pmsm_foc_hall_f28379d_B.BitwiseOperator1 >> 4U;
 
-      /* DataStoreWrite: '<S9>/Data Store Write2' */
+      /* DataStoreWrite: '<S10>/Data Store Write2' */
       mcb_pmsm_foc_hall_f28379d_DWork.Debug_signals =
         mcb_pmsm_foc_hall_f28379d_B.ShiftArithmetic1_d;
 
-      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S250>/Hardware Interrupt' */
+      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S245>/Hardware Interrupt' */
 
       /* RateTransition: '<Root>/RT6' */
-      mcb_pmsm_foc_hall_f28379d_DWork.RT6_Buffer[mcb_pmsm_foc_hall_f28379d_DWork.RT6_ActiveBufIdx
+      mcb_pmsm_foc_hall_f28379d_DWork.RT6_Buffer[mcb_pmsm_foc_hall_f28379d_DWork.RT6_semaphoreTaken
         == 0] = mcb_pmsm_foc_hall_f28379d_B.SCIReceive[0];
       mcb_pmsm_foc_hall_f28379d_DWork.RT6_ActiveBufIdx =
-        (mcb_pmsm_foc_hall_f28379d_DWork.RT6_ActiveBufIdx == 0);
+        (mcb_pmsm_foc_hall_f28379d_DWork.RT6_semaphoreTaken == 0);
     }
   }
 

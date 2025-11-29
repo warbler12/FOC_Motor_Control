@@ -1,0 +1,144 @@
+﻿[RecorderGroup]
+Recorder Name=Recorder
+Recorder Comment=
+Recorder File Name=TSMaster_{TIME}
+Recorder File Format=mat
+Compression=Active
+Active=False
+MDF Version=4.10
+Enter Comments on stop=True
+
+[RecorderSystemVar]
+vCount=0
+
+[Calibration]
+ECUCount=1
+ECU0=ECU
+
+[ECU_ECU]
+Driver=XCP
+Database=c28x_i2c_sensor.a2l
+Transport Layer=CAN
+Logic Channel=1
+Enabled=True
+ShowTree=1
+
+[Protocol_ECU]
+Protocol Timeout (ms)=2000
+Seed and Key DLL=ECU_SeedNKeyXcp.dll
+Connect Retry Count=2
+Connect Retry Delay (ms)=500
+Connect Timeout (ms)=2000
+Max Retry Count=2
+Enable Retry=True
+Transport Layer Master Id=0x00000002
+Transport Layer Master Id Type=Standard
+Transport Layer Slave Id=0x00000003
+Transport Layer Slave Id Type=Standard
+MAX_DLC_REQUIRED=False
+Byte Order=Intel
+DAQ_CONFIG_TYPE=DYNAMIC
+MAX_DAQ=0xFFFF
+MAX_EVENT_CHANNEL=0x0080
+MIN_DAQ=0x00
+OPTIMISATION_TYPE=OPTIMISATION_TYPE_DEFAULT
+ADDRESS_EXTENSION=ADDRESS_EXTENSION_FREE
+IDENTIFICATION_FIELD_TYPE=IDENTIFICATION_FIELD_TYPE_ABSOLUTE
+GRANULARITY_ODT_ENTRY_SIZE=GRANULARITY_ODT_ENTRY_SIZE_DAQ_BYTE
+MAX_ODT_ENTRY_SIZE_DAQ=0x07
+OVERLOAD_INDICATION=NO_OVERLOAD_INDICATION
+PRESCALER_SUPPORTED=False
+RESUME_SUPPORTED=False
+GET_COMM_MODE_INFO=0
+GET_ID=0
+SET_REQUEST=0
+GET_SEED=0
+UNLOCK=0
+SET_MTA=1
+UPLOAD=1
+SHORT_UPLOAD=1
+BUILD_CHECKSUM=0
+TRANSPORT_LAYER_CMD=0
+USER_CMD=0
+DOWNLOAD_NEXT=0
+DOWNLOAD_MAX=0
+SHORT_DOWNLOAD=1
+MODIFY_BITS=0
+SET_CAL_PAGE=0
+GET_CAL_PAGE=0
+GET_PAG_PROCESSOR_INFO=0
+GET_SEGMENT_INFO=0
+GET_PAGE_INFO=0
+SET_SEGMENT_MODE=0
+GET_SEGMENT_MODE=0
+COPY_CAL_PAGE=0
+GET_DAQ_CLOCK=0
+READ_DAQ=0
+GET_DAQ_PROCESSOR_INFO=1
+GET_DAQ_RESOLUTION_INFO=1
+GET_DAQ_LIST_MODE=0
+GET_DAQ_EVENT_INFO=0
+GET_DAQ_LIST_INFO=0
+FREE_DAQ=1
+ALLOC_DAQ=1
+ALLOC_ODT=1
+ALLOC_ODT_ENTRY=1
+GET_PGM_PROCESSOR_INFO=0
+GET_SECTOR_INFO=0
+PROGRAM_PREPARE=0
+PROGRAM_FORMAT=0
+PROGRAM_NEXT=0
+PROGRAM_MAX=0
+PROGRAM_VERIFY=0
+WRITE_DAQ_MULTIPLE=0
+EventCount=4
+DAQSettings=1,65535,128,0,0,0,0,0,7,0,0,0
+Event0=500 us,0,5,5,0,0,1,0
+Event1=1 ms,1,1,6,0,0,1,0
+CONNECT=1
+DISCONNECT=1
+GET_STATUS=1
+SYNCH=1
+DOWNLOAD=1
+SET_DAQ_PTR=1
+WRITE_DAQ=1
+SET_DAQ_LIST_MODE=1
+START_STOP_DAQ_LIST=1
+START_STOP_SYNCH=1
+CLEAR_DAQ_LIST=1
+PROGRAM_START=1
+PROGRAM_CLEAR=1
+PROGRAM=1
+PROGRAM_RESET=1
+ProtocolVersion=0x0100
+T1=0x03E8
+T2=0x00C8
+T3=0x0000
+T4=0x0000
+T5=0x0000
+T6=0x0000
+T7=0x0000
+MAX_CTO=0x08
+MAX_DTO=0x0008
+ADDRESS_GRANULARITY=ADDRESS_GRANULARITY_BYTE
+Event2=15 ms,2,15,6,0,0,1,0
+Event3=500 ms,3,5,8,0,0,1,0
+
+[Memory_ECU]
+Cache enable=False
+Memory Image File=ECU.hex
+Cache write optimization=True
+Memory synchronization for read-only=True
+Memory synchronization for writable=True
+Checksum enable=True
+Checksum method=XCP_CRC_16_CITT
+Checksum maximum block size=0x0
+Enable page switch=True
+RAM page identifier=0x0
+Flash page identifier=0x1
+GroupCount=0
+SegCount=0
+SegmentCount=0
+
+[ECUGroup]
+Add ECU Prefix To System Variable=False

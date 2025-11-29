@@ -1,0 +1,267 @@
+<#ftl>
+<#if !MC??>
+<#if SWIPdatas??>
+<#list SWIPdatas as SWIP>
+<#if SWIP.ipName == "MotorControl">
+<#if SWIP.parameters??>
+<#assign MC = SWIP.parameters>
+<#break>
+</#if>
+</#if>
+</#list>
+</#if>
+<#if MC??>
+<#else>
+<#stop "No MotorControl SW IP data found">
+</#if>
+</#if>
+
+<#function GetSpeedSensor motor aux=false> 
+      <#local SENSORS =
+        [ {"name": "NULL", "val": "ENO_SENSOR"} 
+        , {"name": "PLL", "val": "EPLL"} 
+        , {"name": "CORDIC", "val": "ECORDIC"} 
+        , {"name": "ENCODER", "val": "EENCODER"}
+        , {"name": "HALL", "val": "EHALL"}
+        , {"name": "HSO", "val": "EHSO"}        
+        , {"name": "ZEST", "val": "EZEST"}
+        ] >
+      <#if motor == "M1" > 
+        <#if !aux > <#assign entry = MC.SPEED_SENSOR_SELECTION> <#else> <#assign entry = MC.AUXILIARY_SPEED_MEASUREMENT_SELECTION > </#if>
+      <#else>
+        <#if !aux > <#assign entry = MC.SPEED_SENSOR_SELECTION2> <#else> <#assign entry = MC.AUXILIARY_SPEED_MEASUREMENT_SELECTION2 > </#if>
+      </#if>
+      <#list SENSORS as sensor >
+        <#if entry?contains(sensor.name) >
+         <#return  sensor.val >
+        </#if>
+      </#list>
+     <#return 0 >
+</#function>
+
+<#function GetTopology motor> 
+      <#local TOPOLOGIES =
+        [ {"name": "THREE_SHUNT", "val": 0} 
+        , {"name": "SINGLE_SHUNT", "val": 1} 
+        , {"name": "SINGLE_SHUNT_PHASE_SHIFT", "val": 2}
+        , {"name": "ICS_SENSORS", "val": 3}
+        ] >
+      <#if motor == "M1" > 
+         <#assign entry = MC.CURRENT_READING_TOPOLOGY> 
+      <#else>
+        <#assign entry = MC.CURRENT_READING_TOPOLOGY2 >
+      </#if>
+      <#list TOPOLOGIES as topology >
+        <#if entry?contains(topology.name) >
+         <#return  topology.val >
+        </#if>
+      </#list>
+     <#return 0 >
+</#function>
+
+<#function GetConfigurationFlag motor Flag> 
+  <#if Flag == 1 >
+    <#if motor == "M1" >
+      <#if MC.FLUX_WEAKENING_ENABLING > <#local FW="|FLUX_WEAKENING_FLAG"> <#else> <#local FW=""> </#if>
+      <#if MC.FEED_FORWARD_CURRENT_REG_ENABLING > <#local FF="|FEED_FORWARD_FLAG"> <#else> <#local FF=""> </#if>
+      <#if MC.MTPA_ENABLING > <#local MTPA="|MTPA_FLAG"> <#else> <#local MTPA=""> </#if>
+      <#if MC.PFC_ENABLED >   <#local PFC="|PFC_FLAG"> <#else> <#local PFC=""> </#if>
+      <#if MC.INRUSH_CURRLIMIT_ENABLING >   <#local ICL="|ICL_FLAG"> <#else> <#local ICL=""> </#if>  
+      <#if MC.ON_OVER_VOLTAGE == "TURN_ON_R_BRAKE" >  <#local RB=" | RESISTIVE_BREAK_FLAG"> <#else> <#local RB=""> </#if>  
+      <#if MC.HW_OV_CURRENT_PROT_BYPASS >  <#local OCP="|OCP_DISABLE_FLAG"> <#else> <#local OCP=""> </#if>  
+      <#if MC.USE_STGAP1S >  <#local STGAP="|STGAP_FLAG"> <#else> <#local STGAP=""> </#if>  
+      <#if MC.POSITION_CTRL_ENABLING >  <#local PCTL="|POSITION_CTRL_FLAG"> <#else> <#local PCTL=""> </#if>  
+      <#if MC.BUS_VOLTAGE_READING >  <#local VBUS="|VBUS_SENSING_FLAG"> <#else> <#local VBUS=""> </#if>  
+      <#if MC.TEMPERATURE_READING >  <#local TEMP="|TEMP_SENSING_FLAG"> <#else> <#local TEMP=""> </#if>  
+    /* Voltage sensing to be defined in data model*/
+    /* Flash Config to be defined in data model*/
+      <#if MC.DEBUG_DAC_CH1 >  <#local DAC1="|DAC_CH1_FLAG"> <#else> <#local DAC1=""> </#if>  
+      <#if MC.DEBUG_DAC_CH2 >  <#local DAC2="|DAC_CH2_FLAG"> <#else> <#local DAC2=""> </#if>  
+      <#return "0"+FW+FF+MTPA+PFC+ICL+RB+OCP+STGAP+PCTL+VBUS+TEMP+DAC1+DAC2 >
+    <#else> 
+    <#-- Motor 2 -->
+    </#if>
+  <#elseif Flag == 2 >
+    <#if motor == "M1" >  
+      <#return 0 >
+    <#else> 
+      <#-- Motor 2 Flag 2 -->
+    </#if>
+  </#if> <#-- Flag number -->
+  <#return 0 >
+</#function>
+
+#ifndef MC_CONFIGURATION_REGISTERS_H
+#define MC_CONFIGURATION_REGISTERS_H
+
+<<<<<<< HEAD
+#include "stdint.h"
+=======
+#include "mc_type.h"
+>>>>>>> master
+#include "mcp_config.h"
+
+typedef struct
+{
+  uint32_t SDKVersion;
+  uint8_t  MotorNumber;
+  uint8_t  MCP_Flag;
+  uint8_t  MCPA_UARTA_LOG;
+  uint8_t  MCPA_UARTB_LOG;
+  uint8_t  MCPA_STLNK_LOG;
+  uint8_t  Padding;
+} __attribute__ ((packed)) GlobalConfig_reg_t;
+
+typedef struct _motorParams_t_
+{
+    float		polePairs;
+    float		ratedFlux;
+    float		rs;
+    float		rsSkinFactor;
+    float		ls;
+    float   ld; 
+    float		maxCurrent;
+    float		mass_copper_kg;
+    float		cooling_tau_s;
+<<<<<<< HEAD
+    char  name[24];
+=======
+    char_t  name[24];
+>>>>>>> master
+} __attribute__ ((packed)) MotorConfig_reg_t;
+
+typedef  struct
+{
+  uint32_t maxMechanicalSpeed;
+  uint32_t maxMotorCurrent;
+  uint16_t maxVoltageSupply;
+  uint16_t minVoltageSupply;
+  uint8_t driveType;
+  uint8_t padding;
+} __attribute__ ((packed)) ApplicationConfig_reg_t;
+
+typedef struct
+{
+  uint8_t primarySensor;
+  uint8_t auxiliarySensor;
+  uint8_t topology;
+  uint8_t FOCRate;
+  uint32_t PWMFrequency;
+  uint16_t MediumFrequency;
+  uint16_t configurationFlag1;
+} __attribute__ ((packed)) FOCFwConfig_reg_t;
+
+#define ENO_SENSOR 0
+#define EPLL       1
+#define ECORDIC    2
+#define EENCODER   3
+#define EHALL      4
+#define EHSO       5
+#define EZEST      6
+
+#define SDK_VERSION_MAIN   (0x5) /*!< [31:24] main version */
+#define SDK_VERSION_SUB1   (0x5a) /*!< [23:16] sub1 version */
+#define SDK_VERSION_SUB2   (0x2) /*!< [15:8]  sub2 version */
+#define SDK_VERSION_RC     (0x0) /*!< [7:0]  release candidate */
+#define SDK_VERSION        ((SDK_VERSION_MAIN << 24U)\
+                                         |(SDK_VERSION_SUB1 << 16U)\
+                                         |(SDK_VERSION_SUB2 << 8U )\
+                                         |(SDK_VERSION_RC))
+/* configurationFlag1 definition */
+<<<<<<< HEAD
+#define FLUX_WEAKENING_FLAG 1
+#define FEED_FORWARD_FLAG (1 << 1)
+#define MTPA_FLAG (1 << 2)
+#define PFC_FLAG (1 << 3)
+#define ICL_FLAG (1 << 4)
+#define RESISTIVE_BREAK_FLAG (1 << 5)
+#define OCP_DISABLE_FLAG (1 << 6)
+#define STGAP_FLAG (1 << 7)
+#define POSITION_CTRL_FLAG (1 << 8)
+#define VBUS_SENSING_FLAG (1 << 9)
+#define TEMP_SENSING_FLAG (1 << 10)
+#define VOLTAGE_SENSING_FLAG (1 << 11)
+#define FLASH_CONFIG_FLAG (1 << 12)
+#define DAC_CH1_FLAG (1 << 13)
+#define DAC_CH2_FLAG (1 << 14)
+
+/* configurationFlag2 definition */
+#define ON_THE_FLY_FLAG 1
+#define OVERMODULATION_FLAG (1 << 1)
+#define DISCONTINUOUS_PWM_FLAG (2 << 1)
+
+/* MCP_Flag definition */
+#define MCP_OVER_STLINK <#if MC.MCP_OVER_STLNK > 1 <#else> 0 </#if>
+#define MCP_OVER_UARTA  <#if MC.MCP_OVER_UART_A > (1<< 1) <#else> 0 </#if>
+#define MCP_OVER_UARTB  <#if MC.MCP_OVER_UART_B > (1<< 2) <#else> 0 </#if>
+=======
+#define FLUX_WEAKENING_FLAG 1U
+#define FEED_FORWARD_FLAG (1U << 1U)
+#define MTPA_FLAG (1U << 2U)
+#define PFC_FLAG (1U << 3U)
+#define ICL_FLAG (1U << 4U)
+#define RESISTIVE_BREAK_FLAG (1U << 5U)
+#define OCP_DISABLE_FLAG (1U << 6U)
+#define STGAP_FLAG (1U << 7U)
+#define POSITION_CTRL_FLAG (1U << 8U)
+#define VBUS_SENSING_FLAG (1U << 9U)
+#define TEMP_SENSING_FLAG (1U << 10U)
+#define VOLTAGE_SENSING_FLAG (1U << 11U)
+#define FLASH_CONFIG_FLAG (1U << 12U)
+#define DAC_CH1_FLAG (1U << 13U)
+#define DAC_CH2_FLAG (1U << 14U)
+
+/* configurationFlag2 definition */
+#define ON_THE_FLY_FLAG 1
+#define OVERMODULATION_FLAG (1U << 1U)
+#define DISCONTINUOUS_PWM_FLAG (2U << 1U)
+
+/* MCP_Flag definition */
+#define MCP_OVER_STLINK <#if MC.MCP_OVER_STLNK > 1U <#else> 0U </#if>
+#define MCP_OVER_UARTA  <#if MC.MCP_OVER_UART_A > (1U<< 1U) <#else> 0U </#if>
+#define MCP_OVER_UARTB  <#if MC.MCP_OVER_UART_B > (1U<< 2U) <#else> 0U </#if>
+>>>>>>> master
+
+
+#define configurationFlag1_M1 (${GetConfigurationFlag ("M1",1)})
+
+<<<<<<< HEAD
+#define NBR_OF_MOTORS <#if MC.SINGLEDRIVE> 1 <#else> 2 </#if>
+=======
+#define MAX_OF_MOTORS 2U
+#define NBR_OF_MOTORS <#if MC.SINGLEDRIVE> 1 <#else> MAX_OF_MOTORS </#if>
+>>>>>>> master
+#define DRIVE_TYPE_M1 <#if MC.DRIVE_TYPE == "FOC" > 0 <#else> 1 </#if>
+#define PRIM_SENSOR_M1  ${GetSpeedSensor ("M1",false)}
+#define AUX_SENSOR_M1  ${GetSpeedSensor ("M1",true)}
+#define TOPOLOGY_M1 ${GetTopology ("M1")}
+#define FOC_RATE_M1 ${MC.REGULATION_EXECUTION_RATE}
+#define PWM_FREQ_M1 ${MC.PWM_FREQUENCY}
+ 
+<#if   MC.DUALDRIVE == true>
+#define configurationFlag1_M2 (${GetConfigurationFlag ("M2",1)})
+#define DRIVE_TYPE_M2 <#if MC.DRIVE_TYPE == "FOC" > 0 <#else> 1 </#if>
+#define PRIM_SENSOR_M2  ${GetSpeedSensor ("M2",false)}
+#define AUX_SENSOR_M2  ${GetSpeedSensor ("M2",true)}
+#define TOPOLOGY_M2 ${GetTopology ("M2")}
+#define FOC_RATE_M2 ${MC.REGULATION_EXECUTION_RATE2}
+#define PWM_FREQ_M2 ${MC.PWM_FREQUENCY2}
+</#if>
+
+<<<<<<< HEAD
+extern const char FIRMWARE_NAME[];
+extern const char CTL_BOARD[];
+extern const char* PWR_BOARD_NAME[NBR_OF_MOTORS];
+extern const char* MOTOR_NAME[NBR_OF_MOTORS];
+=======
+extern const char_t FIRMWARE_NAME[]; //cstat !MISRAC2012-Rule-18.8 !MISRAC2012-Rule-8.11
+extern const char_t CTL_BOARD[]; //cstat !MISRAC2012-Rule-18.8 !MISRAC2012-Rule-8.11
+extern const char_t* PWR_BOARD_NAME[NBR_OF_MOTORS];
+extern const char_t* MOTOR_NAME[NBR_OF_MOTORS];
+>>>>>>> master
+extern const GlobalConfig_reg_t globalConfig_reg;
+extern const FOCFwConfig_reg_t* FOCConfig_reg[NBR_OF_MOTORS];
+extern const MotorConfig_reg_t* MotorConfig_reg[NBR_OF_MOTORS];
+extern const ApplicationConfig_reg_t* ApplicationConfig_reg[NBR_OF_MOTORS];
+
+#endif

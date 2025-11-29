@@ -1,18 +1,16 @@
 mcb_pmsm_foc_hall_f28379d_data.obj: D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f28379d_ert_rtw/mcb_pmsm_foc_hall_f28379d_data.c
 mcb_pmsm_foc_hall_f28379d_data.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\mcb_pmsm_foc_hall_f28379d.h
 mcb_pmsm_foc_hall_f28379d_data.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\rtwtypes.h
-mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h
-mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h
-mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h
-mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/cdefs.h
-mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h
 mcb_pmsm_foc_hall_f28379d_data.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000BoardSupport.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdbool.h
+mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h
+mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h
 mcb_pmsm_foc_hall_f28379d_data.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/TI/C2000W~2/DEVICE~1/f2837xd/headers/include/F2837xD_device.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/assert.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdarg.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/_types.h
+mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/cdefs.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_types.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stddef.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdint.h
@@ -81,9 +79,11 @@ mcb_pmsm_foc_hall_f28379d_data.obj: D:/Software/MATLAB/toolbox/c2b/tic2000/inc/c
 mcb_pmsm_foc_hall_f28379d_data.obj: D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f28379d_ert_rtw/MW_target_hardware_resources.h
 mcb_pmsm_foc_hall_f28379d_data.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h
 mcb_pmsm_foc_hall_f28379d_data.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000SchedulerTimer.h
-mcb_pmsm_foc_hall_f28379d_data.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\DSP28xx_SciUtil.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include/IQmathLib.h
 mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/limits.h
+mcb_pmsm_foc_hall_f28379d_data.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\DSP28xx_SciUtil.h
+mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h
+mcb_pmsm_foc_hall_f28379d_data.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h
 mcb_pmsm_foc_hall_f28379d_data.obj: D:/Software/MATLAB/toolbox/target/shared/svd/common/include/MW_SPI.h
 mcb_pmsm_foc_hall_f28379d_data.obj: D:\Software\MATLAB\toolbox\target\shared\svd\common\include\MW_digitalIO.h
 mcb_pmsm_foc_hall_f28379d_data.obj: D:\Software\MATLAB\toolbox\target\shared\svd\common\include\MW_SVD.h
@@ -101,18 +101,16 @@ mcb_pmsm_foc_hall_f28379d_data.obj: D:\project\internship\mcb\FocHallExample\mcb
 D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f28379d_ert_rtw/mcb_pmsm_foc_hall_f28379d_data.c:
 D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\mcb_pmsm_foc_hall_f28379d.h:
 D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\rtwtypes.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/cdefs.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h:
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000BoardSupport.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdbool.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h:
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h:
 C:/TI/C2000W~2/DEVICE~1/f2837xd/headers/include/F2837xD_device.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/assert.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdarg.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/_types.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/cdefs.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_types.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stddef.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdint.h:
@@ -181,9 +179,11 @@ D:/Software/MATLAB/toolbox/c2b/tic2000/inc/c2837xDInit.h:
 D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h:
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000SchedulerTimer.h:
-D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\DSP28xx_SciUtil.h:
 C:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include/IQmathLib.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/limits.h:
+D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\DSP28xx_SciUtil.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h:
 D:/Software/MATLAB/toolbox/target/shared/svd/common/include/MW_SPI.h:
 D:\Software\MATLAB\toolbox\target\shared\svd\common\include\MW_digitalIO.h:
 D:\Software\MATLAB\toolbox\target\shared\svd\common\include\MW_SVD.h:

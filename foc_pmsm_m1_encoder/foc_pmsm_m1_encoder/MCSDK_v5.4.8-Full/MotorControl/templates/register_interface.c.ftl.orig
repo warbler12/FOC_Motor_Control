@@ -1,0 +1,2645 @@
+<#ftl>
+<#if !MC??>
+<#if SWIPdatas??>
+<#list SWIPdatas as SWIP>
+<#if SWIP.ipName == "MotorControl">
+<#if SWIP.parameters??>
+<#assign MC = SWIP.parameters>
+<#break>
+</#if>
+</#if>
+</#list>
+</#if>
+<#if MC??>
+<#else>
+<#stop "No MotorControl SW IP data found">
+</#if>
+</#if>
+<#assign AUX_SPEED_FDBK_M1 = (MC.AUX_HALL_SENSORS  || MC.AUX_ENCODER || MC.AUX_STATE_OBSERVER_PLL || MC.AUX_STATE_OBSERVER_CORDIC)>
+<#assign AUX_SPEED_FDBK_M2 = (MC.AUX_HALL_SENSORS2 || MC.AUX_ENCODER2 || MC.AUX_STATE_OBSERVER_PLL2 || MC.AUX_STATE_OBSERVER_CORDIC2)>
+<#assign IS_STO_CORDIC = MC.STATE_OBSERVER_CORDIC ||  MC.AUX_STATE_OBSERVER_CORDIC>
+<#assign IS_STO_CORDIC2 = MC.STATE_OBSERVER_CORDIC2 ||  MC.AUX_STATE_OBSERVER_CORDIC2 >
+<#assign IS_STO_PLL = MC.STATE_OBSERVER_PLL ||  MC.AUX_STATE_OBSERVER_PLL>
+<#assign IS_STO_PLL2 = MC.STATE_OBSERVER_PLL2 ||  MC.AUX_STATE_OBSERVER_PLL2 >
+<#assign IS_SENSORLESS = MC.STATE_OBSERVER_CORDIC ||  MC.STATE_OBSERVER_PLL >
+<#assign IS_SENSORLESS2 = MC.STATE_OBSERVER_CORDIC2 ||  MC.STATE_OBSERVER_PLL2 >
+<#assign IS_ENCODER = MC.ENCODER ||  MC.AUX_ENCODER >
+<#assign IS_ENCODER2 = MC.ENCODER2 ||  MC.AUX_ENCODER2 >
+<#assign IS_HALL_SENSORS = MC.HALL_SENSORS ||  MC.AUX_HALL_SENSORS >
+<#assign IS_HALL_SENSORS2 = MC.HALL_SENSORS2 ||  MC.AUX_HALL_SENSORS2 >
+
+<#assign CondFamily_STM32F0 = (FamilyName?? && FamilyName=="STM32F0")>
+<#-- Condition for STM32G0 Family -->
+<#assign CondFamily_STM32G0 = (FamilyName?? && FamilyName=="STM32G0") >
+
+<#assign UNALIGNMENT_SUPPORTED = !(CondFamily_STM32F0 || CondFamily_STM32G0) >
+
+<#function GetSpeedSensor motor aux=false> 
+      <#local SENSORS =
+        [ {"name": "PLL", "variable": "&STO_PLL"} 
+        , {"name": "CORDIC", "variable": "&STO_CR"} 
+        , {"name": "HALL", "variable": "&HALL"}
+        , {"name": "ENCODER", "variable": "&ENCODER"}
+        ] >
+      <#if motor == "M1" > 
+        <#if !aux > <#assign entry = MC.SPEED_SENSOR_SELECTION> <#else> <#assign entry = MC.AUXILIARY_SPEED_MEASUREMENT_SELECTION > </#if>
+      <#else>
+        <#if !aux > <#assign entry = MC.SPEED_SENSOR_SELECTION2> <#else> <#assign entry = MC.AUXILIARY_SPEED_MEASUREMENT_SELECTION2 > </#if>
+      </#if>
+      <#list SENSORS as sensor >
+        <#if entry?contains(sensor.name) >
+         <#return  sensor.variable+"_"+motor >
+        </#if>
+      </#list>
+     <#return "MC_NULL" >
+</#function>
+/**
+  ******************************************************************************
+  * @file    register_interface.c
+  * @author  Motor Control SDK Team, ST Microelectronics
+  * @brief   This file provides firmware functions that implement the register access for the MCP protocol
+  *
+  *
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.</center></h2>
+  *
+  * This software component is licensed by ST under Ultimate Liberty license
+  * SLA0044, the "License"; You may not use this file except in compliance with
+  * the License. You may obtain a copy of the License at:
+  *                             www.st.com/SLA0044
+  *
+  ******************************************************************************
+  */
+  
+<<<<<<< HEAD
+#include "stdint.h"
+=======
+#include "mc_type.h"
+>>>>>>> master
+#include "string.h"
+#include "register_interface.h"
+#include "mc_config.h"
+#include "mcp.h"
+#include "mcp_config.h"
+<#if MC.MCP_ASYNC_USED >
+#include "mcpa.h"
+</#if>
+<#if MC.DAC_FUNCTIONALITY>
+#include "dac_ui.h"
+</#if>
+#include "mc_configuration_registers.h"
+
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Is there a good reason for having different ways to do between 6S and FOC? -->
+  <#if   MC.DUALDRIVE == true>
+    <#if  IS_SENSORLESS || IS_SENSORLESS2 > 
+ static RevUpCtrl_Handle_t * RevUpControl [NBR_OF_MOTORS] = {<#if IS_SENSORLESS >&RevUpControlM1<#else>MC_NULL</#if>, <#if IS_SENSORLESS2>&RevUpControlM2<#else>MC_NULL</#if>};  
+    </#if>
+    <#if  IS_STO_CORDIC || IS_STO_CORDIC2 > 
+static STO_CR_Handle_t * stoCRSensor [NBR_OF_MOTORS] = {<#if IS_STO_CORDIC >&STO_CR_M1<#else>MC_NULL</#if>, <#if IS_STO_CORDIC2>&STO_CR_M2<#else>MC_NULL</#if>};  
+    </#if>
+    <#if IS_STO_PLL || IS_STO_PLL2 >
+static STO_PLL_Handle_t * stoPLLSensor [NBR_OF_MOTORS] = {<#if IS_STO_PLL >&STO_PLL_M1<#else>MC_NULL</#if>, <#if IS_STO_PLL2>&STO_PLL_M2<#else>MC_NULL</#if>}; 
+    </#if> 
+static PID_Handle_t *pPIDSpeed[NBR_OF_MOTORS] = { &PIDSpeedHandle_M1, &PIDSpeedHandle_M2 };   
+    <#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2 >      
+PID_Handle_t *pPIDPosCtrl[NBR_OF_MOTORS] = {<#if MC.POSITION_CTRL_ENABLING >&PID_PosParamsM1<#else>MC_NULL</#if>, <#if MC.POSITION_CTRL_ENABLING2>&PID_PosParamsM2<#else>MC_NULL</#if>};
+    </#if>
+    <#if MC.FLUX_WEAKENING_ENABLING==true || MC.FLUX_WEAKENING_ENABLING2==true> 
+static PID_Handle_t *pPIDFW[NBR_OF_MOTORS] = { <#if MC.FLUX_WEAKENING_ENABLING>&PIDFluxWeakeningHandle_M1<#else>MC_NULL</#if>,<#if MC.FLUX_WEAKENING_ENABLING2>&PIDFluxWeakeningHandle_M2<#else>MC_NULL </#if>};
+    </#if>
+    <#if IS_ENCODER || IS_ENCODER2 >
+static ENCODER_Handle_t *pEncoder[NBR_OF_MOTORS] = {<#if IS_ENCODER>&ENCODER_M1<#else>MC_NULL</#if>,<#if IS_ENCODER2>&ENCODER_M2<#else>MC_NULL</#if>};
+    </#if>
+    <#if IS_HALL_SENSORS || IS_HALL_SENSORS2 >
+static HALL_Handle_t *pHallSensor[NBR_OF_MOTORS] = {<#if IS_HALL_SENSORS>&HALL_M1<#else>MC_NULL</#if>,<#if IS_HALL_SENSORS2>&HALL_M2<#else>MC_NULL</#if>};
+    </#if>
+  <#else>
+    <#if IS_SENSORLESS >
+static RevUpCtrl_Handle_t *RevUpControl[NBR_OF_MOTORS] = { &RevUpControlM1 };
+    </#if>
+    <#if  IS_STO_CORDIC>
+static STO_CR_Handle_t * stoCRSensor [NBR_OF_MOTORS] = { &STO_CR_M1 };
+    </#if>
+    <#if  IS_STO_PLL>  
+static STO_PLL_Handle_t * stoPLLSensor [NBR_OF_MOTORS] = { &STO_PLL_M1 };
+    </#if>
+static PID_Handle_t *pPIDSpeed[NBR_OF_MOTORS] = { &PIDSpeedHandle_M1 };  
+    <#if MC.POSITION_CTRL_ENABLING>      
+PID_Handle_t *pPIDPosCtrl[NBR_OF_MOTORS] = { &PID_PosParamsM1 };
+    </#if>
+    <#if MC.FLUX_WEAKENING_ENABLING==true > 
+static PID_Handle_t *pPIDFW[NBR_OF_MOTORS] = { &PIDFluxWeakeningHandle_M1};
+    </#if>
+    <#if IS_ENCODER >
+static ENCODER_Handle_t *pEncoder[NBR_OF_MOTORS] = {&ENCODER_M1};
+    </#if>
+    <#if IS_HALL_SENSORS >
+static HALL_Handle_t *pHallSensor[NBR_OF_MOTORS] = {&HALL_M1};
+    </#if>
+  </#if> <#-- Single Drive -->
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+static uint16_t nullData16=0;
+
+static uint8_t RI_SetReg (uint16_t dataID, uint8_t * data, uint16_t *size, int16_t dataAvailable);
+static uint8_t RI_GetReg (uint16_t dataID, uint8_t * data, uint16_t *size, int16_t maxSize);
+static uint8_t RI_MovString(const char_t * srcString, char_t * destString, uint16_t *size, int16_t maxSize);
+
+__weak uint8_t RI_SetRegCommandParser (MCP_Handle_t * pHandle, uint16_t txSyncFreeSpace)
+{
+  uint8_t retVal=MCP_CMD_OK;
+  if (MC_NULL == pHandle)
+  {
+    retVal = MCP_CMD_NOK;
+  }
+  else
+  {
+
+    uint16_t * dataElementID;
+    uint8_t * rxData = pHandle->rxBuffer;
+    uint8_t * txData = pHandle->txBuffer;
+    int16_t rxLength = pHandle->rxLength;
+    uint16_t size = 0U;
+    uint8_t number_of_item =0;
+    pHandle->txLength = 0;
+    uint8_t accessResult;
+    while (rxLength > 0)
+    {
+       number_of_item++;
+      dataElementID = (uint16_t *) rxData;
+      rxLength = rxLength-MCP_ID_SIZE; // We consume 2 byte in the DataID
+      rxData = rxData+MCP_ID_SIZE; // Shift buffer to the next data
+      accessResult = RI_SetReg (*dataElementID,rxData,&size,rxLength);
+      
+      /* Prepare next data*/
+      rxLength = (int16_t) (rxLength - size);
+      rxData = rxData+size;
+      /* If there is only one CMD in the buffer, we do not store the result */
+        if ((1U == number_of_item) && (0 == rxLength))
+      {
+        retVal = accessResult;
+      }
+      else
+      {/* Store the result for each access to be able to report failling access */
+        if (txSyncFreeSpace !=0 ) 
+        {
+          *txData = accessResult;
+          txData = txData+1;
+          pHandle->txLength++;
+          txSyncFreeSpace--; /* decrement one by one no wraparound possible */
+          retVal = (accessResult != MCP_CMD_OK) ? MCP_CMD_NOK : retVal;
+          if ((accessResult == MCP_ERROR_BAD_DATA_TYPE) || (accessResult == MCP_ERROR_BAD_RAW_FORMAT))
+          { /* From this point we are not able to continue to decode CMD buffer*/
+            /* We stop the parsing */
+            rxLength = 0;
+          }
+        }
+        else
+        {
+          /* Stop parsing the cmd buffer as no space to answer */
+          /* If we reach this state, chances are high the command was badly formated or received */
+          rxLength = 0; 
+          retVal = MCP_ERROR_NO_TXSYNC_SPACE;
+        }
+      }     
+    }
+    /* If all accesses are fine, just one global MCP_CMD_OK is required*/  
+      if (MCP_CMD_OK == retVal)
+    {
+      pHandle->txLength = 0;
+    }
+    else
+    {
+      /* Nothing to do */
+    }
+  } 
+
+  return (retVal);
+}
+
+__weak uint8_t RI_GetRegCommandParser (MCP_Handle_t * pHandle, uint16_t txSyncFreeSpace)
+{
+  uint8_t retVal = MCP_CMD_NOK;
+  
+  if (MC_NULL == pHandle)
+  {
+    /* Nothing to do */
+  }
+  else
+  {
+    uint16_t * dataElementID;
+    uint8_t * rxData = pHandle->rxBuffer;
+    uint8_t * txData = pHandle->txBuffer;
+    uint16_t size = 0;
+    uint16_t rxLength = pHandle->rxLength;
+    int16_t freeSpaceS16 = (int16_t) txSyncFreeSpace;
+
+    pHandle->txLength = 0;
+    
+    while (rxLength > 0U)
+    {
+      dataElementID = (uint16_t *) rxData;
+      rxLength = rxLength-MCP_ID_SIZE; 
+      rxData = rxData+MCP_ID_SIZE; // Shift buffer to the next MCP_ID 
+      retVal = RI_GetReg (*dataElementID,txData, &size, freeSpaceS16); 
+      if (retVal == MCP_CMD_OK )
+      {
+        txData = txData+size;
+        pHandle->txLength += size;
+        freeSpaceS16 = freeSpaceS16-size;
+      }
+      else 
+      { 
+        rxLength = 0;
+      }
+    }
+  }
+
+  return (retVal);
+}
+
+uint8_t RI_SetReg (uint16_t dataID, uint8_t * data, uint16_t *size, int16_t dataAvailable)
+{
+  uint8_t retVal = MCP_CMD_OK;
+  
+  if ((MC_NULL == data) || (MC_NULL == size))
+  {
+    retVal = MCP_CMD_NOK;
+  }
+  else
+  {  
+    uint16_t regID = dataID & REG_MASK;
+    uint8_t motorID;
+    uint8_t typeID;
+    
+    typeID = (uint8_t)dataID & TYPE_MASK;
+<#if   MC.DUALDRIVE == true>
+    motorID = (uint8_t)((dataID & MOTOR_MASK)-1U);
+    motorID = (motorID <= (MAX_OF_MOTORS - 1U)) ? motorID : (MAX_OF_MOTORS - 1U);
+<#else>
+    motorID = 0U;
+</#if>
+<#if MC.DRIVE_TYPE == "FOC" ><#-- Specific to FOC algorithm usage -->
+    MCI_Handle_t *pMCIN = &Mci[motorID];
+<#elseif  MC.DRIVE_TYPE == "SIX_STEP" ><#-- Specific to 6_STEP algorithm usage -->
+    MC_Handle_t *pMCIN = MC_Core_GetMotorControlHandle(motorID);
+</#if><#-- MC.DRIVE_TYPE -->
+  
+    switch (typeID)
+    { //cstat !MISRAC2012-Rule-16.1
+      case TYPE_DATA_8BIT:
+      {
+        switch (regID)
+        {
+          case MC_REG_STATUS:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+          
+<#if MC.DRIVE_TYPE == "FOC">
+          case MC_REG_CONTROL_MODE:
+          {
+            uint8_t regdata8 = *data;
+            if ((uint8_t)STC_TORQUE_MODE == regdata8)
+            {
+              MCI_ExecTorqueRamp(pMCIN, MCI_GetTeref(pMCIN), 0);
+            }
+            else
+            {
+              /* Nothing to do */
+            }
+            if ((uint8_t)STC_SPEED_MODE == regdata8)
+            {
+              MCI_ExecSpeedRamp(pMCIN, MCI_GetMecSpeedRefUnit(pMCIN), 0);
+            }
+            else
+            {
+              /* Nothing to do */
+            }
+            break;
+          }
+  
+  <#if IS_SENSORLESS || IS_SENSORLESS2 >      
+          case MC_REG_RUC_STAGE_NBR:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+  </#if> 
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+<#if MC.PFC_ENABLED>      
+          case MC_REG_PFC_STATUS:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+    
+          case MC_REG_PFC_ENABLED:
+            break;
+            
+</#if>
+<#if MC.MOTOR_PROFILER>      
+          case MC_REG_SC_CHECK:
+          case MC_REG_SC_STATE:
+          case MC_REG_SC_STEPS:
+          case MC_REG_SC_PP:
+          case MC_REG_SC_FOC_REP_RATE:
+          case MC_REG_SC_COMPLETED:
+            break;
+</#if>
+<#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2 >  
+          case MC_REG_POSITION_CTRL_STATE:
+          case MC_REG_POSITION_ALIGN_STATE:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+            
+</#if>      
+          default:
+          {
+            retVal = MCP_ERROR_UNKNOWN_REG;
+            break;
+          }
+        }
+        *size = 1;
+        break;
+      }
+  
+      case TYPE_DATA_16BIT:
+      {
+        uint16_t regdata16 = *(uint16_t *)data; //cstat !MISRAC2012-Rule-11.3
+        
+        switch (regID) 
+        {
+          case MC_REG_SPEED_KP:
+          {
+<#if MC.DRIVE_TYPE == "FOC">
+            PID_SetKP(pPIDSpeed[motorID], (int16_t)regdata16);
+<#elseif MC.DRIVE_TYPE=="SIX_STEP">
+            pMCIN->pid_parameters.kp = regdata16;
+</#if><#-- MC.DRIVE_TYPE -->
+            break;
+          }
+  
+          case MC_REG_SPEED_KI:
+          {
+<#if MC.DRIVE_TYPE == "FOC">
+            PID_SetKI(pPIDSpeed[motorID], (int16_t)regdata16);
+<#elseif MC.DRIVE_TYPE=="SIX_STEP">
+            pMCIN->pid_parameters.ki = regdata16;
+</#if><#-- MC.DRIVE_TYPE -->
+            break;
+          }
+  
+          case MC_REG_SPEED_KD:
+          {
+<#if MC.DRIVE_TYPE == "FOC">
+            PID_SetKD(pPIDSpeed[motorID], (int16_t)regdata16);
+<#elseif MC.DRIVE_TYPE=="SIX_STEP">
+            pMCIN->pid_parameters.kd = regdata16;
+</#if><#-- MC.DRIVE_TYPE -->
+            break;
+          }
+  
+<#if MC.DRIVE_TYPE == "FOC">
+  
+          case MC_REG_I_Q_KP:
+          {
+            PID_SetKP(pPIDIq[motorID], (int16_t)regdata16);
+            break;
+          }
+  
+          case MC_REG_I_Q_KI:
+          {
+            PID_SetKI(pPIDIq[motorID], (int16_t)regdata16);
+            break;
+          }
+  
+          case MC_REG_I_Q_KD:
+          {
+            PID_SetKD(pPIDIq[motorID], (int16_t)regdata16);
+            break;           
+          }
+  
+          case MC_REG_I_D_KP:
+          {
+            PID_SetKP(pPIDId[motorID], (int16_t)regdata16);
+            break;
+          }
+  
+          case MC_REG_I_D_KI:
+          {
+            PID_SetKI(pPIDId[motorID], (int16_t)regdata16);
+            break;
+          }
+  
+          case MC_REG_I_D_KD:
+          {
+            PID_SetKD(pPIDId[motorID], (int16_t)regdata16);
+            break;
+          }
+  <#if MC.FLUX_WEAKENING_ENABLING==true || MC.FLUX_WEAKENING_ENABLING2==true>     
+  
+          case MC_REG_FLUXWK_KP:
+          {
+            PID_SetKP(pPIDFW[motorID], (int16_t)regdata16);
+            break;
+          }
+    
+          case MC_REG_FLUXWK_KI:
+          {          
+            PID_SetKI(pPIDFW[motorID], (int16_t)regdata16);
+            break;
+          }
+    
+          case MC_REG_FLUXWK_BUS:
+          {       
+            FW_SetVref(pFW[motorID], regdata16);
+            break;
+          }
+          
+  </#if> <#-- FLUX_WEAKENING_ENABLING -->     
+          case MC_REG_BUS_VOLTAGE:       
+          case MC_REG_HEATS_TEMP:         
+          case MC_REG_MOTOR_POWER:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+  
+</#if><#-- MC.DRIVE_TYPE -->
+<#if MC.DAC_FUNCTIONALITY>     
+          case MC_REG_DAC_OUT1:
+          {
+            DAC_SetChannelConfig(&DAC_Handle , DAC_CH1, regdata16);
+            break;
+          }
+          
+          case MC_REG_DAC_OUT2:
+          {
+            DAC_SetChannelConfig(&DAC_Handle , DAC_CH2, regdata16);
+            break;
+          }
+</#if>
+
+          case MC_REG_I_A:
+          case MC_REG_I_B:
+<#if MC.DRIVE_TYPE == "FOC">
+<<<<<<< HEAD
+    case MC_REG_I_ALPHA_MEAS:
+    case MC_REG_I_BETA_MEAS:
+    case MC_REG_I_Q_MEAS:
+    case MC_REG_I_D_MEAS:
+    case MC_REG_FLUXWK_BUS_MEAS:
+=======
+          case MC_REG_I_ALPHA_MEAS:
+          case MC_REG_I_BETA_MEAS:
+          case MC_REG_I_Q_MEAS:
+          case MC_REG_I_D_MEAS:
+          case MC_REG_FLUXWK_BUS_MEAS:
+>>>>>>> master
+</#if><#-- DRIVE_TYPE == "FOC" -->
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+<#if MC.DRIVE_TYPE == "FOC">
+          case MC_REG_I_Q_REF:
+          {
+            qd_t currComp;
+            currComp = MCI_GetIqdref(pMCIN);
+            currComp.q = (int16_t)regdata16;
+            MCI_SetCurrentReferences(pMCIN,currComp);
+            break;
+          }
+          
+          case MC_REG_I_D_REF:
+          {            
+            qd_t currComp;
+            currComp = MCI_GetIqdref(pMCIN);
+            currComp.d = (int16_t)regdata16;
+            MCI_SetCurrentReferences(pMCIN,currComp);
+            break;
+          }
+              
+          case MC_REG_V_Q:
+          case MC_REG_V_D:
+          case MC_REG_V_ALPHA:
+          case MC_REG_V_BETA:
+</#if><#-- DRIVE_TYPE == "FOC" -->
+          case MC_REG_ENCODER_EL_ANGLE:
+          case MC_REG_ENCODER_SPEED:
+          case MC_REG_HALL_EL_ANGLE:
+          case MC_REG_HALL_SPEED:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+            
+<#if IS_STO_PLL || IS_STO_PLL2 >
+          case MC_REG_STOPLL_C1:
+          {
+            int16_t hC1;
+            int16_t hC2;
+            STO_PLL_GetObserverGains(stoPLLSensor[motorID], &hC1, &hC2);
+            STO_PLL_SetObserverGains(stoPLLSensor[motorID], (int16_t)regdata16, hC2);
+            break;
+          }
+  
+          case MC_REG_STOPLL_C2:
+          {
+            int16_t hC1;
+            int16_t hC2;
+            STO_PLL_GetObserverGains(stoPLLSensor[motorID], &hC1, &hC2);
+            STO_PLL_SetObserverGains(stoPLLSensor[motorID], hC1, (int16_t)regdata16);
+            break;
+          }
+  
+          case MC_REG_STOPLL_KI:
+          {
+            PID_SetKI (&stoPLLSensor[motorID]->PIRegulator, (int16_t)regdata16);
+            break;
+          }
+  
+          case MC_REG_STOPLL_KP:
+          {
+            PID_SetKP (&stoPLLSensor[motorID]->PIRegulator, (int16_t)regdata16);
+            break;
+          }
+  
+          case MC_REG_STOPLL_EL_ANGLE:
+          case MC_REG_STOPLL_ROT_SPEED:
+          case MC_REG_STOPLL_I_ALPHA:
+          case MC_REG_STOPLL_I_BETA:
+          case MC_REG_STOPLL_BEMF_ALPHA:
+          case MC_REG_STOPLL_BEMF_BETA:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+</#if>
+<#if IS_STO_CORDIC || IS_STO_CORDIC2 >     
+          case MC_REG_STOCORDIC_EL_ANGLE:  
+          case MC_REG_STOCORDIC_ROT_SPEED:
+          case MC_REG_STOCORDIC_I_ALPHA:
+          case MC_REG_STOCORDIC_I_BETA:
+          case MC_REG_STOCORDIC_BEMF_ALPHA:
+          case MC_REG_STOCORDIC_BEMF_BETA:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+    
+          case MC_REG_STOCORDIC_C1:
+          {
+            int16_t hC1,hC2;
+            STO_CR_GetObserverGains(stoCRSensor[motorID], &hC1,&hC2);
+            STO_CR_SetObserverGains(stoCRSensor[motorID], (int16_t)regdata16, hC2);
+             break;
+          }
+          
+          case MC_REG_STOCORDIC_C2:
+          {
+            int16_t hC1,hC2;
+            STO_CR_GetObserverGains(stoCRSensor[motorID], &hC1, &hC2);
+            STO_CR_SetObserverGains(stoCRSensor[motorID], hC1, (int16_t)regdata16);
+            break;
+          }
+
+  
+</#if>
+          case MC_REG_DAC_USER1:
+          case MC_REG_DAC_USER2:
+            break;
+  
+          
+<#if MC.FEED_FORWARD_CURRENT_REG_ENABLING || MC.FEED_FORWARD_CURRENT_REG_ENABLING2 >     
+          case MC_REG_FF_VQ:
+          case MC_REG_FF_VD:
+          case MC_REG_FF_VQ_PIOUT:
+          case MC_REG_FF_VD_PIOUT:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+            
+</#if>
+<#if MC.PFC_ENABLED>     
+          case MC_REG_PFC_DCBUS_REF:
+          case MC_REG_PFC_DCBUS_MEAS:
+          case MC_REG_PFC_ACBUS_FREQ:
+          case MC_REG_PFC_ACBUS_RMS:
+          case MC_REG_PFC_I_KP:
+          case MC_REG_PFC_I_KI:
+          case MC_REG_PFC_I_KD:
+          case MC_REG_PFC_V_KP:
+          case MC_REG_PFC_V_KI:
+          case MC_REG_PFC_V_KD:
+          case MC_REG_PFC_STARTUP_DURATION:
+            break;
+</#if>     
+<#if MC.MOTOR_PROFILER>
+          case MC_REG_SC_PWM_FREQUENCY:
+            break;
+</#if>     
+<#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2 >      
+          case MC_REG_POSITION_KP:
+          {
+            PID_SetKP(pPIDPosCtrl[motorID], regdata16);  
+            break;
+          }
+             
+          case MC_REG_POSITION_KI:
+          {
+            PID_SetKI(pPIDPosCtrl[motorID], regdata16);  
+            break;
+          }
+       
+          case MC_REG_POSITION_KD:
+          {
+            PID_SetKD(pPIDPosCtrl[motorID], regdata16);  
+            break;
+          }
+</#if>
+<#if MC.DRIVE_TYPE == "FOC">
+          case MC_REG_SPEED_KP_DIV:
+          {
+            PID_SetKPDivisorPOW2(pPIDSpeed[motorID], regdata16);
+            break;
+          } 
+          
+          case MC_REG_SPEED_KI_DIV:
+          {
+            PID_SetKIDivisorPOW2(pPIDSpeed[motorID], regdata16);
+            break;
+          }
+    
+          case MC_REG_SPEED_KD_DIV:
+          {
+            PID_SetKDDivisorPOW2(pPIDSpeed[motorID], regdata16);
+            break;
+          }
+    
+          case MC_REG_I_D_KP_DIV:
+          {
+            PID_SetKPDivisorPOW2(pPIDId[motorID], regdata16);
+            break;
+          }
+          
+          case MC_REG_I_D_KI_DIV:
+          {
+            PID_SetKIDivisorPOW2(pPIDId[motorID], regdata16);
+            break;
+          }
+          
+          case MC_REG_I_D_KD_DIV:
+          {
+            PID_SetKDDivisorPOW2(pPIDId[motorID], regdata16);
+            break;
+          }
+          
+          case MC_REG_I_Q_KP_DIV:
+          {
+            PID_SetKPDivisorPOW2(pPIDIq[motorID], regdata16);
+            break;
+          }
+          
+          case MC_REG_I_Q_KI_DIV:
+          {
+            PID_SetKIDivisorPOW2(pPIDIq[motorID], regdata16);
+            break;
+          }
+          
+          case MC_REG_I_Q_KD_DIV:
+          {
+            PID_SetKDDivisorPOW2(pPIDIq[motorID], regdata16);
+            break;
+          }
+</#if><#-- DRIVE_TYPE == "FOC" -->
+          
+<#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2 >      
+          case MC_REG_POSITION_KP_DIV:
+          {
+            PID_SetKPDivisorPOW2(pPIDPosCtrl[motorID], regdata16);
+            break;
+          }
+          
+          case MC_REG_POSITION_KI_DIV:
+          {
+            PID_SetKIDivisorPOW2(pPIDPosCtrl[motorID], regdata16);
+            break;
+          }
+          
+          case MC_REG_POSITION_KD_DIV:
+          {
+            PID_SetKDDivisorPOW2(pPIDPosCtrl[motorID], regdata16);
+            break;
+          }
+</#if>    
+<#if MC.PFC_ENABLED>
+          case MC_REG_PFC_I_KP_DIV:
+          case MC_REG_PFC_I_KI_DIV:
+          case MC_REG_PFC_I_KD_DIV:
+          case MC_REG_PFC_V_KP_DIV:
+          case MC_REG_PFC_V_KI_DIV:
+          case MC_REG_PFC_V_KD_DIV:
+</#if>
+<#if IS_STO_PLL || IS_STO_PLL2 >    
+          case MC_REG_STOPLL_KI_DIV:
+          {
+            PID_SetKIDivisorPOW2 (&stoPLLSensor[motorID]->PIRegulator,regdata16);
+            break;
+          }
+          
+          case MC_REG_STOPLL_KP_DIV:
+          {
+            PID_SetKPDivisorPOW2 (&stoPLLSensor[motorID]->PIRegulator,regdata16);
+            break;
+          }
+</#if>
+
+<#if MC.FLUX_WEAKENING_ENABLING==true || MC.FLUX_WEAKENING_ENABLING2==true>      
+          case MC_REG_FLUXWK_KP_DIV: 
+          {
+            PID_SetKPDivisorPOW2 (pPIDFW[motorID],regdata16);
+            break;
+          }
+          
+          case MC_REG_FLUXWK_KI_DIV:
+          {
+            PID_SetKIDivisorPOW2 (pPIDFW[motorID],regdata16);
+            break;
+          }
+</#if>     
+<#if MC.DRIVE_TYPE=="SIX_STEP">
+          case MC_REG_STARTUP_CURRENT_REF:
+          {
+            pMCIN->startup_reference = regdata16;
+            break;
+          }
+        
+          case MC_REG_PULSE_VALUE:
+          {
+            pMCIN->pulse_value = regdata16;
+            break;
+          }
+</#if><#-- MC.DRIVE_TYPE -->
+
+          default:
+          {
+            retVal = MCP_ERROR_UNKNOWN_REG;
+            break;
+          }
+        }
+        *size = 2;
+        break;
+      }
+
+      case TYPE_DATA_32BIT:
+      {
+<#if UNALIGNMENT_SUPPORTED >
+        uint32_t regdata32 = *(uint32_t *)data; //cstat !MISRAC2012-Rule-11.3
+<#else>
+        uint32_t regdata32 = (((uint32_t)(*(uint16_t *)&data[2])) << 16) | *(uint16_t *)data;
+</#if>
+        
+        switch (regID)
+        {
+          case MC_REG_FAULTS_FLAGS:
+          case MC_REG_SPEED_MEAS:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+          
+          case MC_REG_SPEED_REF:
+          {
+<#if MC.DRIVE_TYPE == "FOC">
+            MCI_ExecSpeedRamp(pMCIN,((((int16_t)regdata32) * ((int16_t)SPEED_UNIT)) / (int16_t)U_RPM), 0);
+<#elseif MC.DRIVE_TYPE == "SIX_STEP">
+      pMCIN->speed_target_value = regdata32;
+</#if><#-- MC.DRIVE_TYPE -->      
+            break;
+          }
+          
+          case MC_REG_STOPLL_EST_BEMF:
+          case MC_REG_STOPLL_OBS_BEMF:
+          case MC_REG_STOCORDIC_EST_BEMF:
+          case MC_REG_STOCORDIC_OBS_BEMF:
+          {
+            retVal = MCP_ERROR_RO_REG;
+            break;
+          }
+          
+<#if MC.FEED_FORWARD_CURRENT_REG_ENABLING || MC.FEED_FORWARD_CURRENT_REG_ENABLING2 >       
+          case MC_REG_FF_1Q:
+          {
+            pFF[motorID]->wConstant_1Q = (int32_t)regdata32;   
+            break;
+          }
+          
+          case MC_REG_FF_1D:
+          {
+            pFF[motorID]->wConstant_1D = (int32_t)regdata32;   
+            break;
+          }
+          
+          case MC_REG_FF_2:
+          {
+            pFF[motorID]->wConstant_2 = (int32_t)regdata32;       
+            break;
+          }
+</#if> 
+<#if MC.PFC_ENABLED>     
+          case MC_REG_PFC_FAULTS:
+            break;     
+</#if>        
+  
+<#if MC.MOTOR_PROFILER>
+          case MC_REG_SC_RS:
+          case MC_REG_SC_LS:
+          case MC_REG_SC_KE:
+          case MC_REG_SC_VBUS:
+          case MC_REG_SC_MEAS_NOMINALSPEED:
+          case MC_REG_SC_CURRENT:
+          case MC_REG_SC_SPDBANDWIDTH:
+          case MC_REG_SC_LDLQRATIO:
+          case MC_REG_SC_NOMINAL_SPEED:
+          case MC_REG_SC_CURRBANDWIDTH:
+          case MC_REG_SC_J:
+          case MC_REG_SC_F:
+          case MC_REG_SC_MAX_CURRENT:
+          case MC_REG_SC_STARTUP_SPEED:
+          case MC_REG_SC_STARTUP_ACC:
+            break;       
+</#if>      
+            
+          default:
+          {
+            retVal = MCP_ERROR_UNKNOWN_REG;
+            break;
+          }
+        }
+        *size = 4;
+        break;
+      }
+      
+      case TYPE_DATA_STRING:
+      {
+        const char_t *charData = (const char_t *)data;
+        char_t *dummy = (char_t *)data ;
+        retVal = MCP_ERROR_RO_REG;
+        /* Used to compute String length stored in RXBUFF even if Reg does not exist*/
+        /* It allows to jump to the next command in the buffer */
+        (void)RI_MovString (charData, dummy, size, dataAvailable);
+        break;
+      }
+  
+      case TYPE_DATA_RAW:
+      {
+        uint16_t rawSize = *(uint16_t *) data; //cstat !MISRAC2012-Rule-11.3
+        /* The size consumed by the structure is the structure size + 2 bytes used to store the size*/ 
+        *size = rawSize + 2U; 
+        uint8_t *rawData = data; /* rawData points to the first data (after size extraction) */
+        rawData++;
+        rawData++;
+        
+        if (*size > dataAvailable )
+        { /* The decoded size of the raw structure can not match with transmitted buffer, error in buffer construction*/
+          *size = 0; 
+          retVal = MCP_ERROR_BAD_RAW_FORMAT; /* this error stop the parsing of the CMD buffer */
+        }
+        else
+        {
+<<<<<<< HEAD
+        case MC_REG_GLOBAL_CONFIG:
+        case MC_REG_MOTOR_CONFIG: 
+        case MC_REG_FOCFW_CONFIG:
+          retVal = MCP_ERROR_RO_REG;
+          break;          
+        case MC_REG_SPEED_RAMP:
+=======
+          switch (regID)
+>>>>>>> master
+          {
+            case MC_REG_GLOBAL_CONFIG:
+            case MC_REG_MOTOR_CONFIG: 
+            case MC_REG_APPLICATION_CONFIG:
+            case MC_REG_FOCFW_CONFIG:
+            {
+              retVal = MCP_ERROR_RO_REG;
+              break;
+            }
+            
+            case MC_REG_SPEED_RAMP:
+            {
+<#if MC.DRIVE_TYPE == "FOC">
+              int32_t rpm;
+              uint16_t duration;
+  
+              <#if UNALIGNMENT_SUPPORTED >
+              rpm = *(int32_t *)rawData; //cstat !MISRAC2012-Rule-11.3
+              <#else>
+              /* 32 bits access are splited into 2x16 bits access */
+              rpm = (((int32_t)(*(int16_t *)&rawData[2])) << 16) | *(uint16_t *)rawData; //cstat !MISRAC2012-Rule-11.3
+              </#if>
+              duration = *(uint16_t *)&rawData[4]; //cstat !MISRAC2012-Rule-11.3
+              MCI_ExecSpeedRamp(pMCIN, (int16_t)((rpm * SPEED_UNIT) / U_RPM), duration);
+<#elseif MC.DRIVE_TYPE == "SIX_STEP">
+              int32_t rpm;           
+  <#if UNALIGNMENT_SUPPORTED >
+              rpm = *(int32_t *)rawData;
+  <#else>
+              /* 32 bits access are split into 2x16 bits access */
+              rpm = ((int32_t)(*(int16_t *)&rawData[2]))<<16 | *(uint16_t *)rawData; 
+  </#if>
+              if (rpm > 0)
+              {
+                if (pMCIN->direction == 1) MC_Core_Stop(pMCIN);
+                pMCIN->speed_target_command = rpm;
+                pMCIN->direction = 0;
+              }
+              else
+              {
+                if (pMCIN->direction == 0) MC_Core_Stop(pMCIN);
+                pMCIN->speed_target_command = - rpm;
+                pMCIN->direction = 1;
+              }
+</#if><#-- MC.DRIVE_TYPE -->    
+              break;
+            }        
+<#if MC.DRIVE_TYPE == "FOC">
+            case MC_REG_TORQUE_RAMP:
+            {
+              uint32_t torque; 
+              uint16_t duration;
+              
+              <#if UNALIGNMENT_SUPPORTED >
+              torque = *(uint32_t *)rawData; //cstat !MISRAC2012-Rule-11.3
+              <#else>
+              /* 32 bits access are splited into 2x16 bits access */
+              //cstat !MISRAC2012-Rule-11.3
+              torque = ((uint32_t)(*(int16_t *)&rawData[2]))<<16 | *(uint16_t *)rawData;
+              </#if>
+              duration = *(uint16_t *)&rawData[4]; //cstat !MISRAC2012-Rule-11.3
+              MCI_ExecTorqueRamp(pMCIN, (int16_t)torque, duration);
+              break;        
+            }        
+        
+  <#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2>      
+            case MC_REG_POSITION_RAMP:
+            {
+              FloatToU32 Position;
+              FloatToU32 Duration;
+
+              Position.U32_Val = ((int32_t)(*(int16_t *)&rawData[2]))<<16 | *(uint16_t *)rawData; /* 32 bits access are split into 2x16 bits access */
+              Duration.U32_Val = ((int32_t)(*(int16_t *)&rawData[6]))<<16 | *(uint16_t *)&rawData[4]; /* 32 bits access are split into 2x16 bits access */
+              MCI_ExecPositionCommand(pMCIN, Position.Float_Val, Duration.Float_Val);
+              break;  
+            }
+    
+  </#if>        
+  <#if IS_SENSORLESS || IS_SENSORLESS2 >
+            case MC_REG_REVUP_DATA:
+            {
+              int32_t rpm;
+              RevUpCtrl_PhaseParams_t revUpPhase;
+              uint8_t i;
+              uint8_t nbrOfPhase = (((uint8_t)rawSize) / 8U);
+              
+              if (((0U != ((rawSize) % 8U))) || ((nbrOfPhase > RUC_MAX_PHASE_NUMBER) != 0))
+              {
+                retVal = MCP_ERROR_BAD_RAW_FORMAT;
+              }
+              else
+              {          
+                for (i = 0; i <nbrOfPhase; i++)
+                {
+    <#if UNALIGNMENT_SUPPORTED >
+                rpm = *(int32_t *) &rawData[i * 8U]; //cstat !MISRAC2012-Rule-11.3
+    <#else>
+                /* &rawData is guarantee to be 16 bits aligned, so 32 bits access are to be splitted */
+                //cstat !MISRAC2012-Rule-11.3
+                rpm = ((int32_t)(*(int16_t *)&rawData[2+i*8]))<<16 | *(uint16_t *)&rawData[i*8];
+    </#if>
+                  revUpPhase.hFinalMecSpeedUnit = (((int16_t)rpm) * ((int16_t)SPEED_UNIT)) / ((int16_t)U_RPM);
+                revUpPhase.hFinalTorque = *((int16_t *) &rawData[4U + (i * 8U)]); //cstat !MISRAC2012-Rule-11.3
+                revUpPhase.hDurationms  = *((uint16_t *) &rawData[6U +(i * 8U)]); //cstat !MISRAC2012-Rule-11.3
+                  (void)RUC_SetPhase( RevUpControl[motorID], i, &revUpPhase);
+                }
+              }
+              break;
+            }
+            
+  </#if>
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->          
+<#if MC.MCP_ASYNC_OVER_UART_A >
+            case MC_REG_ASYNC_UARTA:
+            {
+              retVal =  MCPA_cfgLog (&MCPA_UART_A, rawData);
+              break;
+            }
+  
+</#if>  
+<#if MC.MCP_ASYNC_OVER_UART_B >
+            case MC_REG_ASYNC_UARTB:
+            {          
+              retVal =  MCPA_cfgLog (&MCPA_UART_B, rawData);
+              break;
+            }
+  
+</#if>   
+<#if MC.MCP_ASYNC_OVER_STLNK >
+            case MC_REG_ASYNC_STLNK:
+            {          
+              retVal =  MCPA_cfgLog (&MCPA_STLNK, rawData);
+              break;
+            }
+  
+</#if>   
+<#if MC.DRIVE_TYPE == "FOC">
+            case MC_REG_CURRENT_REF:
+            {
+              qd_t currComp;
+              currComp.q = *((int16_t *) rawData); //cstat !MISRAC2012-Rule-11.3
+              currComp.d = *((int16_t *) &rawData[2]); //cstat !MISRAC2012-Rule-11.3
+              MCI_SetCurrentReferences(pMCIN, currComp);
+              break;
+            }
+  
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->          
+            default:
+            {
+              retVal = MCP_ERROR_UNKNOWN_REG;
+              break;
+            }
+          }
+        }
+        break;
+      }
+  
+      default:
+      {
+        retVal = MCP_ERROR_BAD_DATA_TYPE;
+        *size =0; /* From this point we are not able anymore to decode the RX buffer*/
+        break;
+      }
+    }
+  }
+  return (retVal);
+}
+
+uint8_t RI_GetReg (uint16_t dataID, uint8_t * data, uint16_t *size, int16_t freeSpace)
+{
+  uint8_t retVal = MCP_CMD_OK;
+  
+  if ((MC_NULL == data) || (MC_NULL == size))
+  {
+    retVal = MCP_CMD_NOK;
+  }
+  else
+  {  
+    uint16_t regID = dataID & REG_MASK;
+    uint8_t typeID = ((uint8_t)dataID) & TYPE_MASK;
+    <#if   MC.DUALDRIVE == true>
+    uint8_t motorID = (((uint8_t)dataID) -1U) & MOTOR_MASK;
+    motorID = (motorID <= (MAX_OF_MOTORS - 1U)) ? motorID : (MAX_OF_MOTORS - 1U);
+<#if MC.DRIVE_TYPE == "FOC" >
+    BusVoltageSensor_Handle_t* BusVoltageSensor[NBR_OF_MOTORS]={ &BusVoltageSensor_M1._Super, &BusVoltageSensor_M2._Super};
+</#if><#-- MC.DRIVE_TYPE -->
+    <#else>
+<#if MC.DRIVE_TYPE == "FOC" >
+    BusVoltageSensor_Handle_t* BusVoltageSensor[NBR_OF_MOTORS]={ &BusVoltageSensor_M1._Super};
+</#if><#-- MC.DRIVE_TYPE -->
+    uint8_t motorID = 0U;
+    </#if>
+  
+<#if MC.DRIVE_TYPE == "FOC" ><#-- Specific to FOC algorithm usage -->
+    MCI_Handle_t *pMCIN = &Mci[motorID];
+<#elseif  MC.DRIVE_TYPE == "SIX_STEP" ><#-- Specific to 6_STEP algorithm usage -->
+    MC_Handle_t *pMCIN = MC_Core_GetMotorControlHandle(motorID);
+</#if><#-- MC.DRIVE_TYPE -->
+    switch (typeID)
+    {
+      case TYPE_DATA_8BIT:
+      {
+        if (freeSpace > 0U)
+        {
+          switch (regID)
+          {
+            case MC_REG_STATUS:
+            {
+<#if MC.DRIVE_TYPE == "FOC" >
+              *data = (uint8_t)MCI_GetSTMState(pMCIN);
+<#elseif  MC.DRIVE_TYPE == "SIX_STEP" >
+              *data = MC_Core_GetState(pMCIN);
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+            
+<#if MC.DRIVE_TYPE == "FOC" >
+            case MC_REG_CONTROL_MODE:
+            {
+              *data = (uint8_t)MCI_GetControlMode(pMCIN);
+              break;
+            }
+  <#if IS_SENSORLESS || IS_SENSORLESS2 >        
+            
+            case MC_REG_RUC_STAGE_NBR:
+            {
+              *data = (RevUpControl[motorID] != MC_NULL) ? (uint8_t)RUC_GetNumberOfPhases(RevUpControl[motorID]) : 0U;
+              break;
+            }
+  </#if>        
+            
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+<#if MC.PFC_ENABLED >          
+            case MC_REG_PFC_STATUS:
+            case MC_REG_PFC_ENABLED:
+              break;
+</#if>
+<#if MC.MOTOR_PROFILER >          
+            case MC_REG_SC_CHECK:
+            case MC_REG_SC_STATE:
+            case MC_REG_SC_STEPS:
+            case MC_REG_SC_PP:
+            case MC_REG_SC_FOC_REP_RATE:
+            case MC_REG_SC_COMPLETED:
+              break;
+</#if>
+<#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2 > 
+            case MC_REG_POSITION_CTRL_STATE:
+            {
+              *data = (uint8_t) TC_GetControlPositionStatus(pPosCtrl[motorID]);
+              break;
+            }
+            case MC_REG_POSITION_ALIGN_STATE:
+            {
+              *data = (uint8_t) TC_GetAlignmentStatus(pPosCtrl[motorID]);
+              break;
+            }
+
+</#if>
+            default:
+            {
+              retVal = MCP_ERROR_UNKNOWN_REG;
+              break;
+            }
+          }
+          *size = 1;
+        }
+        else
+        {
+          retVal = MCP_ERROR_NO_TXSYNC_SPACE;
+        }
+        break;
+      }
+      
+      case TYPE_DATA_16BIT:
+      {
+        uint16_t *regdataU16 = (uint16_t *)data; //cstat !MISRAC2012-Rule-11.3
+        int16_t *regdata16 = (int16_t *) data; //cstat !MISRAC2012-Rule-11.3
+        
+        if (freeSpace >= 2U)
+        {
+          switch (regID) 
+          {
+            case MC_REG_SPEED_KP:
+            {
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Is there a good reason for having different ways to do between 6S and FOC? -->
+              *regdata16 = PID_GetKP(pPIDSpeed[motorID]);
+<#elseif  MC.DRIVE_TYPE == "SIX_STEP" >
+              *regdata16 = pMCIN->pid_parameters.kp;
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+            
+            case MC_REG_SPEED_KI:
+            {
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Is there a good reason for having different ways to do between 6S and FOC? -->
+              *regdata16 = PID_GetKI(pPIDSpeed[motorID]);
+<#elseif  MC.DRIVE_TYPE == "SIX_STEP" >
+              *regdata16 = pMCIN->pid_parameters.ki;
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+            
+            case MC_REG_SPEED_KD:
+            {
+<#if MC.DRIVE_TYPE == "FOC" >       
+              *regdata16 = PID_GetKD(pPIDSpeed[motorID]);
+<#elseif  MC.DRIVE_TYPE == "SIX_STEP" >
+              *regdata16 = pMCIN->pid_parameters.kd;
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+            
+           
+<#if MC.DRIVE_TYPE == "FOC" >
+        case MC_REG_I_Q_KP:
+            {
+              *regdata16 = PID_GetKP(pPIDIq[motorID]);
+              break;
+            }
+  
+        case MC_REG_I_Q_KI:
+            {
+              *regdata16 = PID_GetKI(pPIDIq[motorID]);
+              break;
+            }
+            
+        case MC_REG_I_Q_KD:
+            {
+              *regdata16 = PID_GetKD(pPIDIq[motorID]);
+              break;
+            }
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+<#if MC.DRIVE_TYPE == "FOC" >
+             
+        case MC_REG_I_D_KP:
+            {
+              *regdata16 = PID_GetKP(pPIDId[motorID]);
+              break;
+            }
+            
+        case MC_REG_I_D_KI:
+            {
+              *regdata16 = PID_GetKI(pPIDId[motorID]);
+              break;
+            }
+            
+        case MC_REG_I_D_KD:
+            {
+              *regdata16 = PID_GetKD(pPIDId[motorID]);
+              break;
+            }
+            
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+<#if MC.FLUX_WEAKENING_ENABLING || MC.FLUX_WEAKENING_ENABLING2 >
+            case MC_REG_FLUXWK_KP:
+            {
+              *regdata16 = PID_GetKP(pPIDFW[motorID]);
+              break;
+            }
+            
+            case MC_REG_FLUXWK_KI:
+            {
+              *regdata16 = PID_GetKI(pPIDFW[motorID]);
+              break;
+            }
+            
+            case MC_REG_FLUXWK_BUS:
+            {
+              *regdataU16 = FW_GetVref(pFW[motorID]);
+              break;
+            }
+            
+            case MC_REG_FLUXWK_BUS_MEAS:
+            {
+              *regdata16 = (int16_t)FW_GetAvVPercentage(pFW[motorID]);
+              break;
+            }
+            
+</#if>
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: These registers should also be supported identically in 6S configurations in public releases... and some be made optional -->
+            case MC_REG_BUS_VOLTAGE:
+            {
+              *regdataU16 = VBS_GetAvBusVoltage_V(BusVoltageSensor[motorID]);
+              break;
+            }
+            
+            case MC_REG_HEATS_TEMP:
+            {
+              *regdata16 = NTC_GetAvTemp_C(pTemperatureSensor[motorID]);
+              break;
+            }
+            
+            case MC_REG_MOTOR_POWER:
+            {
+              *regdata16 = MPM_GetAvrgElMotorPowerW((MotorPowMeas_Handle_t *)pMPM[motorID]); //cstat !MISRAC2012-Rule-11.3
+              break;
+            }
+            
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+<#if MC.DAC_FUNCTIONALITY>              
+<<<<<<< HEAD
+        case MC_REG_DAC_OUT1:
+          *regdata16 = DAC_GetChannelConfig(&DAC_Handle , DAC_CH1);
+         break;            
+        case MC_REG_DAC_OUT2:
+          *regdata16 = DAC_GetChannelConfig(&DAC_Handle , DAC_CH2);
+         break;            
+</#if>         
+<#if MC.DRIVE_TYPE == "FOC" >   
+        case MC_REG_I_A:
+          *regdata16 = MCI_GetIab(pMCI).a;
+         break;                 
+        case MC_REG_I_B:
+          *regdata16 = MCI_GetIab(pMCI).b;
+         break;                 
+        case MC_REG_I_ALPHA_MEAS:
+          *regdata16 = MCI_GetIalphabeta(pMCI).alpha;
+         break;             
+        case MC_REG_I_BETA_MEAS:
+          *regdata16 = MCI_GetIalphabeta(pMCI).beta;
+         break;
+        case MC_REG_I_Q_MEAS:
+          *regdata16 = MCI_GetIqd(pMCI).q;      
+         break;         
+        case MC_REG_I_D_MEAS:
+          *regdata16 = MCI_GetIqd(pMCI).d;      
+         break;         
+        case MC_REG_I_Q_REF:
+          *regdata16 = MCI_GetIqdref(pMCI).q;
+         break;             
+        case MC_REG_I_D_REF:
+          *regdata16 = MCI_GetIqdref(pMCI).d;
+         break;             
+        case MC_REG_V_Q:
+          *regdata16 = MCI_GetVqd(pMCI).q;
+         break;                 
+        case MC_REG_V_D:
+          *regdata16 = MCI_GetVqd(pMCI).d;
+         break;                 
+        case MC_REG_V_ALPHA:
+          *regdata16 = MCI_GetValphabeta(pMCI).alpha;
+         break;             
+        case MC_REG_V_BETA:
+          *regdata16 = MCI_GetValphabeta(pMCI).beta;
+         break;
+<#if IS_ENCODER || IS_ENCODER2 >        
+        case MC_REG_ENCODER_EL_ANGLE:
+          *regdata16 = SPD_GetElAngle ((SpeednPosFdbk_Handle_t*) pEncoder[motorID]);
+         break;       
+        case MC_REG_ENCODER_SPEED:
+          *regdata16 = SPD_GetS16Speed ((SpeednPosFdbk_Handle_t*) pEncoder[motorID]);
+         break;
+=======
+            case MC_REG_DAC_OUT1:
+            {
+              *regdata16 = (int16_t)DAC_GetChannelConfig(&DAC_Handle , DAC_CH1);
+              break;
+            }
+            
+            case MC_REG_DAC_OUT2:
+            {
+              *regdata16 = (int16_t)DAC_GetChannelConfig(&DAC_Handle , DAC_CH2);
+              break;
+            }
+>>>>>>> master
+</#if>
+  
+<#if MC.DRIVE_TYPE == "FOC" >
+            case MC_REG_I_A:
+            {
+              *regdata16 = MCI_GetIab(pMCIN).a;
+              break;
+            }
+            
+            case MC_REG_I_B:
+            {
+              *regdata16 = MCI_GetIab(pMCIN).b;
+              break;
+            }
+            
+            case MC_REG_I_ALPHA_MEAS:
+            {
+              *regdata16 = MCI_GetIalphabeta(pMCIN).alpha;
+              break;
+            }
+            
+            case MC_REG_I_BETA_MEAS:
+            {
+              *regdata16 = MCI_GetIalphabeta(pMCIN).beta;
+              break;
+            }
+      
+            case MC_REG_I_Q_MEAS:
+            {
+              *regdata16 = MCI_GetIqd(pMCIN).q;
+              break;
+            }
+            
+            case MC_REG_I_D_MEAS:
+            {
+              *regdata16 = MCI_GetIqd(pMCIN).d;
+              break;
+            }
+            
+            case MC_REG_I_Q_REF:
+            {
+              *regdata16 = MCI_GetIqdref(pMCIN).q;
+              break;
+            }
+            
+            case MC_REG_I_D_REF:
+            {
+              *regdata16 = MCI_GetIqdref(pMCIN).d;
+              break;
+            }
+            
+            case MC_REG_V_Q:
+            {
+              *regdata16 = MCI_GetVqd(pMCIN).q;
+              break;
+            }
+            
+            case MC_REG_V_D:
+            {
+              *regdata16 = MCI_GetVqd(pMCIN).d;
+              break;
+            }
+            
+            case MC_REG_V_ALPHA:
+            {
+              *regdata16 = MCI_GetValphabeta(pMCIN).alpha;
+              break;
+            }
+                         
+            case MC_REG_V_BETA:
+            {
+              *regdata16 = MCI_GetValphabeta(pMCIN).beta;
+              break;
+            }
+  <#if IS_ENCODER || IS_ENCODER2 >        
+            
+            case MC_REG_ENCODER_EL_ANGLE:
+            {
+              *regdata16 = SPD_GetElAngle ((SpeednPosFdbk_Handle_t*) pEncoder[motorID]); //cstat !MISRAC2012-Rule-11.3
+              break;
+            }
+                   
+            case MC_REG_ENCODER_SPEED:
+            {
+              *regdata16 = SPD_GetS16Speed ((SpeednPosFdbk_Handle_t*) pEncoder[motorID]); //cstat !MISRAC2012-Rule-11.3
+              break;
+            }
+            
+  </#if>
+  <#if IS_HALL_SENSORS || IS_HALL_SENSORS2 >
+            case MC_REG_HALL_EL_ANGLE:
+            {
+              //cstat !MISRAC2012-Rule-11.3
+              *regdata16 = SPD_GetElAngle ((SpeednPosFdbk_Handle_t*) pHallSensor[motorID]);
+              break;
+            }
+            
+            case MC_REG_HALL_SPEED:
+            {
+              //cstat !MISRAC2012-Rule-11.3
+              *regdata16 = SPD_GetS16Speed ((SpeednPosFdbk_Handle_t*) pHallSensor[motorID]);
+              break;
+            }
+            
+  </#if>         
+  <#if IS_STO_PLL || IS_STO_PLL2 >         
+            case MC_REG_STOPLL_EL_ANGLE:
+            {
+              //cstat !MISRAC2012-Rule-11.3
+              *regdata16 = SPD_GetElAngle((SpeednPosFdbk_Handle_t *)stoPLLSensor[motorID]); 
+              break;
+            }
+        
+            case MC_REG_STOPLL_ROT_SPEED:
+            {
+              //cstat !MISRAC2012-Rule-11.3
+              *regdata16 = SPD_GetS16Speed((SpeednPosFdbk_Handle_t *)stoPLLSensor[motorID]); 
+              break;
+            }
+  
+            case MC_REG_STOPLL_I_ALPHA:
+            {
+              *regdata16 = STO_PLL_GetEstimatedCurrent(stoPLLSensor[motorID]).alpha;
+              break;
+            }
+           
+            case MC_REG_STOPLL_I_BETA:
+            {
+              *regdata16 = STO_PLL_GetEstimatedCurrent(stoPLLSensor[motorID]).beta;
+              break;
+            }
+  
+            case MC_REG_STOPLL_BEMF_ALPHA:
+            {
+              *regdata16 = STO_PLL_GetEstimatedBemf(stoPLLSensor[motorID]).alpha;
+              break;
+            }
+  
+            case MC_REG_STOPLL_BEMF_BETA:
+            {
+              *regdata16 = STO_PLL_GetEstimatedBemf(stoPLLSensor[motorID]).beta;
+              break;
+            }
+  
+            case MC_REG_STOPLL_C1:
+            {
+              int16_t hC1;
+              int16_t hC2;
+              STO_PLL_GetObserverGains(stoPLLSensor[motorID], &hC1, &hC2);
+              *regdata16 = hC1;
+              break;
+            }
+  
+            case MC_REG_STOPLL_C2:
+            {
+              int16_t hC1;
+              int16_t hC2;
+              STO_PLL_GetObserverGains(stoPLLSensor[motorID], &hC1, &hC2);
+              *regdata16 = hC2;
+              break;
+            }
+  
+            case MC_REG_STOPLL_KI:
+            {
+              *regdata16 = PID_GetKI (&stoPLLSensor[motorID]->PIRegulator);
+              break;
+            }
+  
+            case MC_REG_STOPLL_KP:
+            {
+              *regdata16 = PID_GetKP (&stoPLLSensor[motorID]->PIRegulator);
+              break;
+            }
+  
+  </#if>
+  <#if IS_STO_CORDIC || IS_STO_CORDIC2 >          
+            case MC_REG_STOCORDIC_EL_ANGLE:
+            {
+              if (stoCRSensor[motorID] != MC_NULL)
+              {
+                //cstat !MISRAC2012-Rule-11.3
+                *regdata16 = SPD_GetElAngle((SpeednPosFdbk_Handle_t *)stoCRSensor[motorID]); 
+              }
+              else 
+              {
+                retVal = MCP_ERROR_UNKNOWN_REG;
+              }
+              break;
+            }
+     
+            case MC_REG_STOCORDIC_ROT_SPEED:
+            {
+              //cstat !MISRAC2012-Rule-11.3
+              *regdata16 = SPD_GetS16Speed((SpeednPosFdbk_Handle_t*) stoCRSensor[motorID]);
+              break;
+            }
+            
+            case MC_REG_STOCORDIC_I_ALPHA:
+            {
+              *regdata16 = STO_CR_GetEstimatedCurrent(stoCRSensor[motorID]).alpha;
+              break;
+            }
+            
+            case MC_REG_STOCORDIC_I_BETA:
+            {
+              *regdata16 = STO_CR_GetEstimatedCurrent(stoCRSensor[motorID]).beta;
+              break;
+            }
+            
+            case MC_REG_STOCORDIC_BEMF_ALPHA:
+            {
+              *regdata16 = STO_CR_GetEstimatedBemf(stoCRSensor[motorID]).alpha; 
+              break;
+            }
+            
+            case MC_REG_STOCORDIC_BEMF_BETA:
+            {
+              *regdata16 = STO_CR_GetEstimatedBemf(stoCRSensor[motorID]).beta;
+              break;
+            }
+            
+            case MC_REG_STOCORDIC_C1:
+            {
+              int16_t hC1;
+              int16_t hC2;
+              STO_CR_GetObserverGains(stoCRSensor[motorID], &hC1, &hC2);
+              *regdata16 = hC1;
+              break;
+            }
+
+            case MC_REG_STOCORDIC_C2:
+            {
+              int16_t hC1;
+              int16_t hC2;
+              STO_CR_GetObserverGains(stoCRSensor[motorID], &hC1, &hC2);
+              *regdata16 = hC2;
+              break;
+            }
+
+  </#if>         
+            case MC_REG_DAC_USER1:         
+            case MC_REG_DAC_USER2:
+              break;           
+  
+  <#if MC.FEED_FORWARD_CURRENT_REG_ENABLING || MC.FEED_FORWARD_CURRENT_REG_ENABLING2 >               
+            case MC_REG_FF_VQ:           
+            {
+              *regdata16 = FF_GetVqdff(pFF[motorID]).q;
+              break;
+            }
+            
+            case MC_REG_FF_VD:
+            {
+              *regdata16 = FF_GetVqdff(pFF[motorID]).d;
+              break;
+            }
+            
+            case MC_REG_FF_VQ_PIOUT:
+            {
+              *regdata16 = FF_GetVqdAvPIout(pFF[motorID]).q;
+              break;
+            }
+            
+            case MC_REG_FF_VD_PIOUT:
+            {
+              *regdata16 = FF_GetVqdAvPIout(pFF[motorID]).d;
+              break;
+            }
+            
+  </#if>         
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+<#if MC.PFC_ENABLED >         
+            case MC_REG_PFC_DCBUS_REF:
+            case MC_REG_PFC_DCBUS_MEAS:
+            case MC_REG_PFC_ACBUS_FREQ:
+            case MC_REG_PFC_ACBUS_RMS:
+            case MC_REG_PFC_I_KP:
+            case MC_REG_PFC_I_KI:
+            case MC_REG_PFC_I_KD:
+            case MC_REG_PFC_V_KP:
+            case MC_REG_PFC_V_KI:
+            case MC_REG_PFC_V_KD:
+            case MC_REG_PFC_STARTUP_DURATION:
+              break;
+</#if>         
+        
+<#if MC.MOTOR_PROFILER >
+            case MC_REG_SC_PWM_FREQUENCY:
+              break;
+</#if>
+<#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2 >
+            case MC_REG_POSITION_KP:
+            {
+              *regdata16 = PID_GetKP( pPIDPosCtrl[motorID]);
+              break;
+            }
+            
+            case MC_REG_POSITION_KI:
+            {
+              *regdata16 = PID_GetKI( pPIDPosCtrl[motorID]);
+              break;
+            }
+            
+            case MC_REG_POSITION_KD:
+            {
+              *regdata16 = PID_GetKD( pPIDPosCtrl[motorID]);
+              break;
+            }
+</#if>
+
+            case MC_REG_SPEED_KP_DIV:
+            {
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Is there a good reason for having different ways to do between 6S and FOC? -->
+              *regdataU16 = (uint16_t)PID_GetKPDivisorPOW2(pPIDSpeed[motorID]);
+<#elseif MC.DRIVE_TYPE == "SIX_STEP" >
+              *regdataU16 = pMCIN->pid_parameters.scaling_shift;
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+                    
+            case MC_REG_SPEED_KI_DIV:
+            {
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Is there a good reason for having different ways to do between 6S and FOC? -->
+              *regdataU16 = (uint16_t)PID_GetKIDivisorPOW2(pPIDSpeed[motorID]);
+<#elseif MC.DRIVE_TYPE == "SIX_STEP" >
+              *regdataU16 = pMCIN->pid_parameters.scaling_shift;
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+            
+            case MC_REG_SPEED_KD_DIV:
+            {
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Is there a good reason for having different ways to do between 6S and FOC? -->
+              *regdataU16 = PID_GetKDDivisorPOW2(pPIDSpeed[motorID]);
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+<#if MC.DRIVE_TYPE == "FOC" >
+            case MC_REG_I_D_KP_DIV:
+            {
+              *regdataU16 = PID_GetKPDivisorPOW2(pPIDId[motorID]);
+              break;
+            }
+            
+            case MC_REG_I_D_KI_DIV:      
+            {
+              *regdataU16 = PID_GetKIDivisorPOW2(pPIDId[motorID]);
+              break;
+            }
+            
+            case MC_REG_I_D_KD_DIV:
+            {
+              *regdataU16 = PID_GetKDDivisorPOW2(pPIDId[motorID]);
+              break;
+            }
+            
+            case MC_REG_I_Q_KP_DIV:
+            {
+              *regdataU16 = PID_GetKPDivisorPOW2(pPIDIq[motorID]);
+              break;
+            }
+            
+            case MC_REG_I_Q_KI_DIV:
+            {
+              *regdataU16 = PID_GetKIDivisorPOW2(pPIDIq[motorID]);
+              break;
+            }
+            
+            case MC_REG_I_Q_KD_DIV:
+            {
+              *regdataU16 = PID_GetKDDivisorPOW2(pPIDIq[motorID]);
+              break;
+            }
+</#if><#-- MC.DRIVE_TYPE -->
+            
+<#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2 >         
+            case MC_REG_POSITION_KP_DIV:
+            {
+              *regdataU16 = PID_GetKPDivisorPOW2(pPIDPosCtrl[motorID]);        
+              break;
+            }
+            
+            case MC_REG_POSITION_KI_DIV: 
+            {
+              *regdataU16 = PID_GetKIDivisorPOW2(pPIDPosCtrl[motorID]);        
+              break;
+            }
+            
+            case MC_REG_POSITION_KD_DIV:
+            {
+              *regdataU16 = PID_GetKDDivisorPOW2(pPIDPosCtrl[motorID]);        
+              break;
+            }
+</#if> 
+
+<#if MC.PFC_ENABLED>        
+            case MC_REG_PFC_I_KP_DIV:    
+            case MC_REG_PFC_I_KI_DIV:    
+            case MC_REG_PFC_I_KD_DIV:    
+            case MC_REG_PFC_V_KP_DIV:    
+            case MC_REG_PFC_V_KI_DIV:    
+            case MC_REG_PFC_V_KD_DIV:
+              break;
+</#if>    
+<#if IS_STO_PLL || IS_STO_PLL2 >
+            case MC_REG_STOPLL_KI_DIV:
+            {
+              *regdataU16 = PID_GetKIDivisorPOW2(&stoPLLSensor[motorID]->PIRegulator);
+              break;
+            }
+            
+            case MC_REG_STOPLL_KP_DIV:
+            {
+              *regdataU16 = PID_GetKPDivisorPOW2(&stoPLLSensor[motorID]->PIRegulator);
+              break;
+            }
+</#if>
+
+<#if MC.FLUX_WEAKENING_ENABLING || MC.FLUX_WEAKENING_ENABLING2 >
+            case MC_REG_FLUXWK_KP_DIV:
+            {
+              *regdataU16 = PID_GetKPDivisorPOW2(pPIDFW[motorID]);
+              break;
+            }
+            
+            case MC_REG_FLUXWK_KI_DIV:
+            {
+              *regdataU16 = PID_GetKIDivisorPOW2(pPIDFW[motorID]);
+              break;
+            }
+</#if>       
+<#if MC.DRIVE_TYPE=="SIX_STEP">
+            case MC_REG_STARTUP_CURRENT_REF:
+            {
+              *regdataU16 = pMCIN->startup_reference;
+              break;
+            }
+            
+            case MC_REG_PULSE_VALUE:
+            {
+              *regdataU16 = pMCIN->pulse_value;
+              break;
+            }
+</#if><#-- MC.DRIVE_TYPE -->
+
+            default:
+            {
+              retVal = MCP_ERROR_UNKNOWN_REG;
+              break;
+            }
+          }
+          *size = 2;
+        }
+        else
+        {
+          retVal = MCP_ERROR_NO_TXSYNC_SPACE; 
+        }
+        break;
+      }
+  
+      case TYPE_DATA_32BIT:
+      {
+        uint32_t *regdataU32 = (uint32_t *)data; //cstat !MISRAC2012-Rule-11.3
+        int32_t *regdata32 = (int32_t *)data; //cstat !MISRAC2012-Rule-11.3
+        
+        if (freeSpace >= 4U)
+        {
+          switch (regID)
+          {
+            case MC_REG_FAULTS_FLAGS:
+            {
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Is there a good reason for having different ways to do between 6S and FOC? -->
+              *regdataU32 = MCI_GetFaultState(pMCIN);
+<#elseif MC.DRIVE_TYPE == "SIX_STEP" >
+              *regdataU32 = MC_Core_GetFaultState(pMCIN);
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+            
+            case MC_REG_SPEED_MEAS:
+            {
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Is there a good reason for having different ways to do between 6S and FOC? -->
+              *regdata32 = (((int32_t)MCI_GetAvrgMecSpeedUnit(pMCIN) * U_RPM) / SPEED_UNIT);
+<#elseif MC.DRIVE_TYPE == "SIX_STEP" >
+              if (pMCIN->direction == 0) *regdata32 = MC_Core_GetSpeed( pMCIN );
+              if (pMCIN->direction == 1) *regdata32 = - (MC_Core_GetSpeed( pMCIN ));
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+
+            case MC_REG_SPEED_REF:
+            { 
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Is there a good reason for having different ways to do between 6S and FOC? -->
+              *regdata32 = (((int32_t)MCI_GetMecSpeedRefUnit(pMCIN) * U_RPM) / SPEED_UNIT);
+<#elseif MC.DRIVE_TYPE == "SIX_STEP" >
+              if (pMCIN->direction == 0) *regdata32 = pMCIN->speed_target_command;
+              if (pMCIN->direction == 1) *regdata32 = - (pMCIN->speed_target_command);
+</#if><#-- MC.DRIVE_TYPE -->
+              break;
+            }
+            
+<#if IS_STO_PLL || IS_STO_PLL2 >             
+            case MC_REG_STOPLL_EST_BEMF:
+            {
+              *regdata32 = STO_PLL_GetEstimatedBemfLevel(stoPLLSensor[motorID]);
+              break;
+            }
+  
+            case MC_REG_STOPLL_OBS_BEMF:
+            {
+              *regdata32 = STO_PLL_GetObservedBemfLevel(stoPLLSensor[motorID]);
+              break;
+            }
+  
+</#if>
+<#if IS_STO_CORDIC || IS_STO_CORDIC2 > 
+            case MC_REG_STOCORDIC_EST_BEMF:
+            {
+              *regdata32 = STO_CR_GetEstimatedBemfLevel(stoCRSensor[motorID]);
+              break;
+            }
+            
+            case MC_REG_STOCORDIC_OBS_BEMF:
+            {
+              *regdata32 = STO_CR_GetObservedBemfLevel(stoCRSensor[motorID]);
+              break;
+            }
+</#if>
+<#if MC.FEED_FORWARD_CURRENT_REG_ENABLING || MC.FEED_FORWARD_CURRENT_REG_ENABLING2 >           
+            case MC_REG_FF_1Q:
+            {
+              *regdata32 = pFF[motorID]->wConstant_1Q;
+              break;
+            }
+            
+            case MC_REG_FF_1D:
+            {
+              *regdata32 = pFF[motorID]->wConstant_1D;
+              break;
+            }
+            
+            case MC_REG_FF_2:
+            {
+              *regdata32 = pFF[motorID]->wConstant_2;
+              break;
+            }
+</#if>
+<#if MC.PFC_ENABLED>
+            case MC_REG_PFC_FAULTS:
+              break;
+</#if>
+<#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2 >
+            case MC_REG_CURRENT_POSITION:
+            {
+              FloatToU32 ReadVal;
+              ReadVal.Float_Val = MCI_GetCurrentPosition(pMCIN);
+              *regdataU32 = ReadVal.U32_Val;
+              break;
+            }
+            
+</#if>
+              
+<#if MC.MOTOR_PROFILER>
+            case MC_REG_SC_RS:
+            case MC_REG_SC_LS:
+            case MC_REG_SC_KE:
+            case MC_REG_SC_VBUS:
+            case MC_REG_SC_MEAS_NOMINALSPEED:
+            case MC_REG_SC_CURRENT:
+            case MC_REG_SC_SPDBANDWIDTH:
+            case MC_REG_SC_LDLQRATIO:
+            case MC_REG_SC_NOMINAL_SPEED:
+            case MC_REG_SC_CURRBANDWIDTH:
+            case MC_REG_SC_J:
+            case MC_REG_SC_F:
+            case MC_REG_SC_MAX_CURRENT:
+            case MC_REG_SC_STARTUP_SPEED:
+            case MC_REG_SC_STARTUP_ACC:
+              break;
+</#if>
+
+            default:
+            {
+              retVal = MCP_ERROR_UNKNOWN_REG;
+              break;
+            }
+          }
+          *size = 4;
+        }
+        else
+        {
+          retVal = MCP_ERROR_NO_TXSYNC_SPACE; 
+        }
+        break;
+      }
+  
+      case TYPE_DATA_STRING:
+      {
+<<<<<<< HEAD
+      case MC_REG_FW_VERSION:
+        
+        break;
+      case MC_REG_CTRL_STAGE_NAME:
+        retVal = RI_MovString (CTL_BOARD ,charData, size, freeSpace);
+        break;
+      case MC_REG_PWR_STAGE_NAME:
+        retVal = RI_MovString (PWR_BOARD_NAME[motorID] ,charData, size, freeSpace);
+        break;
+      case MC_REG_MOTOR_NAME:
+        retVal = RI_MovString (MOTOR_NAME[motorID] ,charData, size, freeSpace);
+=======
+        char_t *charData = (char_t *)data;
+        switch (regID)
+        {
+      case MC_REG_FW_NAME:
+        retVal = RI_MovString (FIRMWARE_NAME ,charData, size, freeSpace);
+            break;
+            
+          case MC_REG_CTRL_STAGE_NAME:
+          {
+            retVal = RI_MovString (CTL_BOARD ,charData, size, freeSpace);
+            break;
+          }
+          
+          case MC_REG_PWR_STAGE_NAME:
+          {
+            retVal = RI_MovString (PWR_BOARD_NAME[motorID] ,charData, size, freeSpace);
+            break;
+          }
+          
+          case MC_REG_MOTOR_NAME:
+          {
+        retVal = RI_MovString (MotorConfig_reg[motorID]->name ,charData, size, freeSpace);
+            break;
+          }
+          
+          default:
+          {
+            retVal = MCP_ERROR_UNKNOWN_REG;
+            *size= 0 ; /* */
+            break;
+          }
+        }
+>>>>>>> master
+        break;
+      }
+       
+      case TYPE_DATA_RAW:
+      {
+<<<<<<< HEAD
+        case MC_REG_GLOBAL_CONFIG:
+        *rawSize = sizeof(GlobalConfig_reg_t); 
+        if ((*rawSize) +2  > freeSpace) 
+=======
+        /* First 2 bytes of the answer is reserved to the size */
+        uint16_t *rawSize = (uint16_t *)data; //cstat !MISRAC2012-Rule-11.3
+        uint8_t * rawData = data;
+        rawData++;
+        rawData++;
+       
+        switch (regID)          
+>>>>>>> master
+        {
+          case MC_REG_GLOBAL_CONFIG:
+          {
+            *rawSize = (uint16_t)sizeof(GlobalConfig_reg_t); 
+            if (((*rawSize) + 2U) > freeSpace) 
+            {
+              retVal = MCP_ERROR_NO_TXSYNC_SPACE;
+            }
+            else 
+            {
+              (void)memcpy(rawData, &globalConfig_reg, sizeof(GlobalConfig_reg_t));
+            }
+            break;
+          }
+          
+          case MC_REG_MOTOR_CONFIG:
+          {
+            *rawSize = (uint16_t)sizeof(MotorConfig_reg_t);
+            if (((*rawSize) + 2U) > freeSpace) 
+            {
+              retVal = MCP_ERROR_NO_TXSYNC_SPACE;
+            }
+            else 
+            { 
+              MotorConfig_reg_t const *pMotorConfig_reg = MotorConfig_reg[motorID];
+              (void)memcpy(rawData, (uint8_t *)pMotorConfig_reg, sizeof(MotorConfig_reg_t));
+            }
+          }
+      break;      
+      case MC_REG_APPLICATION_CONFIG:
+        {
+<<<<<<< HEAD
+          memcpy(rawData, &globalConfig_reg, sizeof(GlobalConfig_reg_t) );
+        }
+        break;
+      case MC_REG_MOTOR_CONFIG:
+        *rawSize = sizeof(MotorConfig_reg_t);
+=======
+        *rawSize = sizeof(ApplicationConfig_reg_t);
+>>>>>>> master
+        if ((*rawSize) +2  > freeSpace) 
+        {
+          retVal = MCP_ERROR_NO_TXSYNC_SPACE;
+        }
+        else 
+        { 
+          memcpy(rawData, ApplicationConfig_reg[motorID], sizeof(ApplicationConfig_reg_t));
+            }
+      break;
+<<<<<<< HEAD
+      case MC_REG_FOCFW_CONFIG:
+=======
+          }
+          
+          case MC_REG_FOCFW_CONFIG:
+          {
+>>>>>>> master
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Create an equivalent register for 6S -->
+            *rawSize = (uint16_t)sizeof(FOCFwConfig_reg_t); 
+            if (((*rawSize) + 2U) > freeSpace) 
+            {
+              retVal = MCP_ERROR_NO_TXSYNC_SPACE;
+            }
+            else 
+            { 
+              FOCFwConfig_reg_t const *pFOCConfig_reg = FOCConfig_reg[motorID];
+              (void)memcpy(rawData, (uint8_t *)pFOCConfig_reg, sizeof(FOCFwConfig_reg_t));
+            }
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+            break;
+          }
+          
+          case MC_REG_SPEED_RAMP:
+          {          
+            <#if UNALIGNMENT_SUPPORTED >
+            int32_t *rpm = (int32_t *)rawData; //cstat !MISRAC2012-Rule-11.3 
+            uint16_t *duration = (uint16_t *)&rawData[4]; //cstat !MISRAC2012-Rule-11.3
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Create an equivalent register for 6S -->
+            *rpm = (((int32_t)MCI_GetLastRampFinalSpeed(pMCIN) * U_RPM) / (int32_t)SPEED_UNIT);
+<#else>
+            *rpm = (int32_t)(pMCIN->speed_target_command);
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+            <#else>
+            uint16_t *rpm16p = (uint16_t *)rawData; //cstat !MISRAC2012-Rule-11.3
+            uint16_t *duration = (uint16_t *)&rawData[4]; //cstat !MISRAC2012-Rule-11.3
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Create an equivalent register for 6S -->
+            int32_t rpm32 = ((int32_t)(MCI_GetLastRampFinalSpeed(pMCIN) * U_RPM) / (int32_t)SPEED_UNIT);
+<#else>
+            int32_t rpm32 = (int32_t)(pMCIN->speed_target_command);
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+            *rpm16p = (uint16_t) rpm32;
+            *(rpm16p+1) = (uint16_t)(rpm32>>16);
+            </#if>
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Create an equivalent register for 6S -->
+            *duration = MCI_GetLastRampFinalDuration(pMCIN);
+<#else>
+            *duration = 1; /* Not zero... */
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+            *rawSize = 6; 
+            break;
+          }
+
+<#if MC.DRIVE_TYPE == "FOC" ><#-- TODO: Create an equivalent register for 6S -->
+          case MC_REG_TORQUE_RAMP:
+          {
+            int16_t *torque = (int16_t *)rawData; //cstat !MISRAC2012-Rule-11.3
+            uint16_t *duration = (uint16_t *)&rawData[2]; //cstat !MISRAC2012-Rule-11.3
+            
+            *rawSize = 4;
+            *torque = MCI_GetLastRampFinalTorque(pMCIN);
+            *duration = MCI_GetLastRampFinalDuration(pMCIN) ;
+            break;
+          }
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+<#if IS_SENSORLESS || IS_SENSORLESS2 >      
+
+          case MC_REG_REVUP_DATA:          
+          {
+  <#if UNALIGNMENT_SUPPORTED >
+            int32_t *rpm;
+  <#else>
+            int32_t rpm32;
+            int16_t *rpm16p;
+  </#if>
+            uint16_t *finalTorque;
+            uint16_t *durationms;
+            RevUpCtrl_PhaseParams_t revUpPhase;
+            uint8_t i;
+          
+            *rawSize = (uint16_t)RUC_MAX_PHASE_NUMBER*8U; 
+            if (((*rawSize) + 2U) > freeSpace) 
+            {
+              retVal = MCP_ERROR_NO_TXSYNC_SPACE;
+            }
+            else
+            {          
+              for (i = 0; i <RUC_MAX_PHASE_NUMBER; i++)
+              {
+                (void)RUC_GetPhase( RevUpControl[motorID] ,i, &revUpPhase);
+  <#if UNALIGNMENT_SUPPORTED >
+                rpm = (int32_t *) &data[2U + (i*8U)];  //cstat !MISRAC2012-Rule-11.3
+                *rpm = (((int32_t)revUpPhase.hFinalMecSpeedUnit) * U_RPM) / SPEED_UNIT; //cstat !MISRAC2012-Rule-11.3
+  <#else>
+                rpm32 = (((int32_t)revUpPhase.hFinalMecSpeedUnit) * U_RPM) / SPEED_UNIT; //cstat !MISRAC2012-Rule-11.3
+                rpm16p = (int16_t *)&data[2U + (i * 8U)]; //cstat !MISRAC2012-Rule-11.3
+                *rpm16p = (uint16_t)rpm32; /* 16 LSB access */ //cstat !MISRAC2012-Rule-11.3
+                *(rpm16p+1) = ((uint16_t)(rpm32 >> 16)); /* 16 MSB access */ //cstat !MISRAC2012-Rule-11.3
+  </#if>
+                finalTorque = (uint16_t *)&data[6U + (i * 8U)]; //cstat !MISRAC2012-Rule-11.3
+                *finalTorque = (uint16_t)revUpPhase.hFinalTorque; //cstat !MISRAC2012-Rule-11.3
+                durationms  = (uint16_t *)&data[8U + (i * 8U)]; //cstat !MISRAC2012-Rule-11.3
+                *durationms  = revUpPhase.hDurationms;
+              }
+            }
+            break;
+          }
+</#if><#-- IS_SENSORLESS || IS_SENSORLESS2 -->
+
+<#if MC.DRIVE_TYPE == "FOC">
+          case MC_REG_CURRENT_REF:
+          { 
+            uint16_t *iqref = (uint16_t *)rawData; //cstat !MISRAC2012-Rule-11.3
+            uint16_t *idref = (uint16_t *)&rawData[2]; //cstat !MISRAC2012-Rule-11.3
+            
+            *rawSize = 4;
+            *iqref = (uint16_t)MCI_GetIqdref(pMCIN).q;
+            *idref = (uint16_t)MCI_GetIqdref(pMCIN).d;
+            break;
+    }
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+<#if MC.POSITION_CTRL_ENABLING || MC.POSITION_CTRL_ENABLING2>
+          case MC_REG_POSITION_RAMP:
+          {
+            float Position;
+            float Duration;
+            
+            *rawSize = 8;
+            Position = TC_GetMoveDuration(pPosCtrl[motorID]);   /* Does this duration make sense ? */
+            Duration = TC_GetTargetPosition(pPosCtrl[motorID]);
+            memcpy(rawData, &Position, 4);
+            memcpy(&rawData[4], &Duration, 4);
+            break;
+          }
+</#if>
+
+          case MC_REG_ASYNC_UARTA:
+          case MC_REG_ASYNC_UARTB:
+          case MC_REG_ASYNC_STLNK:
+          default:
+          {
+            retVal = MCP_ERROR_UNKNOWN_REG;
+            break;
+          }
+        }
+            
+        /* Size of the answer is size of the data + 2 bytes containing data size*/
+        *size = (*rawSize) + 2U;
+        break;
+      }
+  
+      default:
+      {
+        retVal = MCP_ERROR_BAD_DATA_TYPE;
+        break;
+      }
+    }
+  }
+  return (retVal);
+}
+
+uint8_t RI_MovString(const char_t *srcString, char_t *destString, uint16_t *size, int16_t maxSize)
+{
+  uint8_t retVal = MCP_CMD_OK;
+  
+  const char_t *tempsrcString = srcString;
+  char_t *tempdestString = destString;
+  *size= 1U ; /* /0 is the min String size */
+  
+  while ((*tempsrcString != (char_t)0) && (*size < maxSize))
+  {
+    *tempdestString = *tempsrcString;
+    tempdestString++;
+    tempsrcString++;
+    *size = *size + 1U;
+  }
+  
+  if (*tempsrcString != (char_t)0)
+  { /* Last string char must be 0 */
+    retVal = MCP_ERROR_STRING_FORMAT;
+  }
+  else
+  {
+    *destString = (int8_t)0;
+  }
+  
+  return (retVal);
+}
+
+uint8_t RI_GetIDSize(uint16_t dataID)
+{
+  uint8_t typeID = ((uint8_t)dataID) & TYPE_MASK;
+  uint8_t result;
+  switch (typeID)
+  {
+    case TYPE_DATA_8BIT:
+    {
+      result = 1;
+      break;
+    }
+    
+    case TYPE_DATA_16BIT:
+    {
+      result = 2;
+      break;
+    }
+    
+    case TYPE_DATA_32BIT:
+    {
+      result = 4;
+      break;
+    }
+    
+    default:
+    {
+      result=0;
+      break;
+    }
+  }
+  
+  return (result);
+}
+__weak uint8_t RI_GetPtrReg(uint16_t dataID, void **dataPtr)
+{
+<#if MC.DRIVE_TYPE == "FOC"><#-- The datalog feature is not supported by 6S yet -->
+  uint8_t retVal = MCP_CMD_OK;
+  static uint16_t nullData16=0;
+  
+  if (MC_NULL == dataPtr)
+  {
+    retVal = MCP_CMD_NOK;
+  }
+  else
+  {    
+
+  <#if   MC.DUALDRIVE == true>
+    uint8_t vmotorID = (((uint8_t)dataID) -1U) & MOTOR_MASK;
+    motorID = (vmotorID <= (MAX_OF_MOTORS - 1U)) ? vmotorID : (MAX_OF_MOTORS - 1U);
+  <#else>
+    uint8_t vmotorID = 0U;
+  </#if>    
+    
+    uint16_t regID = dataID & REG_MASK;
+    MCI_Handle_t *pMCIN = &Mci[vmotorID];
+    uint8_t typeID = ((uint8_t)dataID) & TYPE_MASK;
+  
+    switch (typeID)
+    {
+      case TYPE_DATA_16BIT:
+      {
+<<<<<<< HEAD
+      case MC_REG_I_A:
+        *dataPtr = &(pMCI->pFOCVars->Iab.a);
+       break;                 
+      case MC_REG_I_B:
+        *dataPtr = &(pMCI->pFOCVars->Iab.b);
+       break;                 
+      case MC_REG_I_ALPHA_MEAS:
+        *dataPtr = &(pMCI->pFOCVars->Ialphabeta.alpha);
+       break;             
+      case MC_REG_I_BETA_MEAS:
+        *dataPtr = &(pMCI->pFOCVars->Ialphabeta.beta);
+       break;
+      case MC_REG_I_Q_MEAS:
+        *dataPtr = &(pMCI->pFOCVars->Iqd.q);
+       break;         
+      case MC_REG_I_D_MEAS:
+        *dataPtr = &(pMCI->pFOCVars->Iqd.d);
+       break;
+      case MC_REG_I_Q_REF:
+        *dataPtr = &(pMCI->pFOCVars->Iqdref.q);
+       break;             
+      case MC_REG_I_D_REF:
+        *dataPtr = &(pMCI->pFOCVars->Iqdref.d);
+       break;             
+      case MC_REG_V_Q:
+        *dataPtr = &(pMCI->pFOCVars->Vqd.q);
+       break;                 
+      case MC_REG_V_D:
+        *dataPtr = &(pMCI->pFOCVars->Vqd.d);
+       break;                 
+      case MC_REG_V_ALPHA:
+        *dataPtr = &(pMCI->pFOCVars->Valphabeta.alpha);
+       break;             
+      case MC_REG_V_BETA:
+        *dataPtr = &(pMCI->pFOCVars->Valphabeta.beta);
+       break;
+      <#if IS_HALL_SENSORS || IS_HALL_SENSORS2>
+      case MC_REG_HALL_SPEED:
+        *dataPtr = &(pHallSensor[motorID]->_Super.hAvrMecSpeedUnit);
+      break;
+      case MC_REG_HALL_EL_ANGLE:
+        *dataPtr = &(pHallSensor[motorID]->_Super.hElAngle);
+      break;
+      </#if>
+      <#if IS_ENCODER || IS_ENCODER2>
+      case MC_REG_ENCODER_SPEED:
+        *dataPtr = &(pEncoder[motorID]->_Super.hAvrMecSpeedUnit);
+      break;      
+      case MC_REG_ENCODER_EL_ANGLE:
+        *dataPtr = &(pEncoder[motorID]->_Super.hElAngle);
+      break;
+      </#if>
+      <#if IS_STO_PLL || IS_STO_PLL2 >
+      case MC_REG_STOPLL_ROT_SPEED:
+        *dataPtr = &(stoPLLSensor[motorID]->_Super.hAvrMecSpeedUnit);
+      break;        
+      case MC_REG_STOPLL_EL_ANGLE:
+        *dataPtr = &(stoPLLSensor[motorID]->_Super.hElAngle);
+      break;
+      //case MC_REG_STOPLL_I_ALPHA:       
+      //break;
+      //case MC_REG_STOPLL_I_BETA:
+      //break;
+      case MC_REG_STOPLL_BEMF_ALPHA:
+        *dataPtr = &(stoPLLSensor[motorID]->hBemf_alfa_est);
+      break;
+      case MC_REG_STOPLL_BEMF_BETA:
+        *dataPtr = &(stoPLLSensor[motorID]->hBemf_beta_est);
+      break;      
+      </#if>
+      <#if IS_STO_CORDIC || IS_STO_CORDIC2 >
+      case MC_REG_STOCORDIC_ROT_SPEED:
+        *dataPtr = &(stoCRSensor[motorID]->_Super.hAvrMecSpeedUnit);
+      break;      
+      case MC_REG_STOCORDIC_EL_ANGLE:
+        *dataPtr = &(stoCRSensor[motorID]->_Super.hElAngle);      
+      break;
+      //case MC_REG_STOCORDIC_I_ALPHA:
+      //break;
+      //case MC_REG_STOCORDIC_I_BETA:        
+      //break;
+      case MC_REG_STOCORDIC_BEMF_ALPHA:
+        *dataPtr = &(stoCRSensor[motorID]->hBemf_alfa_est);
+      break;
+      case MC_REG_STOCORDIC_BEMF_BETA:
+        *dataPtr = &(stoCRSensor[motorID]->hBemf_beta_est);
+      break;
+      </#if>        
+      default:
+=======
+        switch (regID)
+        {
+          case MC_REG_I_A:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Iab.a);
+             break;
+          }
+          
+          case MC_REG_I_B:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Iab.b);
+            break;
+          }
+          
+          case MC_REG_I_ALPHA_MEAS:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Ialphabeta.alpha);
+            break;
+          }
+          
+          case MC_REG_I_BETA_MEAS:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Ialphabeta.beta);
+            break;
+          }
+          
+          case MC_REG_I_Q_MEAS:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Iqd.q);
+            break;
+          }
+          
+          case MC_REG_I_D_MEAS:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Iqd.d);
+            break;
+          }
+          
+          case MC_REG_I_Q_REF:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Iqdref.q);
+            break;
+          }
+          
+          case MC_REG_I_D_REF:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Iqdref.d);
+            break;
+          }
+          
+          case MC_REG_V_Q:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Vqd.q);
+            break;
+          }
+          
+          case MC_REG_V_D:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Vqd.d);
+            break;
+          }
+          
+          case MC_REG_V_ALPHA:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Valphabeta.alpha);
+            break;
+          }
+          
+          case MC_REG_V_BETA:
+          {
+            *dataPtr = &(pMCIN->pFOCVars->Valphabeta.beta);
+            break;
+          }
+          
+  <#if IS_HALL_SENSORS || IS_HALL_SENSORS2>
+          case MC_REG_HALL_SPEED:
+          {
+            *dataPtr = &(pHallSensor[vmotorID]->_Super.hAvrMecSpeedUnit);
+            break;
+          }
+          
+          case MC_REG_HALL_EL_ANGLE:
+          {
+            *dataPtr = &(pHallSensor[vmotorID]->_Super.hElAngle);
+            break;
+          }    
+  </#if>
+      
+  <#if IS_ENCODER || IS_ENCODER2>
+          case MC_REG_ENCODER_SPEED:
+          {
+            *dataPtr = &(pEncoder[vmotorID]->_Super.hAvrMecSpeedUnit);
+            break;
+          }
+      
+          case MC_REG_ENCODER_EL_ANGLE:
+          {
+            *dataPtr = &(pEncoder[vmotorID]->_Super.hElAngle);
+            break;
+          }
+  </#if>
+      
+  <#if IS_STO_PLL || IS_STO_PLL2 >
+#ifdef NOT_IMPLEMENTED  /* Not yet Implemented */
+         stoPLLSensor[vmotorID];
+#endif
+          case MC_REG_STOPLL_ROT_SPEED:
+          {
+            *dataPtr = &(stoPLLSensor[vmotorID]->_Super.hAvrMecSpeedUnit);
+            break;
+          }
+           
+          case MC_REG_STOPLL_EL_ANGLE:
+          {
+            *dataPtr = &(stoPLLSensor[vmotorID]->_Super.hElAngle);
+            break;
+          }
+#ifdef NOT_IMPLEMENTED /* Not yet implemented */    
+          case MC_REG_STOPLL_I_ALPHA:       
+          case MC_REG_STOPLL_I_BETA:
+            break;
+#endif
+          case MC_REG_STOPLL_BEMF_ALPHA:
+          {
+            *dataPtr = &(stoPLLSensor[vmotorID]->hBemf_alfa_est);
+            break;
+          }
+    
+          case MC_REG_STOPLL_BEMF_BETA:
+          {
+            *dataPtr = &(stoPLLSensor[vmotorID]->hBemf_beta_est);
+            break;
+          }     
+  </#if>
+  <#if IS_STO_CORDIC || IS_STO_CORDIC2 >
+          case MC_REG_STOCORDIC_ROT_SPEED:
+          {
+            *dataPtr = &(stoCRSensor[vmotorID]->_Super.hAvrMecSpeedUnit);
+            break;
+          }
+         
+          case MC_REG_STOCORDIC_EL_ANGLE:
+          {
+            *dataPtr = &(stoCRSensor[vmotorID]->_Super.hElAngle);      
+            break;
+          }
+#ifdef NOT_IMPLEMENTED /* Not yet implemented */
+          case MC_REG_STOCORDIC_I_ALPHA:
+          case MC_REG_STOCORDIC_I_BETA:        
+            break;
+#endif
+          case MC_REG_STOCORDIC_BEMF_ALPHA:
+          {
+            *dataPtr = &(stoCRSensor[vmotorID]->hBemf_alfa_est);
+            break;
+          }
+    
+          case MC_REG_STOCORDIC_BEMF_BETA:
+          {
+            *dataPtr = &(stoCRSensor[vmotorID]->hBemf_beta_est);
+            break;
+          }
+  </#if>        
+          default:
+          {
+            *dataPtr = &nullData16;
+            retVal = MCP_ERROR_UNKNOWN_REG;
+            break;
+          }
+        }
+        break;
+      }
+      
+      default:
+      {
+>>>>>>> master
+        *dataPtr = &nullData16;
+        retVal = MCP_ERROR_UNKNOWN_REG;
+        break;
+      }
+    }
+<<<<<<< HEAD
+      break;
+    default:
+      *dataPtr = &nullData16;
+      retVal = MCP_ERROR_UNKNOWN_REG;
+      break;
+  }  
+  return retVal;
+=======
+  }  
+  return (retVal);
+>>>>>>> master
+<#else>
+  return (MCP_CMD_NOK);
+</#if><#-- MC.DRIVE_TYPE == "FOC" -->
+}
+
+
+/************************ (C) COPYRIGHT 2021 STMicroelectronics *****END OF FILE****/

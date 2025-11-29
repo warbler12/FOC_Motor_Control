@@ -1,0 +1,82 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: MCU Host
+
+
+BO_ 0 New_Message_11: 8 Vector__XXX
+ SG_ New_Signal_19 : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 257 POS_VEL_Control: 8 Vector__XXX
+ SG_ v_des : 32|32@1- (1,0) [-3.4E+038|3.4E+038] "bit" Vector__XXX
+ SG_ p_des : 7|32@0- (1,0) [-3.4E+038|3.4E+038] "bit" Vector__XXX
+
+BO_ 1 MIT_Control: 8 Host
+ SG_ t_ff : 51|12@0+ (1,0) [0|4095] "bit" Vector__XXX
+ SG_ Kd : 47|12@0+ (1,0) [0|4095] "bit" Vector__XXX
+ SG_ Kp : 27|12@0+ (1,0) [0|4095] "bit" Vector__XXX
+ SG_ v_des : 23|12@0+ (1,0) [0|4095] "bit" Vector__XXX
+ SG_ p_des : 7|16@0+ (1,0) [0|65535] "bit" Vector__XXX
+
+BO_ 17 PMSMFeedback: 8 MCU
+ SG_ T_Rotor : 63|8@0+ (1,0) [0|255] "bit" Vector__XXX
+ SG_ T_MOS : 55|8@0+ (1,0) [0|255] "bit" Vector__XXX
+ SG_ T : 35|12@0+ (1,0) [0|4095] "bit" Vector__XXX
+ SG_ VEL : 31|12@0+ (1,0) [0|4095] "bit" Vector__XXX
+ SG_ POS : 15|16@0+ (1,0) [0|65535] "bit" Vector__XXX
+ SG_ ERR : 3|4@0+ (1,0) [0|15] "bit" Vector__XXX
+ SG_ ID : 7|4@0+ (1,0) [0|15] "bit" Vector__XXX
+
+
+
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 0;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","not_used","not_used","not_used","not_used","Cyclic","not_used","IfActive","NoMsgSendType";
+BA_DEF_ BU_  "NmStationAddress" HEX 0 0;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "GenSigSendType" "Cyclic";
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_  "NmStationAddress" 0;
+BA_DEF_DEF_  "DBName" "";
+BA_DEF_DEF_  "BusType" "CAN";
+BA_ "DBName" "motor_can";
+BA_ "GenMsgCycleTime" BO_ 17 10;
+SIG_VALTYPE_ 257 v_des : 1;
+SIG_VALTYPE_ 257 p_des : 1;
+

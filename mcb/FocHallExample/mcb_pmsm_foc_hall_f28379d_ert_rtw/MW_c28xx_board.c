@@ -212,7 +212,6 @@ void init_board (void)
 
   init_SCI();
   init_SCI_GPIO();
-  init_SCIFrame();
   init_CAP1();
   init_CAP2();
   init_CAP3();

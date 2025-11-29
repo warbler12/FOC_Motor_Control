@@ -1,0 +1,12 @@
+.settings
+.vscode
+build
+Drivers
+Middlewares
+.clangd
+.mxproject
+Makefile
+remake.bat
+CMakePresets.json
+STM32H723XG_FALSH.ld
+startup_stm32h723xx.s
