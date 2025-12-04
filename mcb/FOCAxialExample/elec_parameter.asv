@@ -1,0 +1,51 @@
+% 已知参数
+V_dc = 12;      % V
+I_dc = 1.9;     % A
+n = 60;         % RPM
+p = 5;          % 极对数
+Rs = 0.4;       % Ω
+f_base = 50;    % Hz (假设额定频率)
+V_base = 24;    % V (假设额定相电压有效值)
+
+% 计算V/F比
+Gvf = V_base / f_base;  % 0.48 V/Hz
+
+% 标幺值系统参数
+Gvf_pu = 0.06;      % V/f 比 (标幺值)
+SPWM_factor = 2/sqrt(3);  % SPWM校正系数 ≈ 1.1547
+
+% 1. 计算电频率
+f_e = n * p / 60;  % 5 Hz
+
+% 2. 计算相电压有效值
+V_ph_rms = Gvf_pu \SPWM_factor * f_e;  % 2.4 V
+
+% 3. 计算直流功率
+P_dc = V_dc * I_dc;  % 22.8 W
+
+% 4. 计算相电流有效值 (假设cosφ=1, η=1)
+I_ph_rms = P_dc / (3 * V_ph_rms);  % 3.167 A
+
+% 5. 计算反电动势有效值
+E_ph_rms = V_ph_rms - I_ph_rms * Rs;  % 2.4 - 1.267 = 1.133 V
+
+% 6. 计算K_e (不同单位)
+% 6.1 线反电动势有效值每千转
+E_line_rms = E_ph_rms * sqrt(3);  % 1.962 V
+K_e_krpm = E_line_rms / (n/1000);  % 32.7 V_rms / krpm
+
+% 6.2 反电动势常数 (V_peak/rad/s)
+omega_m = n * (2*pi/60);  % 机械角速度: 6.283 rad/s
+E_ph_peak = E_ph_rms * sqrt(2);  % 1.602 V
+K_e_si = E_ph_peak / (omega_m * p);  % 0.0510 V/rad/s
+
+fprintf('============ 计算结果 ============\n');
+fprintf('电频率: %.1f Hz\n', f_e);
+fprintf('相电压有效值: %.3f V\n', V_ph_rms);
+fprintf('相电流有效值: %.3f A\n', I_ph_rms);
+fprintf('反电动势有效值: %.3f V\n', E_ph_rms);
+fprintf('线反电动势有效值: %.3f V\n', E_line_rms);
+fprintf('\n');
+fprintf('K_e (线电压有效值每千转): %.1f V_rms/krpm\n', K_e_krpm);
+fprintf('K_e (相电压峰值每rad/s): %.4f V_peak/(rad/s)\n', K_e_si);
+fprintf('==================================\n');
