@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_hall_f28379d'.
  *
- * Model version                  : 29
+ * Model version                  : 17
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Thu Nov 20 17:46:49 2025
+ * C/C++ source code generated on : Thu Dec 11 18:11:22 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -79,6 +79,7 @@ void config_ADCC_SOC2 (void);
 void config_ADCB_SOC2 (void);
 extern uint16_T MW_adcCInitFlag;
 extern uint16_T MW_adcBInitFlag;
+extern real32_T rt_modf_snf(real32_T u0, real32_T u1);
 extern void mcb_pmsm__IfActionSubsystem(real32_T rtu_In1, real32_T *rty_Out1,
   rtB_IfActionSubsystem_mcb_pmsm_ *localB);
 extern void mcb_pmsm_IfActionSubsystem1(real32_T rtu_In1, real32_T *rty_Out1,
@@ -89,6 +90,8 @@ extern void mcb_pmsm_foc_h_HallValueof3(real32_T *rty_position);
 extern void mcb_pmsm_foc_h_HallValueof4(real32_T *rty_position);
 extern void mcb_pmsm_foc_h_HallValueof5(real32_T *rty_position);
 extern void mcb_pmsm_foc_h_HallValueof7(real32_T *rty_position);
+extern void mcb_pms_IfActionSubsystem_n(real32_T rtu_m, real32_T rtu_Offset,
+  real32_T *rty_m_out);
 extern void mcb_pmsm_foc_hall_f_Output1(boolean_T *rty_Out1);
 extern void mcb_pmsm_foc_hall_f_Output0(boolean_T *rty_Out1);
 extern void mcb_pmsm_fo_ValidHalls_Init(rtB_ValidHalls_mcb_pmsm_foc_hal *localB);
@@ -106,9 +109,9 @@ extern void mcb_pmsm_SPIMasterTransfer2(uint16_T rtu_0,
 extern void mcb_pmsm__SpeedControl_Init(rtB_SpeedControl_mcb_pmsm_foc_h *localB,
   rtDW_SpeedControl_mcb_pmsm_foc_ *localDW);
 extern void mcb_pmsm_foc_h_SpeedControl(real32_T rtu_Speed_Ref_PU, real32_T
-  rtu_Speed_Meas_PU, const boolean_T *rtd_Enable,
-  rtB_SpeedControl_mcb_pmsm_foc_h *localB, rtDW_SpeedControl_mcb_pmsm_foc_
-  *localDW);
+  rtu_Speed_Meas_PU, real32_T rtu_Pos_Meas_PU, const boolean_T *rtd_EnClosedLoop,
+  const boolean_T *rtd_Enable, rtB_SpeedControl_mcb_pmsm_foc_h *localB,
+  rtDW_SpeedControl_mcb_pmsm_foc_ *localDW);
 extern void mcb_pmsm__AtomicHallReading(void);
 extern void mcb_pms_CurrentControl_Init(void);
 extern void mcb_pm_CurrentControl_Reset(void);

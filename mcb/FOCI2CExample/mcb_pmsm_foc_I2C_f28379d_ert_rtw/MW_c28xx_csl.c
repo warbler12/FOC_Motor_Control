@@ -72,21 +72,3 @@ void init_SCI_GPIO(void)
   GpioCtrlRegs.GPBMUX1.bit.GPIO42 = 3U;/*Configure GPIO42 as SCITXDA*/
   EDIS;
 }
-
-void CANB0_ClearFlag()
-{
-  if (CAN_getInterruptCause(CANB_BASE) & 3) {
-    CAN_clearInterruptStatus(CANB_BASE, 3);
-  }
-
-  CAN_clearGlobalInterruptStatus(CANB_BASE, CAN_GLOBAL_INT_CANINT0);
-}
-
-void CANB1_ClearFlag()
-{
-  if (CAN_getInterruptCause(CANB_BASE) & 131072) {
-    CAN_clearInterruptStatus(CANB_BASE, 2);
-  }
-
-  CAN_clearGlobalInterruptStatus(CANB_BASE, CAN_GLOBAL_INT_CANINT1);
-}

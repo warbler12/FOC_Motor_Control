@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_test_f28379d'.
  *
- * Model version                  : 7.11
+ * Model version                  : 7.13
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Wed Dec  3 16:05:33 2025
+ * C/C++ source code generated on : Tue Dec  9 23:18:23 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -22,7 +22,7 @@
 #include "rtwtypes.h"
 #include "MW_c2000SPI.h"
 
-/* Custom Type definition for MATLABSystem: '<S228>/SPI Master Transfer' */
+/* Custom Type definition for MATLABSystem: '<S229>/SPI Master Transfer' */
 #include "MW_c2000SPI.h"
 #ifndef struct_tag_RL3bf5VyBoZJTCiPpDuhAE
 #define struct_tag_RL3bf5VyBoZJTCiPpDuhAE

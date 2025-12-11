@@ -100,7 +100,6 @@ MW_c28xx_can.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_c28xGPIO.
 MW_c28xx_can.obj: D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h
 MW_c28xx_can.obj: D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h
 MW_c28xx_can.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rt_nonfinite.h
-MW_c28xx_can.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rtGetNaN.h
 MW_c28xx_can.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\MW_target_hardware_resources.h
 MW_c28xx_can.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\mcb_pmsm_foc_I2C_f28379d_private.h
 
@@ -206,7 +205,6 @@ D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_c28xGPIO.h:
 D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rt_nonfinite.h:
-D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rtGetNaN.h:
 D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\MW_target_hardware_resources.h:
 D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\mcb_pmsm_foc_I2C_f28379d_private.h:
 

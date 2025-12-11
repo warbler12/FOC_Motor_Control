@@ -127,7 +127,6 @@ void init_board (void)
 
   /* Assign used SCI modules to CPU1 */
   DevCfgRegs.CPUSEL5.bit.SCI_A = 0U;
-  DevCfgRegs.CPUSEL8.bit.CAN_B = 0U;
 
   /* Assign used SPI modules to CPU1 */
 #ifdef MW_SPI_A
@@ -208,13 +207,6 @@ void init_board (void)
 
 #endif                                 // #ifdef CPU1
 
-  /* initial eCAN function.... */
-  /* Initialize eCAN_B Module with following parameters:
-   *    BRP=20, TSEG1=5, TSEG2=4
-   *    Resynchronize on: Only_falling_edges
-   *    Level of CAN bus: Sample_one_time
-   *    Synchronization jump width = 2 */
-  init_eCAN_B (20, 5, 4, 1, 2, 1);
   init_SCI();
   init_SCI_GPIO();
   init_SCIFrame();

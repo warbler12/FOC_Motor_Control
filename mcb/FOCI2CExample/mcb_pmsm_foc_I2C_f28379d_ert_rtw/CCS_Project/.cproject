@@ -46,8 +46,6 @@
 </listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\rtw\c\ert">
 </listOptionValue>
-<listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\shared\can\src\scanutil">
-</listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\dsp\include">
 </listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\dsp\extern\src\export\include\src">
@@ -55,6 +53,8 @@
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\dsp\extern\src\export\include">
 </listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\shared\dsp\vision\matlab\include">
+</listOptionValue>
+<listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\shared\can\src\scanutil">
 </listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\c2b\tic2000\src">
 </listOptionValue>
@@ -92,7 +92,7 @@
 </listOptionValue>
 <listOptionValue builtIn="false" value="MODEL=mcb_pmsm_foc_I2C_f28379d">
 </listOptionValue>
-<listOptionValue builtIn="false" value="NUMST=6">
+<listOptionValue builtIn="false" value="NUMST=4">
 </listOptionValue>
 <listOptionValue builtIn="false" value="NCSTATES=0">
 </listOptionValue>
@@ -260,8 +260,6 @@
 </listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\rtw\c\ert">
 </listOptionValue>
-<listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\shared\can\src\scanutil">
-</listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\dsp\include">
 </listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\dsp\extern\src\export\include\src">
@@ -269,6 +267,8 @@
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\dsp\extern\src\export\include">
 </listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\shared\dsp\vision\matlab\include">
+</listOptionValue>
+<listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\shared\can\src\scanutil">
 </listOptionValue>
 <listOptionValue builtIn="false" value="D:\Software\MATLAB\toolbox\c2b\tic2000\src">
 </listOptionValue>
@@ -306,7 +306,7 @@
 </listOptionValue>
 <listOptionValue builtIn="false" value="MODEL=mcb_pmsm_foc_I2C_f28379d">
 </listOptionValue>
-<listOptionValue builtIn="false" value="NUMST=6">
+<listOptionValue builtIn="false" value="NUMST=4">
 </listOptionValue>
 <listOptionValue builtIn="false" value="NCSTATES=0">
 </listOptionValue>

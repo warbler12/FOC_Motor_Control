@@ -1,0 +1,14 @@
+Rs=0.6;
+L=0.0014;
+Ts=0.0001;
+L1=-5500;
+L2=68500;
+kp_c=3.44;
+ki_c=1476;
+kp_sp=0.01;
+ki_sp=0.5;    
+kp_pll=60;
+ki_pll=900;
+theta_sw=2*pi;
+theta_sw1=2*pi;
+wc_ob=3000;

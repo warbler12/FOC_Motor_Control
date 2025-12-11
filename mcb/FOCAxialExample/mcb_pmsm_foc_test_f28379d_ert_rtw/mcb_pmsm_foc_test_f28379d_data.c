@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_test_f28379d'.
  *
- * Model version                  : 7.11
+ * Model version                  : 7.13
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Wed Dec  3 16:05:33 2025
+ * C/C++ source code generated on : Tue Dec  9 23:18:23 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -21,15 +21,15 @@
 
 /* Invariant block signals (default storage) */
 const ConstB_mcb_pmsm_foc_test_f283_T mcb_pmsm_foc_test_f28379_ConstB = {
-  2U                                   /* '<S201>/Width' */
+  2U                                   /* '<S202>/Width' */
 };
 
 /* Constant parameters (default storage) */
 const ConstP_mcb_pmsm_foc_test_f283_T mcb_pmsm_foc_test_f28379_ConstP = {
   /* Pooled Parameter (Expression: )
    * Referenced by:
-   *   '<S149>/sine_table_values'
-   *   '<S159>/sine_table_values'
+   *   '<S150>/sine_table_values'
+   *   '<S160>/sine_table_values'
    */
   { 0.0F, 0.00785390101F, 0.0157073177F, 0.023559764F, 0.0314107575F,
     0.0392598175F, 0.0471064523F, 0.0549501814F, 0.0627905205F, 0.070626989F,

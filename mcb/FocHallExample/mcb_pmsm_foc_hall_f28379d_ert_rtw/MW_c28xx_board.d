@@ -79,11 +79,11 @@ MW_c28xx_board.obj: D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f
 MW_c28xx_board.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h
 MW_c28xx_board.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000SchedulerTimer.h
 MW_c28xx_board.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\mcb_pmsm_foc_hall_f28379d.h
-MW_c28xx_board.obj: C:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include/IQmathLib.h
-MW_c28xx_board.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/limits.h
-MW_c28xx_board.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\DSP28xx_SciUtil.h
 MW_c28xx_board.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h
 MW_c28xx_board.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h
+MW_c28xx_board.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\DSP28xx_SciUtil.h
+MW_c28xx_board.obj: C:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include/IQmathLib.h
+MW_c28xx_board.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/limits.h
 MW_c28xx_board.obj: D:/Software/MATLAB/toolbox/target/shared/svd/common/include/MW_SPI.h
 MW_c28xx_board.obj: D:\Software\MATLAB\toolbox\target\shared\svd\common\include\MW_digitalIO.h
 MW_c28xx_board.obj: D:\Software\MATLAB\toolbox\target\shared\svd\common\include\MW_SVD.h
@@ -96,6 +96,7 @@ MW_c28xx_board.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_c28xGPI
 MW_c28xx_board.obj: D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f28379d_ert_rtw/MW_target_hardware_resources.h
 MW_c28xx_board.obj: D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f28379d_ert_rtw/MW_target_hardware_resources.h
 MW_c28xx_board.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\rt_nonfinite.h
+MW_c28xx_board.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\rtGetNaN.h
 MW_c28xx_board.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\MW_target_hardware_resources.h
 MW_c28xx_board.obj: D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\mcb_pmsm_foc_hall_f28379d_private.h
 
@@ -180,11 +181,11 @@ D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f28379d_ert_rtw/MW_ta
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h:
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000SchedulerTimer.h:
 D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\mcb_pmsm_foc_hall_f28379d.h:
-C:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include/IQmathLib.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/limits.h:
-D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\DSP28xx_SciUtil.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h:
+D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\DSP28xx_SciUtil.h:
+C:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include/IQmathLib.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/limits.h:
 D:/Software/MATLAB/toolbox/target/shared/svd/common/include/MW_SPI.h:
 D:\Software\MATLAB\toolbox\target\shared\svd\common\include\MW_digitalIO.h:
 D:\Software\MATLAB\toolbox\target\shared\svd\common\include\MW_SVD.h:
@@ -197,6 +198,7 @@ D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_c28xGPIO.h:
 D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:/project/internship/mcb/FocHallExample/mcb_pmsm_foc_hall_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\rt_nonfinite.h:
+D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\rtGetNaN.h:
 D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\MW_target_hardware_resources.h:
 D:\project\internship\mcb\FocHallExample\mcb_pmsm_foc_hall_f28379d_ert_rtw\mcb_pmsm_foc_hall_f28379d_private.h:
 

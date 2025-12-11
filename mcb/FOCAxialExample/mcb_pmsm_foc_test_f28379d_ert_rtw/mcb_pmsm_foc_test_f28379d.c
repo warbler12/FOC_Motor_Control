@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_test_f28379d'.
  *
- * Model version                  : 7.11
+ * Model version                  : 7.13
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Wed Dec  3 16:05:33 2025
+ * C/C++ source code generated on : Tue Dec  9 23:18:23 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -92,12 +92,12 @@ static void rate_monotonic_scheduler(void)
   }
 }
 
-/* Output and update for function-call system: '<S11>/Delay 1ms' */
+/* Output and update for function-call system: '<S12>/Delay 1ms' */
 void mcb_pmsm_foc_test__Delay1ms(void)
 {
   /* user code (Output function Body) */
 
-  /* System '<S11>/Delay 1ms' */
+  /* System '<S12>/Delay 1ms' */
   DELAY_US(1000);
 
   /*Delay of 1 ms*/
@@ -105,32 +105,14 @@ void mcb_pmsm_foc_test__Delay1ms(void)
 
 /*
  * Output and update for action system:
- *    '<S152>/If Action Subsystem'
- *    '<S161>/If Action Subsystem'
+ *    '<S153>/If Action Subsystem'
+ *    '<S162>/If Action Subsystem'
  */
 void mcb_pmsm__IfActionSubsystem(real32_T rtu_In1, real32_T *rty_Out1,
   B_IfActionSubsystem_mcb_pmsm__T *localB)
 {
-  /* DataTypeConversion: '<S154>/Convert_uint16' */
-  localB->Convert_uint16 = (int16_T)(real32_T)floor(rtu_In1);
-
-  /* DataTypeConversion: '<S154>/Convert_back' */
-  localB->Convert_back = localB->Convert_uint16;
-
-  /* Sum: '<S154>/Sum' */
-  *rty_Out1 = rtu_In1 - localB->Convert_back;
-}
-
-/*
- * Output and update for action system:
- *    '<S152>/If Action Subsystem1'
- *    '<S161>/If Action Subsystem1'
- */
-void mcb_pmsm_IfActionSubsystem1(real32_T rtu_In1, real32_T *rty_Out1,
-  B_IfActionSubsystem1_mcb_pmsm_T *localB)
-{
   /* DataTypeConversion: '<S155>/Convert_uint16' */
-  localB->Convert_uint16 = (int16_T)rtu_In1;
+  localB->Convert_uint16 = (int16_T)(real32_T)floor(rtu_In1);
 
   /* DataTypeConversion: '<S155>/Convert_back' */
   localB->Convert_back = localB->Convert_uint16;
@@ -141,30 +123,26 @@ void mcb_pmsm_IfActionSubsystem1(real32_T rtu_In1, real32_T *rty_Out1,
 
 /*
  * Output and update for action system:
- *    '<S174>/Subsystem'
- *    '<S239>/Subsystem'
+ *    '<S153>/If Action Subsystem1'
+ *    '<S162>/If Action Subsystem1'
  */
-void mcb_pmsm_foc_test_Subsystem(real32_T rtu_In1, real32_T *rty_Out1)
+void mcb_pmsm_IfActionSubsystem1(real32_T rtu_In1, real32_T *rty_Out1,
+  B_IfActionSubsystem1_mcb_pmsm_T *localB)
 {
-  /* Fcn: '<S179>/Fcn' */
-  *rty_Out1 = rtu_In1 - 1.0F;
-}
+  /* DataTypeConversion: '<S156>/Convert_uint16' */
+  localB->Convert_uint16 = (int16_T)rtu_In1;
 
-/*
- * Output and update for action system:
- *    '<S174>/Subsystem1'
- *    '<S239>/Subsystem1'
- */
-void mcb_pmsm_foc_tes_Subsystem1(real32_T rtu_In1, real32_T *rty_Out1)
-{
-  /* Fcn: '<S180>/Fcn1' */
-  *rty_Out1 = rtu_In1 + 1.0F;
+  /* DataTypeConversion: '<S156>/Convert_back' */
+  localB->Convert_back = localB->Convert_uint16;
+
+  /* Sum: '<S156>/Sum' */
+  *rty_Out1 = rtu_In1 - localB->Convert_back;
 }
 
 /* System initialize for function-call system: '<Root>/Current Control' */
 void mcb_pms_CurrentControl_Init(void)
 {
-  /* Start for S-Function (c2802xadc): '<S173>/ADC_C_IN2' */
+  /* Start for S-Function (c2802xadc): '<S174>/ADC_C_IN2' */
   if (MW_adcCInitFlag == 0U) {
     InitAdcC();
     MW_adcCInitFlag = 1U;
@@ -172,7 +150,7 @@ void mcb_pms_CurrentControl_Init(void)
 
   config_ADCC_SOC0 ();
 
-  /* Start for S-Function (c2802xadc): '<S173>/ADC_B_IN2' */
+  /* Start for S-Function (c2802xadc): '<S174>/ADC_B_IN2' */
   if (MW_adcBInitFlag == 0U) {
     InitAdcB();
     MW_adcBInitFlag = 1U;
@@ -180,19 +158,19 @@ void mcb_pms_CurrentControl_Init(void)
 
   config_ADCB_SOC0 ();
 
-  /* Start for Constant: '<S32>/Kp1' */
+  /* Start for Constant: '<S33>/Kp1' */
   mcb_pmsm_foc_test_f28379d_B.Kp1 = 0.0F;
 
-  /* Start for Constant: '<S31>/Ki1' */
+  /* Start for Constant: '<S32>/Ki1' */
   mcb_pmsm_foc_test_f28379d_B.Ki1 = 0.0F;
 
-  /* Start for S-Function (c280xgpio_do): '<S197>/DRV830x Enable' */
+  /* Start for S-Function (c280xgpio_do): '<S198>/DRV830x Enable' */
   EALLOW;
   GpioCtrlRegs.GPDMUX2.all &= 0xFCFFFFFFU;
   GpioCtrlRegs.GPDDIR.all |= 0x10000000U;
   EDIS;
 
-  /* Start for S-Function (c2802xpwm): '<S197>/ePWM1' */
+  /* Start for S-Function (c2802xpwm): '<S198>/ePWM1' */
 
   /*** Initialize ePWM1 modules ***/
   {
@@ -412,7 +390,7 @@ void mcb_pms_CurrentControl_Init(void)
     EDIS;
   }
 
-  /* Start for S-Function (c2802xpwm): '<S197>/ePWM2' */
+  /* Start for S-Function (c2802xpwm): '<S198>/ePWM2' */
 
   /*** Initialize ePWM2 modules ***/
   {
@@ -632,7 +610,7 @@ void mcb_pms_CurrentControl_Init(void)
     EDIS;
   }
 
-  /* Start for S-Function (c2802xpwm): '<S197>/ePWM3' */
+  /* Start for S-Function (c2802xpwm): '<S198>/ePWM3' */
 
   /*** Initialize ePWM3 modules ***/
   {
@@ -852,18 +830,18 @@ void mcb_pms_CurrentControl_Init(void)
     EDIS;
   }
 
-  /* InitializeConditions for S-Function (sdspunwrap2): '<S174>/Unwrap' */
+  /* InitializeConditions for S-Function (sdspunwrap2): '<S175>/Unwrap' */
   mcb_pmsm_foc_test_f28379d_DW.Unwrap_FirstStep = true;
   mcb_pmsm_foc_test_f28379d_DW.Unwrap_Cumsum = 0.0F;
 
-  /* InitializeConditions for Delay: '<S178>/Delay' */
+  /* InitializeConditions for Delay: '<S179>/Delay' */
   mcb_pmsm_foc_test_f28379d_DW.CircBufIdx = 0U;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S132>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S133>/Integrator' */
   mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.Integrator_PrevResetState = 0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S81>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S82>/Integrator' */
   mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE_o = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.Integrator_PrevResetState_k = 0;
 }
@@ -871,19 +849,19 @@ void mcb_pms_CurrentControl_Init(void)
 /* System reset for function-call system: '<Root>/Current Control' */
 void mcb_pm_CurrentControl_Reset(void)
 {
-  /* InitializeConditions for S-Function (sdspunwrap2): '<S174>/Unwrap' */
+  /* InitializeConditions for S-Function (sdspunwrap2): '<S175>/Unwrap' */
   mcb_pmsm_foc_test_f28379d_DW.Unwrap_FirstStep = true;
   mcb_pmsm_foc_test_f28379d_DW.Unwrap_Cumsum = 0.0F;
 
-  /* InitializeConditions for Delay: '<S178>/Delay' */
+  /* InitializeConditions for Delay: '<S179>/Delay' */
   mcb_pmsm_foc_test_f28379d_DW.CircBufIdx = 0U;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S132>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S133>/Integrator' */
   mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE =
     mcb_pmsm_foc_test_f28379d_B.Kp1;
   mcb_pmsm_foc_test_f28379d_DW.Integrator_PrevResetState = 0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S81>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S82>/Integrator' */
   mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE_o =
     mcb_pmsm_foc_test_f28379d_B.Ki1;
   mcb_pmsm_foc_test_f28379d_DW.Integrator_PrevResetState_k = 0;
@@ -898,10 +876,10 @@ void mcb_pmsm_foc_CurrentControl(void)
   real32_T dpTmp;
   real32_T uPrev;
   uint32_T Sum;
-  int16_T s202_iter;
+  int16_T s203_iter;
   uint16_T Scale_to_PWM_Counter_PRD;
 
-  /* UnitDelay: '<S204>/Output' */
+  /* UnitDelay: '<S205>/Output' */
   mcb_pmsm_foc_test_f28379d_B.Output =
     mcb_pmsm_foc_test_f28379d_DW.Output_DSTATE;
 
@@ -909,7 +887,7 @@ void mcb_pmsm_foc_CurrentControl(void)
   mcb_pmsm_foc_test_f28379d_B.DataStoreRead2 =
     mcb_pmsm_foc_test_f28379d_DW.SpeedRef;
 
-  /* S-Function (sdspunwrap2): '<S174>/Unwrap' */
+  /* S-Function (sdspunwrap2): '<S175>/Unwrap' */
   if (mcb_pmsm_foc_test_f28379d_DW.Unwrap_FirstStep) {
     mcb_pmsm_foc_test_f28379d_DW.Unwrap_Prev = mcb_pmsm_foc_test_f28379d_B.RT4;
     mcb_pmsm_foc_test_f28379d_DW.Unwrap_FirstStep = false;
@@ -932,83 +910,83 @@ void mcb_pmsm_foc_CurrentControl(void)
 
   uPrev = mcb_pmsm_foc_test_f28379d_B.RT4;
 
-  /* S-Function (sdspunwrap2): '<S174>/Unwrap' */
+  /* S-Function (sdspunwrap2): '<S175>/Unwrap' */
   mcb_pmsm_foc_test_f28379d_B.Unwrap = mcb_pmsm_foc_test_f28379d_B.RT4 + Bias;
 
-  /* S-Function (sdspunwrap2): '<S174>/Unwrap' */
+  /* S-Function (sdspunwrap2): '<S175>/Unwrap' */
   mcb_pmsm_foc_test_f28379d_DW.Unwrap_Prev = uPrev;
   mcb_pmsm_foc_test_f28379d_DW.Unwrap_Cumsum = Bias;
 
-  /* Gain: '<S178>/PositionToCount' */
+  /* Gain: '<S179>/PositionToCount' */
   mcb_pmsm_foc_test_f28379d_B.PositionToCount = (uint32_T)(4.2949673E+9F *
     mcb_pmsm_foc_test_f28379d_B.Unwrap);
 
-  /* Delay: '<S178>/Delay' */
+  /* Delay: '<S179>/Delay' */
   mcb_pmsm_foc_test_f28379d_B.Delay =
     mcb_pmsm_foc_test_f28379d_DW.Delay_DSTATE_p[mcb_pmsm_foc_test_f28379d_DW.CircBufIdx];
 
-  /* Sum: '<S178>/SpeedCount' */
+  /* Sum: '<S179>/SpeedCount' */
   mcb_pmsm_foc_test_f28379d_B.SpeedCount = (int32_T)
     mcb_pmsm_foc_test_f28379d_B.PositionToCount - (int32_T)
     mcb_pmsm_foc_test_f28379d_B.Delay;
 
-  /* DataTypeConversion: '<S194>/DTC' */
+  /* DataTypeConversion: '<S195>/DTC' */
   mcb_pmsm_foc_test_f28379d_B.DTC = (real32_T)
     mcb_pmsm_foc_test_f28379d_B.SpeedCount;
 
-  /* Gain: '<S178>/SpeedGain' */
+  /* Gain: '<S179>/SpeedGain' */
   mcb_pmsm_foc_test_f28379d_B.SpeedGain = 6.75850931E-9F *
     mcb_pmsm_foc_test_f28379d_B.DTC;
 
-  /* Product: '<S184>/Product' incorporates:
-   *  Constant: '<S184>/Filter_Constant'
+  /* Product: '<S185>/Product' incorporates:
+   *  Constant: '<S185>/Filter_Constant'
    */
   mcb_pmsm_foc_test_f28379d_B.Product = mcb_pmsm_foc_test_f28379d_B.SpeedGain *
     0.001F;
 
-  /* UnitDelay: '<S184>/Unit Delay' */
+  /* UnitDelay: '<S185>/Unit Delay' */
   mcb_pmsm_foc_test_f28379d_B.UnitDelay =
     mcb_pmsm_foc_test_f28379d_DW.UnitDelay_DSTATE;
 
-  /* Product: '<S184>/Product1' incorporates:
-   *  Constant: '<S184>/One'
+  /* Product: '<S185>/Product1' incorporates:
+   *  Constant: '<S185>/One'
    */
   mcb_pmsm_foc_test_f28379d_B.Product1 = 0.999F *
     mcb_pmsm_foc_test_f28379d_B.UnitDelay;
 
-  /* Sum: '<S184>/Add1' */
+  /* Sum: '<S185>/Add1' */
   mcb_pmsm_foc_test_f28379d_B.Add1 = mcb_pmsm_foc_test_f28379d_B.Product +
     mcb_pmsm_foc_test_f28379d_B.Product1;
 
-  /* DataStoreRead: '<S175>/Data Store Read1' */
+  /* DataStoreRead: '<S176>/Data Store Read1' */
   mcb_pmsm_foc_test_f28379d_B.DataStoreRead1_o =
     mcb_pmsm_foc_test_f28379d_DW.IaOffset;
 
-  /* DataStoreRead: '<S175>/Data Store Read2' */
+  /* DataStoreRead: '<S176>/Data Store Read2' */
   mcb_pmsm_foc_test_f28379d_B.DataStoreRead2_j =
     mcb_pmsm_foc_test_f28379d_DW.IbOffset;
 
-  /* S-Function (c2802xadc): '<S173>/ADC_C_IN2' */
+  /* S-Function (c2802xadc): '<S174>/ADC_C_IN2' */
   {
     /*  Internal Reference Voltage : Fixed scale 0 to 3.3 V range.  */
     /*  External Reference Voltage : Allowable ranges of VREFHI(ADCINA0) = 3.3 and VREFLO(tied to ground) = 0  */
     mcb_pmsm_foc_test_f28379d_B.ADC_C_IN2 = (AdccResultRegs.ADCRESULT0);
   }
 
-  /* S-Function (c2802xadc): '<S173>/ADC_B_IN2' */
+  /* S-Function (c2802xadc): '<S174>/ADC_B_IN2' */
   {
     /*  Internal Reference Voltage : Fixed scale 0 to 3.3 V range.  */
     /*  External Reference Voltage : Allowable ranges of VREFHI(ADCINA0) = 3.3 and VREFLO(tied to ground) = 0  */
     mcb_pmsm_foc_test_f28379d_B.ADC_B_IN2 = (AdcbResultRegs.ADCRESULT0);
   }
 
-  /* DataTypeConversion: '<S175>/Data Type Conversion' */
+  /* DataTypeConversion: '<S176>/Data Type Conversion' */
   mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_c[0] =
     mcb_pmsm_foc_test_f28379d_B.ADC_C_IN2;
   mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_c[1] =
     mcb_pmsm_foc_test_f28379d_B.ADC_B_IN2;
 
-  /* Sum: '<S175>/Add' */
+  /* Sum: '<S176>/Add' */
   mcb_pmsm_foc_test_f28379d_B.Add_e[0] =
     mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_c[0] -
     mcb_pmsm_foc_test_f28379d_B.DataStoreRead1_o;
@@ -1016,255 +994,251 @@ void mcb_pmsm_foc_CurrentControl(void)
     mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_c[1] -
     mcb_pmsm_foc_test_f28379d_B.DataStoreRead2_j;
 
-  /* Gain: '<S196>/Get ADC Voltage' */
+  /* Gain: '<S197>/Get ADC Voltage' */
   Bias = 0.000732600747F * (real32_T)mcb_pmsm_foc_test_f28379d_B.Add_e[0];
   mcb_pmsm_foc_test_f28379d_B.GetADCVoltage[0] = Bias;
 
-  /* Gain: '<S196>/Get Currents' */
+  /* Gain: '<S197>/Get Currents' */
   Bias *= 7.14285707F;
   mcb_pmsm_foc_test_f28379d_B.GetCurrents[0] = Bias;
 
-  /* Gain: '<S196>/PU_Conversion' */
+  /* Gain: '<S197>/PU_Conversion' */
   mcb_pmsm_foc_test_f28379d_B.PU_Conversion[0] = 0.0933333337F * Bias;
 
-  /* Gain: '<S196>/Get ADC Voltage' */
+  /* Gain: '<S197>/Get ADC Voltage' */
   Bias = 0.000732600747F * (real32_T)mcb_pmsm_foc_test_f28379d_B.Add_e[1];
   mcb_pmsm_foc_test_f28379d_B.GetADCVoltage[1] = Bias;
 
-  /* Gain: '<S196>/Get Currents' */
+  /* Gain: '<S197>/Get Currents' */
   Bias *= 7.14285707F;
   mcb_pmsm_foc_test_f28379d_B.GetCurrents[1] = Bias;
 
-  /* Gain: '<S196>/PU_Conversion' */
+  /* Gain: '<S197>/PU_Conversion' */
   mcb_pmsm_foc_test_f28379d_B.PU_Conversion[1] = 0.0933333337F * Bias;
 
-  /* Outputs for Atomic SubSystem: '<S28>/Two phase CRL wrap' */
-  /* Sum: '<S29>/a_plus_2b' */
+  /* Outputs for Atomic SubSystem: '<S29>/Two phase CRL wrap' */
+  /* Sum: '<S30>/a_plus_2b' */
   mcb_pmsm_foc_test_f28379d_B.a_plus_2b =
     (mcb_pmsm_foc_test_f28379d_B.PU_Conversion[0] +
      mcb_pmsm_foc_test_f28379d_B.PU_Conversion[1]) +
     mcb_pmsm_foc_test_f28379d_B.PU_Conversion[1];
 
-  /* Gain: '<S29>/one_by_sqrt3' */
+  /* Gain: '<S30>/one_by_sqrt3' */
   mcb_pmsm_foc_test_f28379d_B.one_by_sqrt3 = 0.577350259F *
     mcb_pmsm_foc_test_f28379d_B.a_plus_2b;
 
-  /* AlgorithmDescriptorDelegate generated from: '<S29>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S30>/a16' */
   mcb_pmsm_foc_test_f28379d_B.algDD_o1_e =
     mcb_pmsm_foc_test_f28379d_B.PU_Conversion[0];
 
-  /* AlgorithmDescriptorDelegate generated from: '<S29>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S30>/a16' */
   mcb_pmsm_foc_test_f28379d_B.algDD_o2_h =
     mcb_pmsm_foc_test_f28379d_B.one_by_sqrt3;
 
-  /* End of Outputs for SubSystem: '<S28>/Two phase CRL wrap' */
+  /* End of Outputs for SubSystem: '<S29>/Two phase CRL wrap' */
 
-  /* Switch: '<S186>/Switch' incorporates:
-   *  Constant: '<S186>/Constant1'
+  /* Switch: '<S187>/Switch' incorporates:
+   *  Constant: '<S187>/Constant1'
    */
   mcb_pmsm_foc_test_f28379d_B.Switch = 0.65F;
 
-  /* If: '<S187>/If' */
+  /* If: '<S188>/If' */
   if (mcb_pmsm_foc_test_f28379d_B.RT4 <= 0.65F) {
-    /* Outputs for IfAction SubSystem: '<S187>/If Action Subsystem' incorporates:
-     *  ActionPort: '<S189>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S188>/If Action Subsystem' incorporates:
+     *  ActionPort: '<S190>/Action Port'
      */
-    /* Merge: '<S187>/Merge' incorporates:
-     *  Constant: '<S189>/Constant'
-     *  Sum: '<S189>/Add'
+    /* Merge: '<S188>/Merge' incorporates:
+     *  Constant: '<S190>/Constant'
+     *  Sum: '<S190>/Add'
      */
     mcb_pmsm_foc_test_f28379d_B.Merge = (mcb_pmsm_foc_test_f28379d_B.RT4 + 1.0F)
       - 0.65F;
 
-    /* End of Outputs for SubSystem: '<S187>/If Action Subsystem' */
+    /* End of Outputs for SubSystem: '<S188>/If Action Subsystem' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S187>/If Action Subsystem1' incorporates:
-     *  ActionPort: '<S190>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S188>/If Action Subsystem1' incorporates:
+     *  ActionPort: '<S191>/Action Port'
      */
-    /* Merge: '<S187>/Merge' incorporates:
-     *  Sum: '<S190>/Add'
+    /* Merge: '<S188>/Merge' incorporates:
+     *  Sum: '<S191>/Add'
      */
     mcb_pmsm_foc_test_f28379d_B.Merge = mcb_pmsm_foc_test_f28379d_B.RT4 - 0.65F;
 
-    /* End of Outputs for SubSystem: '<S187>/If Action Subsystem1' */
+    /* End of Outputs for SubSystem: '<S188>/If Action Subsystem1' */
   }
 
-  /* End of If: '<S187>/If' */
+  /* End of If: '<S188>/If' */
 
-  /* Gain: '<S192>/Number of pole pairs' */
+  /* Gain: '<S193>/Number of pole pairs' */
   mcb_pmsm_foc_test_f28379d_B.Numberofpolepairs = 5.0F *
     mcb_pmsm_foc_test_f28379d_B.Merge;
 
-  /* Rounding: '<S188>/Floor' */
+  /* Rounding: '<S189>/Floor' */
   mcb_pmsm_foc_test_f28379d_B.Floor = (real32_T)floor
     (mcb_pmsm_foc_test_f28379d_B.Numberofpolepairs);
 
-  /* Sum: '<S188>/Add' */
+  /* Sum: '<S189>/Add' */
   mcb_pmsm_foc_test_f28379d_B.Add_c =
     mcb_pmsm_foc_test_f28379d_B.Numberofpolepairs -
     mcb_pmsm_foc_test_f28379d_B.Floor;
 
-  /* RelationalOperator: '<S162>/Compare' incorporates:
-   *  Constant: '<S162>/Constant'
+  /* RelationalOperator: '<S163>/Compare' incorporates:
+   *  Constant: '<S163>/Constant'
    */
   mcb_pmsm_foc_test_f28379d_B.Compare = (mcb_pmsm_foc_test_f28379d_B.Add_c <
     0.0F);
 
-  /* DataTypeConversion: '<S161>/Data Type Conversion' */
+  /* DataTypeConversion: '<S162>/Data Type Conversion' */
   mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_i =
     mcb_pmsm_foc_test_f28379d_B.Compare;
 
-  /* If: '<S161>/If' */
+  /* If: '<S162>/If' */
   if (mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_i > 0U) {
-    /* Outputs for IfAction SubSystem: '<S161>/If Action Subsystem' incorporates:
-     *  ActionPort: '<S163>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S162>/If Action Subsystem' incorporates:
+     *  ActionPort: '<S164>/Action Port'
      */
     mcb_pmsm__IfActionSubsystem(mcb_pmsm_foc_test_f28379d_B.Add_c,
       &mcb_pmsm_foc_test_f28379d_B.Merge_o,
       &mcb_pmsm_foc_test_f28379d_B.IfActionSubsystem_e);
 
-    /* End of Outputs for SubSystem: '<S161>/If Action Subsystem' */
+    /* End of Outputs for SubSystem: '<S162>/If Action Subsystem' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S161>/If Action Subsystem1' incorporates:
-     *  ActionPort: '<S164>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S162>/If Action Subsystem1' incorporates:
+     *  ActionPort: '<S165>/Action Port'
      */
     mcb_pmsm_IfActionSubsystem1(mcb_pmsm_foc_test_f28379d_B.Add_c,
       &mcb_pmsm_foc_test_f28379d_B.Merge_o,
       &mcb_pmsm_foc_test_f28379d_B.IfActionSubsystem1_k);
 
-    /* End of Outputs for SubSystem: '<S161>/If Action Subsystem1' */
+    /* End of Outputs for SubSystem: '<S162>/If Action Subsystem1' */
   }
 
-  /* End of If: '<S161>/If' */
+  /* End of If: '<S162>/If' */
 
-  /* Gain: '<S159>/indexing' */
+  /* Gain: '<S160>/indexing' */
   mcb_pmsm_foc_test_f28379d_B.indexing = 800.0F *
     mcb_pmsm_foc_test_f28379d_B.Merge_o;
 
-  /* DataTypeConversion: '<S159>/Get_Integer' */
+  /* DataTypeConversion: '<S160>/Get_Integer' */
   mcb_pmsm_foc_test_f28379d_B.Get_Integer = (uint16_T)
     mcb_pmsm_foc_test_f28379d_B.indexing;
 
-  /* Sum: '<S159>/Sum' incorporates:
-   *  Constant: '<S159>/offset'
+  /* Sum: '<S160>/Sum' incorporates:
+   *  Constant: '<S160>/offset'
    */
   Sum = mcb_pmsm_foc_test_f28379d_B.Get_Integer + 1UL;
   mcb_pmsm_foc_test_f28379d_B.Sum[0] = Sum;
 
-  /* Selector: '<S159>/Lookup' incorporates:
-   *  Constant: '<S159>/sine_table_values'
+  /* Selector: '<S160>/Lookup' incorporates:
+   *  Constant: '<S160>/sine_table_values'
    */
   mcb_pmsm_foc_test_f28379d_B.Lookup[0] =
     mcb_pmsm_foc_test_f28379_ConstP.pooled6[(int16_T)Sum];
 
-  /* Sum: '<S159>/Sum' */
+  /* Sum: '<S160>/Sum' */
   Sum = mcb_pmsm_foc_test_f28379d_B.Get_Integer;
   mcb_pmsm_foc_test_f28379d_B.Sum[1] = Sum;
 
-  /* Selector: '<S159>/Lookup' incorporates:
-   *  Constant: '<S159>/sine_table_values'
+  /* Selector: '<S160>/Lookup' incorporates:
+   *  Constant: '<S160>/sine_table_values'
    */
   mcb_pmsm_foc_test_f28379d_B.Lookup[1] =
     mcb_pmsm_foc_test_f28379_ConstP.pooled6[(int16_T)Sum];
 
-  /* Sum: '<S159>/Sum' incorporates:
-   *  Constant: '<S159>/offset'
+  /* Sum: '<S160>/Sum' incorporates:
+   *  Constant: '<S160>/offset'
    */
   Sum = mcb_pmsm_foc_test_f28379d_B.Get_Integer + 201UL;
   mcb_pmsm_foc_test_f28379d_B.Sum[2] = Sum;
 
-  /* Selector: '<S159>/Lookup' incorporates:
-   *  Constant: '<S159>/sine_table_values'
+  /* Selector: '<S160>/Lookup' incorporates:
+   *  Constant: '<S160>/sine_table_values'
    */
   mcb_pmsm_foc_test_f28379d_B.Lookup[2] =
     mcb_pmsm_foc_test_f28379_ConstP.pooled6[(int16_T)Sum];
 
-  /* Sum: '<S159>/Sum' incorporates:
-   *  Constant: '<S159>/offset'
+  /* Sum: '<S160>/Sum' incorporates:
+   *  Constant: '<S160>/offset'
    */
   Sum = mcb_pmsm_foc_test_f28379d_B.Get_Integer + 200UL;
   mcb_pmsm_foc_test_f28379d_B.Sum[3] = Sum;
 
-  /* Selector: '<S159>/Lookup' incorporates:
-   *  Constant: '<S159>/sine_table_values'
+  /* Selector: '<S160>/Lookup' incorporates:
+   *  Constant: '<S160>/sine_table_values'
    */
   mcb_pmsm_foc_test_f28379d_B.Lookup[3] =
     mcb_pmsm_foc_test_f28379_ConstP.pooled6[(int16_T)Sum];
 
-  /* Sum: '<S160>/Sum3' */
+  /* Sum: '<S161>/Sum3' */
   mcb_pmsm_foc_test_f28379d_B.Sum3 = mcb_pmsm_foc_test_f28379d_B.Lookup[0] -
     mcb_pmsm_foc_test_f28379d_B.Lookup[1];
 
-  /* DataTypeConversion: '<S159>/Data Type Conversion1' */
+  /* DataTypeConversion: '<S160>/Data Type Conversion1' */
   mcb_pmsm_foc_test_f28379d_B.DataTypeConversion1 =
     mcb_pmsm_foc_test_f28379d_B.Get_Integer;
 
-  /* Sum: '<S159>/Sum2' */
+  /* Sum: '<S160>/Sum2' */
   mcb_pmsm_foc_test_f28379d_B.Sum2 = mcb_pmsm_foc_test_f28379d_B.indexing -
     mcb_pmsm_foc_test_f28379d_B.DataTypeConversion1;
 
-  /* Product: '<S160>/Product' */
+  /* Product: '<S161>/Product' */
   mcb_pmsm_foc_test_f28379d_B.Product_i = mcb_pmsm_foc_test_f28379d_B.Sum3 *
     mcb_pmsm_foc_test_f28379d_B.Sum2;
 
-  /* Sum: '<S160>/Sum4' */
+  /* Sum: '<S161>/Sum4' */
   mcb_pmsm_foc_test_f28379d_B.Sum4 = mcb_pmsm_foc_test_f28379d_B.Product_i +
     mcb_pmsm_foc_test_f28379d_B.Lookup[1];
 
-  /* Sum: '<S160>/Sum5' */
+  /* Sum: '<S161>/Sum5' */
   mcb_pmsm_foc_test_f28379d_B.Sum5 = mcb_pmsm_foc_test_f28379d_B.Lookup[2] -
     mcb_pmsm_foc_test_f28379d_B.Lookup[3];
 
-  /* Product: '<S160>/Product1' */
+  /* Product: '<S161>/Product1' */
   mcb_pmsm_foc_test_f28379d_B.Product1_b = mcb_pmsm_foc_test_f28379d_B.Sum5 *
     mcb_pmsm_foc_test_f28379d_B.Sum2;
 
-  /* Sum: '<S160>/Sum6' */
+  /* Sum: '<S161>/Sum6' */
   mcb_pmsm_foc_test_f28379d_B.Sum6 = mcb_pmsm_foc_test_f28379d_B.Product1_b +
     mcb_pmsm_foc_test_f28379d_B.Lookup[3];
 
-  /* Outputs for Atomic SubSystem: '<S26>/Two inputs CRL' */
-  /* Product: '<S158>/acos' */
+  /* Outputs for Atomic SubSystem: '<S27>/Two inputs CRL' */
+  /* Product: '<S159>/acos' */
   mcb_pmsm_foc_test_f28379d_B.acos_b = mcb_pmsm_foc_test_f28379d_B.algDD_o1_e *
     mcb_pmsm_foc_test_f28379d_B.Sum6;
 
-  /* Product: '<S158>/bsin' */
+  /* Product: '<S159>/bsin' */
   mcb_pmsm_foc_test_f28379d_B.bsin = mcb_pmsm_foc_test_f28379d_B.algDD_o2_h *
     mcb_pmsm_foc_test_f28379d_B.Sum4;
 
-  /* Sum: '<S158>/sum_Ds' */
+  /* Sum: '<S159>/sum_Ds' */
   mcb_pmsm_foc_test_f28379d_B.sum_Ds = mcb_pmsm_foc_test_f28379d_B.acos_b +
     mcb_pmsm_foc_test_f28379d_B.bsin;
 
-  /* Product: '<S158>/bcos' */
+  /* Product: '<S159>/bcos' */
   mcb_pmsm_foc_test_f28379d_B.bcos = mcb_pmsm_foc_test_f28379d_B.algDD_o2_h *
     mcb_pmsm_foc_test_f28379d_B.Sum6;
 
-  /* Product: '<S158>/asin' */
+  /* Product: '<S159>/asin' */
   mcb_pmsm_foc_test_f28379d_B.asin_o = mcb_pmsm_foc_test_f28379d_B.algDD_o1_e *
     mcb_pmsm_foc_test_f28379d_B.Sum4;
 
-  /* Sum: '<S158>/sum_Qs' */
+  /* Sum: '<S159>/sum_Qs' */
   mcb_pmsm_foc_test_f28379d_B.sum_Qs = mcb_pmsm_foc_test_f28379d_B.bcos -
     mcb_pmsm_foc_test_f28379d_B.asin_o;
 
-  /* Switch: '<S165>/Switch' */
+  /* Switch: '<S166>/Switch' */
   mcb_pmsm_foc_test_f28379d_B.Switch_h[0] = mcb_pmsm_foc_test_f28379d_B.sum_Ds;
   mcb_pmsm_foc_test_f28379d_B.Switch_h[1] = mcb_pmsm_foc_test_f28379d_B.sum_Qs;
 
-  /* AlgorithmDescriptorDelegate generated from: '<S158>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S159>/a16' */
   mcb_pmsm_foc_test_f28379d_B.algDD_o1 = mcb_pmsm_foc_test_f28379d_B.Switch_h[0];
 
-  /* AlgorithmDescriptorDelegate generated from: '<S158>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S159>/a16' */
   mcb_pmsm_foc_test_f28379d_B.algDD_o2 = mcb_pmsm_foc_test_f28379d_B.Switch_h[1];
 
-  /* End of Outputs for SubSystem: '<S26>/Two inputs CRL' */
+  /* End of Outputs for SubSystem: '<S27>/Two inputs CRL' */
 
-  /* DataStoreRead: '<S2>/Data Store Read1' */
-  mcb_pmsm_foc_test_f28379d_B.DataStoreRead1 =
-    mcb_pmsm_foc_test_f28379d_DW.PosRef;
-
-  /* SignalConversion generated from: '<S16>/Selector' */
+  /* SignalConversion generated from: '<S17>/Selector' */
   mcb_pmsm_foc_test_f28379d_B.TmpSignalConversionAtSelectorIn[0] =
     mcb_pmsm_foc_test_f28379d_B.DataStoreRead2;
   mcb_pmsm_foc_test_f28379d_B.TmpSignalConversionAtSelectorIn[1] =
@@ -1284,68 +1258,68 @@ void mcb_pmsm_foc_CurrentControl(void)
   mcb_pmsm_foc_test_f28379d_B.TmpSignalConversionAtSelectorIn[8] =
     mcb_pmsm_foc_test_f28379d_B.Add_c;
   mcb_pmsm_foc_test_f28379d_B.TmpSignalConversionAtSelectorIn[9] =
-    mcb_pmsm_foc_test_f28379d_B.DataStoreRead1;
+    mcb_pmsm_foc_test_f28379d_B.RT15;
   mcb_pmsm_foc_test_f28379d_B.TmpSignalConversionAtSelectorIn[10] =
     mcb_pmsm_foc_test_f28379d_B.RT4;
 
-  /* DataStoreRead: '<S16>/Data Store Read' */
+  /* DataStoreRead: '<S17>/Data Store Read' */
   mcb_pmsm_foc_test_f28379d_B.DataStoreRead =
     mcb_pmsm_foc_test_f28379d_DW.Debug_signals;
 
-  /* MultiPortSwitch: '<S16>/Multiport Switch' */
+  /* MultiPortSwitch: '<S17>/Multiport Switch' */
   switch (mcb_pmsm_foc_test_f28379d_B.DataStoreRead) {
    case 1:
-    /* MultiPortSwitch: '<S16>/Multiport Switch' incorporates:
-     *  Constant: '<S16>/speed_control'
+    /* MultiPortSwitch: '<S17>/Multiport Switch' incorporates:
+     *  Constant: '<S17>/speed_control'
      */
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[0] = 1U;
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[1] = 2U;
     break;
 
    case 2:
-    /* MultiPortSwitch: '<S16>/Multiport Switch' incorporates:
-     *  Constant: '<S16>/Id_control'
+    /* MultiPortSwitch: '<S17>/Multiport Switch' incorporates:
+     *  Constant: '<S17>/Id_control'
      */
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[0] = 5U;
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[1] = 6U;
     break;
 
    case 3:
-    /* MultiPortSwitch: '<S16>/Multiport Switch' incorporates:
-     *  Constant: '<S16>/Iq_control'
+    /* MultiPortSwitch: '<S17>/Multiport Switch' incorporates:
+     *  Constant: '<S17>/Iq_control'
      */
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[0] = 7U;
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[1] = 8U;
     break;
 
    case 4:
-    /* MultiPortSwitch: '<S16>/Multiport Switch' incorporates:
-     *  Constant: '<S16>/Iab'
+    /* MultiPortSwitch: '<S17>/Multiport Switch' incorporates:
+     *  Constant: '<S17>/Iab'
      */
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[0] = 3U;
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[1] = 4U;
     break;
 
    case 5:
-    /* MultiPortSwitch: '<S16>/Multiport Switch' incorporates:
-     *  Constant: '<S16>/Ia_Pos'
+    /* MultiPortSwitch: '<S17>/Multiport Switch' incorporates:
+     *  Constant: '<S17>/Ia_Pos'
      */
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[0] = 10U;
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[1] = 11U;
     break;
 
    default:
-    /* MultiPortSwitch: '<S16>/Multiport Switch' incorporates:
-     *  Constant: '<S16>/Pos_ref_fb'
+    /* MultiPortSwitch: '<S17>/Multiport Switch' incorporates:
+     *  Constant: '<S17>/Pos_ref_fb'
      */
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[0] = 10U;
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[1] = 11U;
     break;
   }
 
-  /* End of MultiPortSwitch: '<S16>/Multiport Switch' */
+  /* End of MultiPortSwitch: '<S17>/Multiport Switch' */
 
-  /* Selector: '<S16>/Selector' */
+  /* Selector: '<S17>/Selector' */
   mcb_pmsm_foc_test_f28379d_B.Selector[0] =
     mcb_pmsm_foc_test_f28379d_B.TmpSignalConversionAtSelectorIn[(int16_T)
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[0] - 1];
@@ -1353,9 +1327,9 @@ void mcb_pmsm_foc_CurrentControl(void)
     mcb_pmsm_foc_test_f28379d_B.TmpSignalConversionAtSelectorIn[(int16_T)
     mcb_pmsm_foc_test_f28379d_B.MultiportSwitch[1] - 1];
 
-  /* S-Function (any2byte_svd): '<S203>/Byte Pack' */
+  /* S-Function (any2byte_svd): '<S204>/Byte Pack' */
 
-  /* Pack: <S203>/Byte Pack */
+  /* Pack: <S204>/Byte Pack */
   {
     uint32_T MW_outputPortOffset = 0;
     uint32_T MW_inputPortWidth = 0;
@@ -1372,144 +1346,144 @@ void mcb_pmsm_foc_CurrentControl(void)
     }
   }
 
-  /* If: '<S201>/If' */
+  /* If: '<S202>/If' */
   if (mcb_pmsm_foc_test_f28379d_B.Output == 0U) {
-    /* Outputs for IfAction SubSystem: '<S201>/Start' incorporates:
-     *  ActionPort: '<S207>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S202>/Start' incorporates:
+     *  ActionPort: '<S208>/Action Port'
      */
-    /* Merge: '<S201>/Merge' incorporates:
-     *  Constant: '<S207>/Start'
-     *  SignalConversion generated from: '<S207>/Data_out'
+    /* Merge: '<S202>/Merge' incorporates:
+     *  Constant: '<S208>/Start'
+     *  SignalConversion generated from: '<S208>/Data_out'
      */
     mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[0] = 1397969747UL;
 
+    /* SignalConversion generated from: '<S208>/Data' */
+    Sum = mcb_pmsm_foc_test_f28379d_B.BytePack[0];
+
+    /* End of Outputs for SubSystem: '<S202>/Start' */
+    mcb_pmsm_foc_test_f28379d_B.Data_fw[0] = Sum;
+
+    /* Outputs for IfAction SubSystem: '<S202>/Start' incorporates:
+     *  ActionPort: '<S208>/Action Port'
+     */
+    /* Merge: '<S202>/Merge' incorporates:
+     *  SignalConversion generated from: '<S208>/Data_out'
+     */
+    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[1] = Sum;
+
+    /* SignalConversion generated from: '<S208>/Data' */
+    Sum = mcb_pmsm_foc_test_f28379d_B.BytePack[1];
+
+    /* End of Outputs for SubSystem: '<S202>/Start' */
+    mcb_pmsm_foc_test_f28379d_B.Data_fw[1] = Sum;
+
+    /* Outputs for IfAction SubSystem: '<S202>/Start' incorporates:
+     *  ActionPort: '<S208>/Action Port'
+     */
+    /* Merge: '<S202>/Merge' incorporates:
+     *  SignalConversion generated from: '<S208>/Data_out'
+     */
+    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[2] = Sum;
+
+    /* Merge: '<S202>/Merge1' incorporates:
+     *  Bias: '<S208>/Bias'
+     */
+    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Iteration =
+      mcb_pmsm_foc_test_f28379_ConstB.Width + 1UL;
+
+    /* End of Outputs for SubSystem: '<S202>/Start' */
+  } else if (mcb_pmsm_foc_test_f28379d_B.Output == 599U) {
+    /* Outputs for IfAction SubSystem: '<S202>/End' incorporates:
+     *  ActionPort: '<S207>/Action Port'
+     */
     /* SignalConversion generated from: '<S207>/Data' */
     Sum = mcb_pmsm_foc_test_f28379d_B.BytePack[0];
 
-    /* End of Outputs for SubSystem: '<S201>/Start' */
-    mcb_pmsm_foc_test_f28379d_B.Data_fw[0] = Sum;
+    /* End of Outputs for SubSystem: '<S202>/End' */
+    mcb_pmsm_foc_test_f28379d_B.Data_f[0] = Sum;
 
-    /* Outputs for IfAction SubSystem: '<S201>/Start' incorporates:
+    /* Outputs for IfAction SubSystem: '<S202>/End' incorporates:
      *  ActionPort: '<S207>/Action Port'
      */
-    /* Merge: '<S201>/Merge' incorporates:
+    /* Merge: '<S202>/Merge' incorporates:
      *  SignalConversion generated from: '<S207>/Data_out'
      */
-    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[1] = Sum;
+    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[0] = Sum;
 
     /* SignalConversion generated from: '<S207>/Data' */
     Sum = mcb_pmsm_foc_test_f28379d_B.BytePack[1];
 
-    /* End of Outputs for SubSystem: '<S201>/Start' */
-    mcb_pmsm_foc_test_f28379d_B.Data_fw[1] = Sum;
+    /* End of Outputs for SubSystem: '<S202>/End' */
+    mcb_pmsm_foc_test_f28379d_B.Data_f[1] = Sum;
 
-    /* Outputs for IfAction SubSystem: '<S201>/Start' incorporates:
+    /* Outputs for IfAction SubSystem: '<S202>/End' incorporates:
      *  ActionPort: '<S207>/Action Port'
      */
-    /* Merge: '<S201>/Merge' incorporates:
+    /* Merge: '<S202>/Merge' incorporates:
+     *  Constant: '<S207>/End'
      *  SignalConversion generated from: '<S207>/Data_out'
      */
-    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[2] = Sum;
+    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[1] = Sum;
+    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[2] = 1162167621UL;
 
-    /* Merge: '<S201>/Merge1' incorporates:
+    /* Merge: '<S202>/Merge1' incorporates:
      *  Bias: '<S207>/Bias'
      */
     mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Iteration =
       mcb_pmsm_foc_test_f28379_ConstB.Width + 1UL;
 
-    /* End of Outputs for SubSystem: '<S201>/Start' */
-  } else if (mcb_pmsm_foc_test_f28379d_B.Output == 599U) {
-    /* Outputs for IfAction SubSystem: '<S201>/End' incorporates:
-     *  ActionPort: '<S206>/Action Port'
-     */
-    /* SignalConversion generated from: '<S206>/Data' */
-    Sum = mcb_pmsm_foc_test_f28379d_B.BytePack[0];
-
-    /* End of Outputs for SubSystem: '<S201>/End' */
-    mcb_pmsm_foc_test_f28379d_B.Data_f[0] = Sum;
-
-    /* Outputs for IfAction SubSystem: '<S201>/End' incorporates:
-     *  ActionPort: '<S206>/Action Port'
-     */
-    /* Merge: '<S201>/Merge' incorporates:
-     *  SignalConversion generated from: '<S206>/Data_out'
-     */
-    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[0] = Sum;
-
-    /* SignalConversion generated from: '<S206>/Data' */
-    Sum = mcb_pmsm_foc_test_f28379d_B.BytePack[1];
-
-    /* End of Outputs for SubSystem: '<S201>/End' */
-    mcb_pmsm_foc_test_f28379d_B.Data_f[1] = Sum;
-
-    /* Outputs for IfAction SubSystem: '<S201>/End' incorporates:
-     *  ActionPort: '<S206>/Action Port'
-     */
-    /* Merge: '<S201>/Merge' incorporates:
-     *  Constant: '<S206>/End'
-     *  SignalConversion generated from: '<S206>/Data_out'
-     */
-    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[1] = Sum;
-    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[2] = 1162167621UL;
-
-    /* Merge: '<S201>/Merge1' incorporates:
-     *  Bias: '<S206>/Bias'
-     */
-    mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Iteration =
-      mcb_pmsm_foc_test_f28379_ConstB.Width + 1UL;
-
-    /* End of Outputs for SubSystem: '<S201>/End' */
+    /* End of Outputs for SubSystem: '<S202>/End' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S201>/Data' incorporates:
-     *  ActionPort: '<S205>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S202>/Data' incorporates:
+     *  ActionPort: '<S206>/Action Port'
      */
-    /* SignalConversion generated from: '<S205>/Data' */
+    /* SignalConversion generated from: '<S206>/Data' */
     Sum = mcb_pmsm_foc_test_f28379d_B.BytePack[0];
 
-    /* End of Outputs for SubSystem: '<S201>/Data' */
+    /* End of Outputs for SubSystem: '<S202>/Data' */
     mcb_pmsm_foc_test_f28379d_B.Data[0] = Sum;
 
-    /* Outputs for IfAction SubSystem: '<S201>/Data' incorporates:
-     *  ActionPort: '<S205>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S202>/Data' incorporates:
+     *  ActionPort: '<S206>/Action Port'
      */
-    /* Merge: '<S201>/Merge' incorporates:
-     *  SignalConversion generated from: '<S205>/Data_out'
+    /* Merge: '<S202>/Merge' incorporates:
+     *  SignalConversion generated from: '<S206>/Data_out'
      */
     mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[0] = Sum;
 
-    /* SignalConversion generated from: '<S205>/Data' */
+    /* SignalConversion generated from: '<S206>/Data' */
     Sum = mcb_pmsm_foc_test_f28379d_B.BytePack[1];
 
-    /* End of Outputs for SubSystem: '<S201>/Data' */
+    /* End of Outputs for SubSystem: '<S202>/Data' */
     mcb_pmsm_foc_test_f28379d_B.Data[1] = Sum;
 
-    /* Outputs for IfAction SubSystem: '<S201>/Data' incorporates:
-     *  ActionPort: '<S205>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S202>/Data' incorporates:
+     *  ActionPort: '<S206>/Action Port'
      */
-    /* Merge: '<S201>/Merge' incorporates:
-     *  Constant: '<S205>/Dummy'
-     *  SignalConversion generated from: '<S205>/Data_out'
+    /* Merge: '<S202>/Merge' incorporates:
+     *  Constant: '<S206>/Dummy'
+     *  SignalConversion generated from: '<S206>/Data_out'
      */
     mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[1] = Sum;
     mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[2] = 0UL;
 
-    /* Merge: '<S201>/Merge1' incorporates:
-     *  SignalConversion generated from: '<S205>/Data_width'
+    /* Merge: '<S202>/Merge1' incorporates:
+     *  SignalConversion generated from: '<S206>/Data_width'
      */
     mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Iteration =
       mcb_pmsm_foc_test_f28379_ConstB.Width;
 
-    /* End of Outputs for SubSystem: '<S201>/Data' */
+    /* End of Outputs for SubSystem: '<S202>/Data' */
   }
 
-  /* End of If: '<S201>/If' */
+  /* End of If: '<S202>/If' */
 
-  /* Outputs for Iterator SubSystem: '<S199>/While Iterator Subsystem' incorporates:
-   *  WhileIterator: '<S202>/While Iterator'
+  /* Outputs for Iterator SubSystem: '<S200>/While Iterator Subsystem' incorporates:
+   *  WhileIterator: '<S203>/While Iterator'
    */
-  s202_iter = 1;
+  s203_iter = 1;
   do {
-    mcb_pmsm_foc_test_f28379d_B.WhileIterator = s202_iter;
+    mcb_pmsm_foc_test_f28379d_B.WhileIterator = s203_iter;
     mcb_pmsm_foc_test_f28379d_B.IndexVector =
       mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Data[mcb_pmsm_foc_test_f28379d_B.WhileIterator
       - 1];
@@ -1529,207 +1503,207 @@ void mcb_pmsm_foc_CurrentControl(void)
     mcb_pmsm_foc_test_f28379d_B.Add =
       mcb_pmsm_foc_test_f28379d_B.SCI_Tx_Iteration - (uint32_T)
       mcb_pmsm_foc_test_f28379d_B.WhileIterator;
-    s202_iter++;
+    s203_iter++;
   } while (mcb_pmsm_foc_test_f28379d_B.Add != 0UL);
 
-  /* End of Outputs for SubSystem: '<S199>/While Iterator Subsystem' */
+  /* End of Outputs for SubSystem: '<S200>/While Iterator Subsystem' */
 
-  /* Sum: '<S208>/FixPt Sum1' incorporates:
-   *  Constant: '<S208>/FixPt Constant'
+  /* Sum: '<S209>/FixPt Sum1' incorporates:
+   *  Constant: '<S209>/FixPt Constant'
    */
   mcb_pmsm_foc_test_f28379d_B.FixPtSum1 = mcb_pmsm_foc_test_f28379d_B.Output +
     1U;
 
-  /* Switch: '<S209>/FixPt Switch' */
+  /* Switch: '<S210>/FixPt Switch' */
   if (mcb_pmsm_foc_test_f28379d_B.FixPtSum1 > 599U) {
-    /* Switch: '<S209>/FixPt Switch' incorporates:
-     *  Constant: '<S209>/Constant'
+    /* Switch: '<S210>/FixPt Switch' incorporates:
+     *  Constant: '<S210>/Constant'
      */
     mcb_pmsm_foc_test_f28379d_B.FixPtSwitch = 0U;
   } else {
-    /* Switch: '<S209>/FixPt Switch' */
+    /* Switch: '<S210>/FixPt Switch' */
     mcb_pmsm_foc_test_f28379d_B.FixPtSwitch =
       mcb_pmsm_foc_test_f28379d_B.FixPtSum1;
   }
 
-  /* End of Switch: '<S209>/FixPt Switch' */
+  /* End of Switch: '<S210>/FixPt Switch' */
 
-  /* Switch: '<S35>/Switch1' incorporates:
-   *  Constant: '<S35>/ChosenMethod'
+  /* Switch: '<S36>/Switch1' incorporates:
+   *  Constant: '<S36>/ChosenMethod'
    */
   mcb_pmsm_foc_test_f28379d_B.Switch1_j = 3U;
 
-  /* Sum: '<S32>/Sum' */
+  /* Sum: '<S33>/Sum' */
   mcb_pmsm_foc_test_f28379d_B.Sum_o = mcb_pmsm_foc_test_f28379d_B.RT2[1] -
     mcb_pmsm_foc_test_f28379d_B.algDD_o2;
 
-  /* Product: '<S137>/PProd Out' incorporates:
-   *  Constant: '<S32>/Kp'
+  /* Product: '<S138>/PProd Out' incorporates:
+   *  Constant: '<S33>/Kp'
    */
   mcb_pmsm_foc_test_f28379d_B.PProdOut = mcb_pmsm_foc_test_f28379d_B.Sum_o *
     3.0F;
 
-  /* DataStoreRead: '<S32>/Data Store Read1' */
+  /* DataStoreRead: '<S33>/Data Store Read1' */
   mcb_pmsm_foc_test_f28379d_B.DataStoreRead1_b =
     mcb_pmsm_foc_test_f28379d_DW.Enable;
 
-  /* Logic: '<S32>/Logical Operator' */
+  /* Logic: '<S33>/Logical Operator' */
   mcb_pmsm_foc_test_f28379d_B.LogicalOperator =
     !mcb_pmsm_foc_test_f28379d_B.DataStoreRead1_b;
 
-  /* Constant: '<S32>/Kp1' */
+  /* Constant: '<S33>/Kp1' */
   mcb_pmsm_foc_test_f28379d_B.Kp1 = 0.0F;
 
-  /* DiscreteIntegrator: '<S132>/Integrator' */
+  /* DiscreteIntegrator: '<S133>/Integrator' */
   if (mcb_pmsm_foc_test_f28379d_B.LogicalOperator ||
       (mcb_pmsm_foc_test_f28379d_DW.Integrator_PrevResetState != 0)) {
     mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE = 0.0F;
   }
 
-  /* DiscreteIntegrator: '<S132>/Integrator' */
+  /* DiscreteIntegrator: '<S133>/Integrator' */
   mcb_pmsm_foc_test_f28379d_B.Integrator =
     mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE;
 
-  /* Sum: '<S141>/Sum' */
+  /* Sum: '<S142>/Sum' */
   mcb_pmsm_foc_test_f28379d_B.Sum_m = mcb_pmsm_foc_test_f28379d_B.PProdOut +
     mcb_pmsm_foc_test_f28379d_B.Integrator;
 
-  /* Saturate: '<S139>/Saturation' */
+  /* Saturate: '<S140>/Saturation' */
   uPrev = mcb_pmsm_foc_test_f28379d_B.Sum_m;
   if (uPrev > 1.0F) {
-    /* Saturate: '<S139>/Saturation' */
+    /* Saturate: '<S140>/Saturation' */
     mcb_pmsm_foc_test_f28379d_B.Saturation = 1.0F;
   } else if (uPrev < -1.0F) {
-    /* Saturate: '<S139>/Saturation' */
+    /* Saturate: '<S140>/Saturation' */
     mcb_pmsm_foc_test_f28379d_B.Saturation = -1.0F;
   } else {
-    /* Saturate: '<S139>/Saturation' */
+    /* Saturate: '<S140>/Saturation' */
     mcb_pmsm_foc_test_f28379d_B.Saturation = uPrev;
   }
 
-  /* End of Saturate: '<S139>/Saturation' */
+  /* End of Saturate: '<S140>/Saturation' */
 
-  /* Sum: '<S31>/Sum' */
+  /* Sum: '<S32>/Sum' */
   mcb_pmsm_foc_test_f28379d_B.Sum_j = mcb_pmsm_foc_test_f28379d_B.RT2[0] -
     mcb_pmsm_foc_test_f28379d_B.algDD_o1;
 
-  /* Product: '<S86>/PProd Out' incorporates:
-   *  Constant: '<S31>/Kp'
+  /* Product: '<S87>/PProd Out' incorporates:
+   *  Constant: '<S32>/Kp'
    */
   mcb_pmsm_foc_test_f28379d_B.PProdOut_g = mcb_pmsm_foc_test_f28379d_B.Sum_j *
     2.0F;
 
-  /* DataStoreRead: '<S31>/Data Store Read1' */
+  /* DataStoreRead: '<S32>/Data Store Read1' */
   mcb_pmsm_foc_test_f28379d_B.DataStoreRead1_m =
     mcb_pmsm_foc_test_f28379d_DW.Enable;
 
-  /* Logic: '<S31>/Logical Operator' */
+  /* Logic: '<S32>/Logical Operator' */
   mcb_pmsm_foc_test_f28379d_B.LogicalOperator_a =
     !mcb_pmsm_foc_test_f28379d_B.DataStoreRead1_m;
 
-  /* Constant: '<S31>/Ki1' */
+  /* Constant: '<S32>/Ki1' */
   mcb_pmsm_foc_test_f28379d_B.Ki1 = 0.0F;
 
-  /* DiscreteIntegrator: '<S81>/Integrator' */
+  /* DiscreteIntegrator: '<S82>/Integrator' */
   if (mcb_pmsm_foc_test_f28379d_B.LogicalOperator_a ||
       (mcb_pmsm_foc_test_f28379d_DW.Integrator_PrevResetState_k != 0)) {
     mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE_o = 0.0F;
   }
 
-  /* DiscreteIntegrator: '<S81>/Integrator' */
+  /* DiscreteIntegrator: '<S82>/Integrator' */
   mcb_pmsm_foc_test_f28379d_B.Integrator_f =
     mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE_o;
 
-  /* Sum: '<S90>/Sum' */
+  /* Sum: '<S91>/Sum' */
   mcb_pmsm_foc_test_f28379d_B.Sum_g = mcb_pmsm_foc_test_f28379d_B.PProdOut_g +
     mcb_pmsm_foc_test_f28379d_B.Integrator_f;
 
-  /* Saturate: '<S88>/Saturation' */
+  /* Saturate: '<S89>/Saturation' */
   uPrev = mcb_pmsm_foc_test_f28379d_B.Sum_g;
   if (uPrev > 1.0F) {
-    /* Saturate: '<S88>/Saturation' */
+    /* Saturate: '<S89>/Saturation' */
     mcb_pmsm_foc_test_f28379d_B.Saturation_f = 1.0F;
   } else if (uPrev < -1.0F) {
-    /* Saturate: '<S88>/Saturation' */
+    /* Saturate: '<S89>/Saturation' */
     mcb_pmsm_foc_test_f28379d_B.Saturation_f = -1.0F;
   } else {
-    /* Saturate: '<S88>/Saturation' */
+    /* Saturate: '<S89>/Saturation' */
     mcb_pmsm_foc_test_f28379d_B.Saturation_f = uPrev;
   }
 
-  /* End of Saturate: '<S88>/Saturation' */
+  /* End of Saturate: '<S89>/Saturation' */
 
-  /* Switch: '<S35>/Switch' incorporates:
-   *  Constant: '<S35>/Constant3'
+  /* Switch: '<S36>/Switch' incorporates:
+   *  Constant: '<S36>/Constant3'
    */
   mcb_pmsm_foc_test_f28379d_B.Switch_n = 0.95F;
 
-  /* Product: '<S35>/Product' */
+  /* Product: '<S36>/Product' */
   mcb_pmsm_foc_test_f28379d_B.Product_j = 0.9025F;
 
-  /* Product: '<S36>/Product' */
+  /* Product: '<S37>/Product' */
   mcb_pmsm_foc_test_f28379d_B.Product_f =
     mcb_pmsm_foc_test_f28379d_B.Saturation_f *
     mcb_pmsm_foc_test_f28379d_B.Saturation_f;
 
-  /* Product: '<S36>/Product1' */
+  /* Product: '<S37>/Product1' */
   mcb_pmsm_foc_test_f28379d_B.Product1_g =
     mcb_pmsm_foc_test_f28379d_B.Saturation *
     mcb_pmsm_foc_test_f28379d_B.Saturation;
 
-  /* Sum: '<S36>/Sum1' */
+  /* Sum: '<S37>/Sum1' */
   mcb_pmsm_foc_test_f28379d_B.Sum1 = mcb_pmsm_foc_test_f28379d_B.Product_f +
     mcb_pmsm_foc_test_f28379d_B.Product1_g;
 
-  /* Outputs for IfAction SubSystem: '<S30>/D-Q Equivalence' incorporates:
-   *  ActionPort: '<S33>/Action Port'
+  /* Outputs for IfAction SubSystem: '<S31>/D-Q Equivalence' incorporates:
+   *  ActionPort: '<S34>/Action Port'
    */
-  /* If: '<S30>/If' incorporates:
-   *  DataTypeConversion: '<S33>/Data Type Conversion'
-   *  RelationalOperator: '<S33>/Relational Operator'
+  /* If: '<S31>/If' incorporates:
+   *  DataTypeConversion: '<S34>/Data Type Conversion'
+   *  RelationalOperator: '<S34>/Relational Operator'
    */
   mcb_pmsm_foc_test_f28379d_B.RelationalOperator_k =
     (mcb_pmsm_foc_test_f28379d_B.Sum1 > 0.9025F);
   mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_f =
     mcb_pmsm_foc_test_f28379d_B.RelationalOperator_k;
 
-  /* If: '<S33>/If' incorporates:
-   *  If: '<S30>/If'
+  /* If: '<S34>/If' incorporates:
+   *  If: '<S31>/If'
    */
   if (mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_f != 0U) {
-    /* Outputs for IfAction SubSystem: '<S33>/Limiter' incorporates:
-     *  ActionPort: '<S37>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S34>/Limiter' incorporates:
+     *  ActionPort: '<S38>/Action Port'
      */
-    /* Product: '<S37>/Product' */
+    /* Product: '<S38>/Product' */
     mcb_pmsm_foc_test_f28379d_B.Product_o[0] =
       mcb_pmsm_foc_test_f28379d_B.Saturation_f * 0.95F;
     mcb_pmsm_foc_test_f28379d_B.Product_o[1] =
       mcb_pmsm_foc_test_f28379d_B.Saturation * 0.95F;
 
-    /* Sqrt: '<S37>/Square Root' */
+    /* Sqrt: '<S38>/Square Root' */
     mcb_pmsm_foc_test_f28379d_B.SquareRoot = (real32_T)sqrt
       (mcb_pmsm_foc_test_f28379d_B.Sum1);
 
-    /* Switch: '<S37>/Switch' */
+    /* Switch: '<S38>/Switch' */
     if (mcb_pmsm_foc_test_f28379d_B.SquareRoot != 0.0F) {
-      /* Switch: '<S37>/Switch' */
+      /* Switch: '<S38>/Switch' */
       mcb_pmsm_foc_test_f28379d_B.Switch_as =
         mcb_pmsm_foc_test_f28379d_B.SquareRoot;
     } else {
-      /* Switch: '<S37>/Switch' incorporates:
-       *  Constant: '<S37>/Constant'
+      /* Switch: '<S38>/Switch' incorporates:
+       *  Constant: '<S38>/Constant'
        */
       mcb_pmsm_foc_test_f28379d_B.Switch_as = 1.0F;
     }
 
-    /* End of Switch: '<S37>/Switch' */
+    /* End of Switch: '<S38>/Switch' */
 
-    /* Product: '<S37>/Reciprocal' */
+    /* Product: '<S38>/Reciprocal' */
     mcb_pmsm_foc_test_f28379d_B.Reciprocal = 1.0F /
       mcb_pmsm_foc_test_f28379d_B.Switch_as;
 
-    /* Merge: '<S30>/Merge' incorporates:
-     *  Product: '<S37>/Product1'
+    /* Merge: '<S31>/Merge' incorporates:
+     *  Product: '<S38>/Product1'
      */
     mcb_pmsm_foc_test_f28379d_B.Merge_i[0] =
       mcb_pmsm_foc_test_f28379d_B.Product_o[0] *
@@ -1738,426 +1712,432 @@ void mcb_pmsm_foc_CurrentControl(void)
       mcb_pmsm_foc_test_f28379d_B.Product_o[1] *
       mcb_pmsm_foc_test_f28379d_B.Reciprocal;
 
-    /* End of Outputs for SubSystem: '<S33>/Limiter' */
+    /* End of Outputs for SubSystem: '<S34>/Limiter' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S33>/Passthrough' incorporates:
-     *  ActionPort: '<S38>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S34>/Passthrough' incorporates:
+     *  ActionPort: '<S39>/Action Port'
      */
-    /* Merge: '<S30>/Merge' incorporates:
-     *  SignalConversion generated from: '<S38>/dqRef'
+    /* Merge: '<S31>/Merge' incorporates:
+     *  SignalConversion generated from: '<S39>/dqRef'
      */
     mcb_pmsm_foc_test_f28379d_B.Merge_i[0] =
       mcb_pmsm_foc_test_f28379d_B.Saturation_f;
     mcb_pmsm_foc_test_f28379d_B.Merge_i[1] =
       mcb_pmsm_foc_test_f28379d_B.Saturation;
 
-    /* End of Outputs for SubSystem: '<S33>/Passthrough' */
+    /* End of Outputs for SubSystem: '<S34>/Passthrough' */
   }
 
-  /* End of If: '<S33>/If' */
-  /* End of Outputs for SubSystem: '<S30>/D-Q Equivalence' */
+  /* End of If: '<S34>/If' */
+  /* End of Outputs for SubSystem: '<S31>/D-Q Equivalence' */
 
-  /* DeadZone: '<S74>/DeadZone' */
+  /* DeadZone: '<S75>/DeadZone' */
   if (mcb_pmsm_foc_test_f28379d_B.Sum_g > 1.0F) {
-    /* DeadZone: '<S74>/DeadZone' */
+    /* DeadZone: '<S75>/DeadZone' */
     mcb_pmsm_foc_test_f28379d_B.DeadZone = mcb_pmsm_foc_test_f28379d_B.Sum_g -
       1.0F;
   } else if (mcb_pmsm_foc_test_f28379d_B.Sum_g >= -1.0F) {
-    /* DeadZone: '<S74>/DeadZone' */
+    /* DeadZone: '<S75>/DeadZone' */
     mcb_pmsm_foc_test_f28379d_B.DeadZone = 0.0F;
   } else {
-    /* DeadZone: '<S74>/DeadZone' */
+    /* DeadZone: '<S75>/DeadZone' */
     mcb_pmsm_foc_test_f28379d_B.DeadZone = mcb_pmsm_foc_test_f28379d_B.Sum_g -
       -1.0F;
   }
 
-  /* End of DeadZone: '<S74>/DeadZone' */
+  /* End of DeadZone: '<S75>/DeadZone' */
 
-  /* RelationalOperator: '<S72>/Relational Operator' incorporates:
-   *  Constant: '<S72>/Clamping_zero'
+  /* RelationalOperator: '<S73>/Relational Operator' incorporates:
+   *  Constant: '<S73>/Clamping_zero'
    */
   mcb_pmsm_foc_test_f28379d_B.RelationalOperator =
     (mcb_pmsm_foc_test_f28379d_B.DeadZone != 0.0F);
 
-  /* RelationalOperator: '<S72>/fix for DT propagation issue' incorporates:
-   *  Constant: '<S72>/Clamping_zero'
+  /* RelationalOperator: '<S73>/fix for DT propagation issue' incorporates:
+   *  Constant: '<S73>/Clamping_zero'
    */
   mcb_pmsm_foc_test_f28379d_B.fixforDTpropagationissue =
     (mcb_pmsm_foc_test_f28379d_B.DeadZone > 0.0F);
 
-  /* Switch: '<S72>/Switch1' */
+  /* Switch: '<S73>/Switch1' */
   if (mcb_pmsm_foc_test_f28379d_B.fixforDTpropagationissue) {
-    /* Switch: '<S72>/Switch1' incorporates:
-     *  Constant: '<S72>/Constant'
+    /* Switch: '<S73>/Switch1' incorporates:
+     *  Constant: '<S73>/Constant'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch1_h = 1;
   } else {
-    /* Switch: '<S72>/Switch1' incorporates:
-     *  Constant: '<S72>/Constant2'
+    /* Switch: '<S73>/Switch1' incorporates:
+     *  Constant: '<S73>/Constant2'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch1_h = -1;
   }
 
-  /* End of Switch: '<S72>/Switch1' */
+  /* End of Switch: '<S73>/Switch1' */
 
-  /* Product: '<S78>/IProd Out' incorporates:
-   *  Constant: '<S31>/Ki'
+  /* Product: '<S79>/IProd Out' incorporates:
+   *  Constant: '<S32>/Ki'
    */
   mcb_pmsm_foc_test_f28379d_B.IProdOut = mcb_pmsm_foc_test_f28379d_B.Sum_j *
     5.0E-6F;
 
-  /* RelationalOperator: '<S72>/fix for DT propagation issue1' incorporates:
-   *  Constant: '<S72>/Clamping_zero'
+  /* RelationalOperator: '<S73>/fix for DT propagation issue1' incorporates:
+   *  Constant: '<S73>/Clamping_zero'
    */
   mcb_pmsm_foc_test_f28379d_B.fixforDTpropagationissue1 =
     (mcb_pmsm_foc_test_f28379d_B.IProdOut > 0.0F);
 
-  /* Switch: '<S72>/Switch2' */
+  /* Switch: '<S73>/Switch2' */
   if (mcb_pmsm_foc_test_f28379d_B.fixforDTpropagationissue1) {
-    /* Switch: '<S72>/Switch2' incorporates:
-     *  Constant: '<S72>/Constant3'
+    /* Switch: '<S73>/Switch2' incorporates:
+     *  Constant: '<S73>/Constant3'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch2_l = 1;
   } else {
-    /* Switch: '<S72>/Switch2' incorporates:
-     *  Constant: '<S72>/Constant4'
+    /* Switch: '<S73>/Switch2' incorporates:
+     *  Constant: '<S73>/Constant4'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch2_l = -1;
   }
 
-  /* End of Switch: '<S72>/Switch2' */
+  /* End of Switch: '<S73>/Switch2' */
 
-  /* RelationalOperator: '<S72>/Equal1' incorporates:
-   *  Switch: '<S72>/Switch1'
-   *  Switch: '<S72>/Switch2'
+  /* RelationalOperator: '<S73>/Equal1' incorporates:
+   *  Switch: '<S73>/Switch1'
+   *  Switch: '<S73>/Switch2'
    */
   mcb_pmsm_foc_test_f28379d_B.Equal1 = (mcb_pmsm_foc_test_f28379d_B.Switch1_h ==
     mcb_pmsm_foc_test_f28379d_B.Switch2_l);
 
-  /* Logic: '<S72>/AND3' */
+  /* Logic: '<S73>/AND3' */
   mcb_pmsm_foc_test_f28379d_B.AND3 =
     (mcb_pmsm_foc_test_f28379d_B.RelationalOperator &&
      mcb_pmsm_foc_test_f28379d_B.Equal1);
 
-  /* Switch: '<S72>/Switch' */
+  /* Switch: '<S73>/Switch' */
   if (mcb_pmsm_foc_test_f28379d_B.AND3) {
-    /* Switch: '<S72>/Switch' incorporates:
-     *  Constant: '<S72>/Constant1'
+    /* Switch: '<S73>/Switch' incorporates:
+     *  Constant: '<S73>/Constant1'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch_f = 0.0F;
   } else {
-    /* Switch: '<S72>/Switch' */
+    /* Switch: '<S73>/Switch' */
     mcb_pmsm_foc_test_f28379d_B.Switch_f = mcb_pmsm_foc_test_f28379d_B.IProdOut;
   }
 
-  /* End of Switch: '<S72>/Switch' */
+  /* End of Switch: '<S73>/Switch' */
 
-  /* DeadZone: '<S125>/DeadZone' */
+  /* DeadZone: '<S126>/DeadZone' */
   if (mcb_pmsm_foc_test_f28379d_B.Sum_m > 1.0F) {
-    /* DeadZone: '<S125>/DeadZone' */
+    /* DeadZone: '<S126>/DeadZone' */
     mcb_pmsm_foc_test_f28379d_B.DeadZone_a = mcb_pmsm_foc_test_f28379d_B.Sum_m -
       1.0F;
   } else if (mcb_pmsm_foc_test_f28379d_B.Sum_m >= -1.0F) {
-    /* DeadZone: '<S125>/DeadZone' */
+    /* DeadZone: '<S126>/DeadZone' */
     mcb_pmsm_foc_test_f28379d_B.DeadZone_a = 0.0F;
   } else {
-    /* DeadZone: '<S125>/DeadZone' */
+    /* DeadZone: '<S126>/DeadZone' */
     mcb_pmsm_foc_test_f28379d_B.DeadZone_a = mcb_pmsm_foc_test_f28379d_B.Sum_m -
       -1.0F;
   }
 
-  /* End of DeadZone: '<S125>/DeadZone' */
+  /* End of DeadZone: '<S126>/DeadZone' */
 
-  /* RelationalOperator: '<S123>/Relational Operator' incorporates:
-   *  Constant: '<S123>/Clamping_zero'
+  /* RelationalOperator: '<S124>/Relational Operator' incorporates:
+   *  Constant: '<S124>/Clamping_zero'
    */
   mcb_pmsm_foc_test_f28379d_B.RelationalOperator_e =
     (mcb_pmsm_foc_test_f28379d_B.DeadZone_a != 0.0F);
 
-  /* RelationalOperator: '<S123>/fix for DT propagation issue' incorporates:
-   *  Constant: '<S123>/Clamping_zero'
+  /* RelationalOperator: '<S124>/fix for DT propagation issue' incorporates:
+   *  Constant: '<S124>/Clamping_zero'
    */
   mcb_pmsm_foc_test_f28379d_B.fixforDTpropagationissue_j =
     (mcb_pmsm_foc_test_f28379d_B.DeadZone_a > 0.0F);
 
-  /* Switch: '<S123>/Switch1' */
+  /* Switch: '<S124>/Switch1' */
   if (mcb_pmsm_foc_test_f28379d_B.fixforDTpropagationissue_j) {
-    /* Switch: '<S123>/Switch1' incorporates:
-     *  Constant: '<S123>/Constant'
+    /* Switch: '<S124>/Switch1' incorporates:
+     *  Constant: '<S124>/Constant'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch1_l = 1;
   } else {
-    /* Switch: '<S123>/Switch1' incorporates:
-     *  Constant: '<S123>/Constant2'
+    /* Switch: '<S124>/Switch1' incorporates:
+     *  Constant: '<S124>/Constant2'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch1_l = -1;
   }
 
-  /* End of Switch: '<S123>/Switch1' */
+  /* End of Switch: '<S124>/Switch1' */
 
-  /* Product: '<S129>/IProd Out' incorporates:
-   *  Constant: '<S32>/Ki'
+  /* Product: '<S130>/IProd Out' incorporates:
+   *  Constant: '<S33>/Ki'
    */
   mcb_pmsm_foc_test_f28379d_B.IProdOut_b = mcb_pmsm_foc_test_f28379d_B.Sum_o *
     1.0E-5F;
 
-  /* RelationalOperator: '<S123>/fix for DT propagation issue1' incorporates:
-   *  Constant: '<S123>/Clamping_zero'
+  /* RelationalOperator: '<S124>/fix for DT propagation issue1' incorporates:
+   *  Constant: '<S124>/Clamping_zero'
    */
   mcb_pmsm_foc_test_f28379d_B.fixforDTpropagationissue1_o =
     (mcb_pmsm_foc_test_f28379d_B.IProdOut_b > 0.0F);
 
-  /* Switch: '<S123>/Switch2' */
+  /* Switch: '<S124>/Switch2' */
   if (mcb_pmsm_foc_test_f28379d_B.fixforDTpropagationissue1_o) {
-    /* Switch: '<S123>/Switch2' incorporates:
-     *  Constant: '<S123>/Constant3'
+    /* Switch: '<S124>/Switch2' incorporates:
+     *  Constant: '<S124>/Constant3'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch2_c = 1;
   } else {
-    /* Switch: '<S123>/Switch2' incorporates:
-     *  Constant: '<S123>/Constant4'
+    /* Switch: '<S124>/Switch2' incorporates:
+     *  Constant: '<S124>/Constant4'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch2_c = -1;
   }
 
-  /* End of Switch: '<S123>/Switch2' */
+  /* End of Switch: '<S124>/Switch2' */
 
-  /* RelationalOperator: '<S123>/Equal1' incorporates:
-   *  Switch: '<S123>/Switch1'
-   *  Switch: '<S123>/Switch2'
+  /* RelationalOperator: '<S124>/Equal1' incorporates:
+   *  Switch: '<S124>/Switch1'
+   *  Switch: '<S124>/Switch2'
    */
   mcb_pmsm_foc_test_f28379d_B.Equal1_i = (mcb_pmsm_foc_test_f28379d_B.Switch1_l ==
     mcb_pmsm_foc_test_f28379d_B.Switch2_c);
 
-  /* Logic: '<S123>/AND3' */
+  /* Logic: '<S124>/AND3' */
   mcb_pmsm_foc_test_f28379d_B.AND3_n =
     (mcb_pmsm_foc_test_f28379d_B.RelationalOperator_e &&
      mcb_pmsm_foc_test_f28379d_B.Equal1_i);
 
-  /* Switch: '<S123>/Switch' */
+  /* Switch: '<S124>/Switch' */
   if (mcb_pmsm_foc_test_f28379d_B.AND3_n) {
-    /* Switch: '<S123>/Switch' incorporates:
-     *  Constant: '<S123>/Constant1'
+    /* Switch: '<S124>/Switch' incorporates:
+     *  Constant: '<S124>/Constant1'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch_a = 0.0F;
   } else {
-    /* Switch: '<S123>/Switch' */
+    /* Switch: '<S124>/Switch' */
     mcb_pmsm_foc_test_f28379d_B.Switch_a =
       mcb_pmsm_foc_test_f28379d_B.IProdOut_b;
   }
 
-  /* End of Switch: '<S123>/Switch' */
+  /* End of Switch: '<S124>/Switch' */
 
-  /* RelationalOperator: '<S153>/Compare' incorporates:
-   *  Constant: '<S153>/Constant'
+  /* RelationalOperator: '<S154>/Compare' incorporates:
+   *  Constant: '<S154>/Constant'
    */
   mcb_pmsm_foc_test_f28379d_B.Compare_f = (mcb_pmsm_foc_test_f28379d_B.Add_c <
     0.0F);
 
-  /* DataTypeConversion: '<S152>/Data Type Conversion' */
+  /* DataTypeConversion: '<S153>/Data Type Conversion' */
   mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_h =
     mcb_pmsm_foc_test_f28379d_B.Compare_f;
 
-  /* If: '<S152>/If' */
+  /* If: '<S153>/If' */
   if (mcb_pmsm_foc_test_f28379d_B.DataTypeConversion_h > 0U) {
-    /* Outputs for IfAction SubSystem: '<S152>/If Action Subsystem' incorporates:
-     *  ActionPort: '<S154>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S153>/If Action Subsystem' incorporates:
+     *  ActionPort: '<S155>/Action Port'
      */
     mcb_pmsm__IfActionSubsystem(mcb_pmsm_foc_test_f28379d_B.Add_c,
       &mcb_pmsm_foc_test_f28379d_B.Merge_a,
       &mcb_pmsm_foc_test_f28379d_B.IfActionSubsystem);
 
-    /* End of Outputs for SubSystem: '<S152>/If Action Subsystem' */
+    /* End of Outputs for SubSystem: '<S153>/If Action Subsystem' */
   } else {
-    /* Outputs for IfAction SubSystem: '<S152>/If Action Subsystem1' incorporates:
-     *  ActionPort: '<S155>/Action Port'
+    /* Outputs for IfAction SubSystem: '<S153>/If Action Subsystem1' incorporates:
+     *  ActionPort: '<S156>/Action Port'
      */
     mcb_pmsm_IfActionSubsystem1(mcb_pmsm_foc_test_f28379d_B.Add_c,
       &mcb_pmsm_foc_test_f28379d_B.Merge_a,
       &mcb_pmsm_foc_test_f28379d_B.IfActionSubsystem1);
 
-    /* End of Outputs for SubSystem: '<S152>/If Action Subsystem1' */
+    /* End of Outputs for SubSystem: '<S153>/If Action Subsystem1' */
   }
 
-  /* End of If: '<S152>/If' */
+  /* End of If: '<S153>/If' */
 
-  /* Gain: '<S149>/indexing' */
+  /* Gain: '<S150>/indexing' */
   mcb_pmsm_foc_test_f28379d_B.indexing_d = 800.0F *
     mcb_pmsm_foc_test_f28379d_B.Merge_a;
 
-  /* DataTypeConversion: '<S149>/Get_Integer' */
+  /* DataTypeConversion: '<S150>/Get_Integer' */
   mcb_pmsm_foc_test_f28379d_B.Get_Integer_j = (uint16_T)
     mcb_pmsm_foc_test_f28379d_B.indexing_d;
 
-  /* DataTypeConversion: '<S149>/Data Type Conversion1' */
+  /* DataTypeConversion: '<S150>/Data Type Conversion1' */
   mcb_pmsm_foc_test_f28379d_B.DataTypeConversion1_n =
     mcb_pmsm_foc_test_f28379d_B.Get_Integer_j;
 
-  /* Sum: '<S149>/Sum' incorporates:
-   *  Constant: '<S149>/offset'
+  /* Sum: '<S150>/Sum' incorporates:
+   *  Constant: '<S150>/offset'
    */
   Sum = mcb_pmsm_foc_test_f28379d_B.Get_Integer_j + 1UL;
   mcb_pmsm_foc_test_f28379d_B.Sum_h[0] = Sum;
 
-  /* Selector: '<S149>/Lookup' incorporates:
-   *  Constant: '<S149>/sine_table_values'
+  /* Selector: '<S150>/Lookup' incorporates:
+   *  Constant: '<S150>/sine_table_values'
    */
   mcb_pmsm_foc_test_f28379d_B.Lookup_p[0] =
     mcb_pmsm_foc_test_f28379_ConstP.pooled6[(int16_T)Sum];
 
-  /* Sum: '<S149>/Sum' */
+  /* Sum: '<S150>/Sum' */
   Sum = mcb_pmsm_foc_test_f28379d_B.Get_Integer_j;
   mcb_pmsm_foc_test_f28379d_B.Sum_h[1] = Sum;
 
-  /* Selector: '<S149>/Lookup' incorporates:
-   *  Constant: '<S149>/sine_table_values'
+  /* Selector: '<S150>/Lookup' incorporates:
+   *  Constant: '<S150>/sine_table_values'
    */
   mcb_pmsm_foc_test_f28379d_B.Lookup_p[1] =
     mcb_pmsm_foc_test_f28379_ConstP.pooled6[(int16_T)Sum];
 
-  /* Sum: '<S149>/Sum' incorporates:
-   *  Constant: '<S149>/offset'
+  /* Sum: '<S150>/Sum' incorporates:
+   *  Constant: '<S150>/offset'
    */
   Sum = mcb_pmsm_foc_test_f28379d_B.Get_Integer_j + 201UL;
   mcb_pmsm_foc_test_f28379d_B.Sum_h[2] = Sum;
 
-  /* Selector: '<S149>/Lookup' incorporates:
-   *  Constant: '<S149>/sine_table_values'
+  /* Selector: '<S150>/Lookup' incorporates:
+   *  Constant: '<S150>/sine_table_values'
    */
   mcb_pmsm_foc_test_f28379d_B.Lookup_p[2] =
     mcb_pmsm_foc_test_f28379_ConstP.pooled6[(int16_T)Sum];
 
-  /* Sum: '<S149>/Sum' incorporates:
-   *  Constant: '<S149>/offset'
+  /* Sum: '<S150>/Sum' incorporates:
+   *  Constant: '<S150>/offset'
    */
   Sum = mcb_pmsm_foc_test_f28379d_B.Get_Integer_j + 200UL;
   mcb_pmsm_foc_test_f28379d_B.Sum_h[3] = Sum;
 
-  /* Selector: '<S149>/Lookup' incorporates:
-   *  Constant: '<S149>/sine_table_values'
+  /* Selector: '<S150>/Lookup' incorporates:
+   *  Constant: '<S150>/sine_table_values'
    */
   mcb_pmsm_foc_test_f28379d_B.Lookup_p[3] =
     mcb_pmsm_foc_test_f28379_ConstP.pooled6[(int16_T)Sum];
 
-  /* Sum: '<S151>/Sum3' */
+  /* Sum: '<S152>/Sum3' */
   mcb_pmsm_foc_test_f28379d_B.Sum3_j = mcb_pmsm_foc_test_f28379d_B.Lookup_p[0] -
     mcb_pmsm_foc_test_f28379d_B.Lookup_p[1];
 
-  /* Sum: '<S149>/Sum2' */
+  /* Sum: '<S150>/Sum2' */
   mcb_pmsm_foc_test_f28379d_B.Sum2_p = mcb_pmsm_foc_test_f28379d_B.indexing_d -
     mcb_pmsm_foc_test_f28379d_B.DataTypeConversion1_n;
 
-  /* Product: '<S151>/Product' */
+  /* Product: '<S152>/Product' */
   mcb_pmsm_foc_test_f28379d_B.Product_d = mcb_pmsm_foc_test_f28379d_B.Sum3_j *
     mcb_pmsm_foc_test_f28379d_B.Sum2_p;
 
-  /* Sum: '<S151>/Sum5' */
+  /* Sum: '<S152>/Sum5' */
   mcb_pmsm_foc_test_f28379d_B.Sum5_l = mcb_pmsm_foc_test_f28379d_B.Lookup_p[2] -
     mcb_pmsm_foc_test_f28379d_B.Lookup_p[3];
 
-  /* Product: '<S151>/Product1' */
+  /* Product: '<S152>/Product1' */
   mcb_pmsm_foc_test_f28379d_B.Product1_d = mcb_pmsm_foc_test_f28379d_B.Sum5_l *
     mcb_pmsm_foc_test_f28379d_B.Sum2_p;
 
-  /* Sum: '<S151>/Sum4' */
+  /* Sum: '<S152>/Sum4' */
   mcb_pmsm_foc_test_f28379d_B.Sum4_h = mcb_pmsm_foc_test_f28379d_B.Product_d +
     mcb_pmsm_foc_test_f28379d_B.Lookup_p[1];
 
-  /* Sum: '<S151>/Sum6' */
+  /* Sum: '<S152>/Sum6' */
   mcb_pmsm_foc_test_f28379d_B.Sum6_h = mcb_pmsm_foc_test_f28379d_B.Product1_d +
     mcb_pmsm_foc_test_f28379d_B.Lookup_p[3];
 
-  /* Outputs for Atomic SubSystem: '<S25>/Two inputs CRL' */
-  /* Product: '<S150>/qcos' */
+  /* Outputs for Atomic SubSystem: '<S26>/Two inputs CRL' */
+  /* Product: '<S151>/qcos' */
   mcb_pmsm_foc_test_f28379d_B.qcos = mcb_pmsm_foc_test_f28379d_B.Merge_i[1] *
     mcb_pmsm_foc_test_f28379d_B.Sum6_h;
 
-  /* Product: '<S150>/dsin' */
+  /* Product: '<S151>/dsin' */
   mcb_pmsm_foc_test_f28379d_B.dsin = mcb_pmsm_foc_test_f28379d_B.Merge_i[0] *
     mcb_pmsm_foc_test_f28379d_B.Sum4_h;
 
-  /* Sum: '<S150>/sum_beta' */
+  /* Sum: '<S151>/sum_beta' */
   mcb_pmsm_foc_test_f28379d_B.sum_beta = mcb_pmsm_foc_test_f28379d_B.qcos +
     mcb_pmsm_foc_test_f28379d_B.dsin;
 
-  /* Product: '<S150>/dcos' */
+  /* Product: '<S151>/dcos' */
   mcb_pmsm_foc_test_f28379d_B.dcos = mcb_pmsm_foc_test_f28379d_B.Merge_i[0] *
     mcb_pmsm_foc_test_f28379d_B.Sum6_h;
 
-  /* Product: '<S150>/qsin' */
+  /* Product: '<S151>/qsin' */
   mcb_pmsm_foc_test_f28379d_B.qsin = mcb_pmsm_foc_test_f28379d_B.Merge_i[1] *
     mcb_pmsm_foc_test_f28379d_B.Sum4_h;
 
-  /* Sum: '<S150>/sum_alpha' */
+  /* Sum: '<S151>/sum_alpha' */
   mcb_pmsm_foc_test_f28379d_B.sum_alpha = mcb_pmsm_foc_test_f28379d_B.dcos -
     mcb_pmsm_foc_test_f28379d_B.qsin;
 
-  /* Switch: '<S156>/Switch' */
+  /* Switch: '<S157>/Switch' */
   mcb_pmsm_foc_test_f28379d_B.Switch_b[0] =
     mcb_pmsm_foc_test_f28379d_B.sum_alpha;
   mcb_pmsm_foc_test_f28379d_B.Switch_b[1] = mcb_pmsm_foc_test_f28379d_B.sum_beta;
 
-  /* AlgorithmDescriptorDelegate generated from: '<S150>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S151>/a16' */
   mcb_pmsm_foc_test_f28379d_B.algDD_o1_p = mcb_pmsm_foc_test_f28379d_B.Switch_b
     [0];
 
-  /* AlgorithmDescriptorDelegate generated from: '<S150>/a16' */
+  /* AlgorithmDescriptorDelegate generated from: '<S151>/a16' */
   mcb_pmsm_foc_test_f28379d_B.algDD_o2_o = mcb_pmsm_foc_test_f28379d_B.Switch_b
     [1];
 
-  /* End of Outputs for SubSystem: '<S25>/Two inputs CRL' */
+  /* End of Outputs for SubSystem: '<S26>/Two inputs CRL' */
 
-  /* Delay: '<S174>/Delay' */
+  /* Delay: '<S175>/Delay' */
   mcb_pmsm_foc_test_f28379d_B.Delay_c =
     mcb_pmsm_foc_test_f28379d_DW.Delay_DSTATE;
 
-  /* Sum: '<S174>/Sum' */
+  /* Sum: '<S175>/Sum' */
   mcb_pmsm_foc_test_f28379d_B.Sum_a = mcb_pmsm_foc_test_f28379d_B.RT4 -
     mcb_pmsm_foc_test_f28379d_B.Delay_c;
 
-  /* If: '<S174>/If' */
+  /* If: '<S175>/If' */
   if (mcb_pmsm_foc_test_f28379d_B.Sum_a > 0.5F) {
-    /* Outputs for IfAction SubSystem: '<S174>/Subsystem' incorporates:
-     *  ActionPort: '<S179>/Action Port'
-     */
-    mcb_pmsm_foc_test_Subsystem(mcb_pmsm_foc_test_f28379d_B.Sum_a,
-      &mcb_pmsm_foc_test_f28379d_B.Merge_c);
-
-    /* End of Outputs for SubSystem: '<S174>/Subsystem' */
-  } else if (mcb_pmsm_foc_test_f28379d_B.Sum_a < -0.5F) {
-    /* Outputs for IfAction SubSystem: '<S174>/Subsystem1' incorporates:
+    /* Outputs for IfAction SubSystem: '<S175>/Subsystem' incorporates:
      *  ActionPort: '<S180>/Action Port'
      */
-    mcb_pmsm_foc_tes_Subsystem1(mcb_pmsm_foc_test_f28379d_B.Sum_a,
-      &mcb_pmsm_foc_test_f28379d_B.Merge_c);
+    /* Merge: '<S175>/Merge' incorporates:
+     *  Fcn: '<S180>/Fcn'
+     */
+    mcb_pmsm_foc_test_f28379d_B.Merge_c = mcb_pmsm_foc_test_f28379d_B.Sum_a -
+      1.0F;
 
-    /* End of Outputs for SubSystem: '<S174>/Subsystem1' */
-  } else {
-    /* Outputs for IfAction SubSystem: '<S174>/Subsystem2' incorporates:
+    /* End of Outputs for SubSystem: '<S175>/Subsystem' */
+  } else if (mcb_pmsm_foc_test_f28379d_B.Sum_a < -0.5F) {
+    /* Outputs for IfAction SubSystem: '<S175>/Subsystem1' incorporates:
      *  ActionPort: '<S181>/Action Port'
      */
-    /* Merge: '<S174>/Merge' incorporates:
-     *  SignalConversion generated from: '<S181>/In1'
+    /* Merge: '<S175>/Merge' incorporates:
+     *  Fcn: '<S181>/Fcn1'
+     */
+    mcb_pmsm_foc_test_f28379d_B.Merge_c = mcb_pmsm_foc_test_f28379d_B.Sum_a +
+      1.0F;
+
+    /* End of Outputs for SubSystem: '<S175>/Subsystem1' */
+  } else {
+    /* Outputs for IfAction SubSystem: '<S175>/Subsystem2' incorporates:
+     *  ActionPort: '<S182>/Action Port'
+     */
+    /* Merge: '<S175>/Merge' incorporates:
+     *  SignalConversion generated from: '<S182>/In1'
      */
     mcb_pmsm_foc_test_f28379d_B.Merge_c = mcb_pmsm_foc_test_f28379d_B.Sum_a;
 
-    /* End of Outputs for SubSystem: '<S174>/Subsystem2' */
+    /* End of Outputs for SubSystem: '<S175>/Subsystem2' */
   }
 
-  /* End of If: '<S174>/If' */
+  /* End of If: '<S175>/If' */
 
-  /* DataStoreRead: '<S20>/Enable' */
+  /* DataStoreRead: '<S21>/Enable' */
   mcb_pmsm_foc_test_f28379d_B.PWM_En = mcb_pmsm_foc_test_f28379d_DW.Enable;
 
-  /* DataTypeConversion: '<S20>/Data Type Conversion' */
+  /* DataTypeConversion: '<S21>/Data Type Conversion' */
   mcb_pmsm_foc_test_f28379d_B.DataTypeConversion =
     mcb_pmsm_foc_test_f28379d_B.PWM_En;
 
-  /* Switch: '<S197>/Switch' */
+  /* Switch: '<S198>/Switch' */
   mcb_pmsm_foc_test_f28379d_B.Switch_g =
     mcb_pmsm_foc_test_f28379d_B.DataTypeConversion;
 
-  /* S-Function (c280xgpio_do): '<S197>/DRV830x Enable' */
+  /* S-Function (c280xgpio_do): '<S198>/DRV830x Enable' */
   {
     if (mcb_pmsm_foc_test_f28379d_B.Switch_g) {
       GpioDataRegs.GPDSET.bit.GPIO124 = 1U;
@@ -2166,26 +2146,26 @@ void mcb_pmsm_foc_CurrentControl(void)
     }
   }
 
-  /* Switch: '<S197>/Switch1' */
+  /* Switch: '<S198>/Switch1' */
   if (mcb_pmsm_foc_test_f28379d_B.DataTypeConversion >= 0.5F) {
-    /* Gain: '<S172>/sqrt3_by_two' */
+    /* Gain: '<S173>/sqrt3_by_two' */
     mcb_pmsm_foc_test_f28379d_B.sqrt3_by_two = 0.866025388F *
       mcb_pmsm_foc_test_f28379d_B.algDD_o2_o;
 
-    /* Gain: '<S172>/one_by_two' */
+    /* Gain: '<S173>/one_by_two' */
     mcb_pmsm_foc_test_f28379d_B.one_by_two = 0.5F *
       mcb_pmsm_foc_test_f28379d_B.algDD_o1_p;
 
-    /* Sum: '<S172>/add_c' */
+    /* Sum: '<S173>/add_c' */
     mcb_pmsm_foc_test_f28379d_B.add_c = (0.0F -
       mcb_pmsm_foc_test_f28379d_B.one_by_two) -
       mcb_pmsm_foc_test_f28379d_B.sqrt3_by_two;
 
-    /* Sum: '<S172>/add_b' */
+    /* Sum: '<S173>/add_b' */
     mcb_pmsm_foc_test_f28379d_B.add_b = mcb_pmsm_foc_test_f28379d_B.sqrt3_by_two
       - mcb_pmsm_foc_test_f28379d_B.one_by_two;
 
-    /* MinMax: '<S169>/Min' */
+    /* MinMax: '<S170>/Min' */
     uPrev = mcb_pmsm_foc_test_f28379d_B.algDD_o1_p;
     Bias = mcb_pmsm_foc_test_f28379d_B.add_b;
     if ((uPrev <= Bias) || rtIsNaNF(Bias)) {
@@ -2197,10 +2177,10 @@ void mcb_pmsm_foc_CurrentControl(void)
       Bias = uPrev;
     }
 
-    /* MinMax: '<S169>/Min' */
+    /* MinMax: '<S170>/Min' */
     mcb_pmsm_foc_test_f28379d_B.Min = Bias;
 
-    /* MinMax: '<S169>/Max' */
+    /* MinMax: '<S170>/Max' */
     uPrev = mcb_pmsm_foc_test_f28379d_B.algDD_o1_p;
     Bias = mcb_pmsm_foc_test_f28379d_B.add_b;
     if ((uPrev >= Bias) || rtIsNaNF(Bias)) {
@@ -2212,30 +2192,30 @@ void mcb_pmsm_foc_CurrentControl(void)
       Bias = uPrev;
     }
 
-    /* MinMax: '<S169>/Max' */
+    /* MinMax: '<S170>/Max' */
     mcb_pmsm_foc_test_f28379d_B.Max = Bias;
 
-    /* Sum: '<S169>/Add' */
+    /* Sum: '<S170>/Add' */
     mcb_pmsm_foc_test_f28379d_B.Add_n = mcb_pmsm_foc_test_f28379d_B.Max +
       mcb_pmsm_foc_test_f28379d_B.Min;
 
-    /* Gain: '<S169>/one_by_two' */
+    /* Gain: '<S170>/one_by_two' */
     mcb_pmsm_foc_test_f28379d_B.one_by_two_l = -0.5F *
       mcb_pmsm_foc_test_f28379d_B.Add_n;
 
-    /* Sum: '<S168>/Add3' */
+    /* Sum: '<S169>/Add3' */
     mcb_pmsm_foc_test_f28379d_B.Add3 = mcb_pmsm_foc_test_f28379d_B.algDD_o1_p +
       mcb_pmsm_foc_test_f28379d_B.one_by_two_l;
 
-    /* Sum: '<S168>/Add2' */
+    /* Sum: '<S169>/Add2' */
     mcb_pmsm_foc_test_f28379d_B.Add2 = mcb_pmsm_foc_test_f28379d_B.one_by_two_l
       + mcb_pmsm_foc_test_f28379d_B.add_c;
 
-    /* Sum: '<S168>/Add1' */
+    /* Sum: '<S169>/Add1' */
     mcb_pmsm_foc_test_f28379d_B.Add1_d = mcb_pmsm_foc_test_f28379d_B.add_b +
       mcb_pmsm_foc_test_f28379d_B.one_by_two_l;
 
-    /* Gain: '<S168>/Gain' */
+    /* Gain: '<S169>/Gain' */
     mcb_pmsm_foc_test_f28379d_B.Gain_a[0] = 1.15470052F *
       mcb_pmsm_foc_test_f28379d_B.Add3;
     mcb_pmsm_foc_test_f28379d_B.Gain_a[1] = 1.15470052F *
@@ -2243,71 +2223,71 @@ void mcb_pmsm_foc_CurrentControl(void)
     mcb_pmsm_foc_test_f28379d_B.Gain_a[2] = 1.15470052F *
       mcb_pmsm_foc_test_f28379d_B.Add2;
 
-    /* Gain: '<S20>/One_by_Two' */
+    /* Gain: '<S21>/One_by_Two' */
     Bias = 0.5F * mcb_pmsm_foc_test_f28379d_B.Gain_a[0];
     mcb_pmsm_foc_test_f28379d_B.One_by_Two[0] = Bias;
 
-    /* Sum: '<S20>/Sum' incorporates:
-     *  Constant: '<S20>/Constant'
+    /* Sum: '<S21>/Sum' incorporates:
+     *  Constant: '<S21>/Constant'
      */
     Bias += 0.5F;
     mcb_pmsm_foc_test_f28379d_B.PWM_Duty_Cycles[0] = Bias;
 
-    /* Gain: '<S197>/Scale_to_PWM_Counter_PRD' */
+    /* Gain: '<S198>/Scale_to_PWM_Counter_PRD' */
     Scale_to_PWM_Counter_PRD = (uint16_T)(5000.0F * Bias);
     mcb_pmsm_foc_test_f28379d_B.Scale_to_PWM_Counter_PRD[0] =
       Scale_to_PWM_Counter_PRD;
 
-    /* Switch: '<S197>/Switch1' */
+    /* Switch: '<S198>/Switch1' */
     mcb_pmsm_foc_test_f28379d_B.Switch1_jv[0] = Scale_to_PWM_Counter_PRD;
 
-    /* Gain: '<S20>/One_by_Two' */
+    /* Gain: '<S21>/One_by_Two' */
     Bias = 0.5F * mcb_pmsm_foc_test_f28379d_B.Gain_a[1];
     mcb_pmsm_foc_test_f28379d_B.One_by_Two[1] = Bias;
 
-    /* Sum: '<S20>/Sum' incorporates:
-     *  Constant: '<S20>/Constant'
+    /* Sum: '<S21>/Sum' incorporates:
+     *  Constant: '<S21>/Constant'
      */
     Bias += 0.5F;
     mcb_pmsm_foc_test_f28379d_B.PWM_Duty_Cycles[1] = Bias;
 
-    /* Gain: '<S197>/Scale_to_PWM_Counter_PRD' */
+    /* Gain: '<S198>/Scale_to_PWM_Counter_PRD' */
     Scale_to_PWM_Counter_PRD = (uint16_T)(5000.0F * Bias);
     mcb_pmsm_foc_test_f28379d_B.Scale_to_PWM_Counter_PRD[1] =
       Scale_to_PWM_Counter_PRD;
 
-    /* Switch: '<S197>/Switch1' */
+    /* Switch: '<S198>/Switch1' */
     mcb_pmsm_foc_test_f28379d_B.Switch1_jv[1] = Scale_to_PWM_Counter_PRD;
 
-    /* Gain: '<S20>/One_by_Two' */
+    /* Gain: '<S21>/One_by_Two' */
     Bias = 0.5F * mcb_pmsm_foc_test_f28379d_B.Gain_a[2];
     mcb_pmsm_foc_test_f28379d_B.One_by_Two[2] = Bias;
 
-    /* Sum: '<S20>/Sum' incorporates:
-     *  Constant: '<S20>/Constant'
+    /* Sum: '<S21>/Sum' incorporates:
+     *  Constant: '<S21>/Constant'
      */
     Bias += 0.5F;
     mcb_pmsm_foc_test_f28379d_B.PWM_Duty_Cycles[2] = Bias;
 
-    /* Gain: '<S197>/Scale_to_PWM_Counter_PRD' */
+    /* Gain: '<S198>/Scale_to_PWM_Counter_PRD' */
     Scale_to_PWM_Counter_PRD = (uint16_T)(5000.0F * Bias);
     mcb_pmsm_foc_test_f28379d_B.Scale_to_PWM_Counter_PRD[2] =
       Scale_to_PWM_Counter_PRD;
 
-    /* Switch: '<S197>/Switch1' */
+    /* Switch: '<S198>/Switch1' */
     mcb_pmsm_foc_test_f28379d_B.Switch1_jv[2] = Scale_to_PWM_Counter_PRD;
   } else {
-    /* Switch: '<S197>/Switch1' incorporates:
-     *  Constant: '<S197>/stop'
+    /* Switch: '<S198>/Switch1' incorporates:
+     *  Constant: '<S198>/stop'
      */
     mcb_pmsm_foc_test_f28379d_B.Switch1_jv[0] = 0U;
     mcb_pmsm_foc_test_f28379d_B.Switch1_jv[1] = 0U;
     mcb_pmsm_foc_test_f28379d_B.Switch1_jv[2] = 0U;
   }
 
-  /* End of Switch: '<S197>/Switch1' */
+  /* End of Switch: '<S198>/Switch1' */
 
-  /* S-Function (c2802xpwm): '<S197>/ePWM1' */
+  /* S-Function (c2802xpwm): '<S198>/ePWM1' */
 
   /*-- Update CMPA value for ePWM1 --*/
   {
@@ -2315,7 +2295,7 @@ void mcb_pmsm_foc_CurrentControl(void)
       [0]);
   }
 
-  /* S-Function (c2802xpwm): '<S197>/ePWM2' */
+  /* S-Function (c2802xpwm): '<S198>/ePWM2' */
 
   /*-- Update CMPA value for ePWM2 --*/
   {
@@ -2323,7 +2303,7 @@ void mcb_pmsm_foc_CurrentControl(void)
       [1]);
   }
 
-  /* S-Function (c2802xpwm): '<S197>/ePWM3' */
+  /* S-Function (c2802xpwm): '<S198>/ePWM3' */
 
   /*-- Update CMPA value for ePWM3 --*/
   {
@@ -2331,11 +2311,15 @@ void mcb_pmsm_foc_CurrentControl(void)
       [2]);
   }
 
-  /* Update for UnitDelay: '<S204>/Output' */
+  /* DataStoreRead: '<S2>/Data Store Read1' */
+  mcb_pmsm_foc_test_f28379d_B.DataStoreRead1 =
+    mcb_pmsm_foc_test_f28379d_DW.PosRef;
+
+  /* Update for UnitDelay: '<S205>/Output' */
   mcb_pmsm_foc_test_f28379d_DW.Output_DSTATE =
     mcb_pmsm_foc_test_f28379d_B.FixPtSwitch;
 
-  /* Update for Delay: '<S178>/Delay' */
+  /* Update for Delay: '<S179>/Delay' */
   mcb_pmsm_foc_test_f28379d_DW.Delay_DSTATE_p[mcb_pmsm_foc_test_f28379d_DW.CircBufIdx]
     = mcb_pmsm_foc_test_f28379d_B.PositionToCount;
   if (mcb_pmsm_foc_test_f28379d_DW.CircBufIdx < 19U) {
@@ -2344,25 +2328,25 @@ void mcb_pmsm_foc_CurrentControl(void)
     mcb_pmsm_foc_test_f28379d_DW.CircBufIdx = 0U;
   }
 
-  /* End of Update for Delay: '<S178>/Delay' */
+  /* End of Update for Delay: '<S179>/Delay' */
 
-  /* Update for UnitDelay: '<S184>/Unit Delay' */
+  /* Update for UnitDelay: '<S185>/Unit Delay' */
   mcb_pmsm_foc_test_f28379d_DW.UnitDelay_DSTATE =
     mcb_pmsm_foc_test_f28379d_B.Add1;
 
-  /* Update for DiscreteIntegrator: '<S132>/Integrator' */
+  /* Update for DiscreteIntegrator: '<S133>/Integrator' */
   mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE +=
     mcb_pmsm_foc_test_f28379d_B.Switch_a;
   mcb_pmsm_foc_test_f28379d_DW.Integrator_PrevResetState = (int16_T)
     mcb_pmsm_foc_test_f28379d_B.LogicalOperator;
 
-  /* Update for DiscreteIntegrator: '<S81>/Integrator' */
+  /* Update for DiscreteIntegrator: '<S82>/Integrator' */
   mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE_o +=
     mcb_pmsm_foc_test_f28379d_B.Switch_f;
   mcb_pmsm_foc_test_f28379d_DW.Integrator_PrevResetState_k = (int16_T)
     mcb_pmsm_foc_test_f28379d_B.LogicalOperator_a;
 
-  /* Update for Delay: '<S174>/Delay' */
+  /* Update for Delay: '<S175>/Delay' */
   mcb_pmsm_foc_test_f28379d_DW.Delay_DSTATE = mcb_pmsm_foc_test_f28379d_B.RT4;
 }
 
@@ -2371,7 +2355,7 @@ void mcb__SPIMasterTransfer_Init(DW_SPIMasterTransfer_mcb_pmsm_T *localDW)
 {
   uint32_T SPIPinsLoc;
 
-  /* Start for MATLABSystem: '<S228>/SPI Master Transfer' */
+  /* Start for MATLABSystem: '<S229>/SPI Master Transfer' */
   localDW->obj.matlabCodegenIsDeleted = false;
   localDW->objisempty = true;
   localDW->obj.isInitialized = 1L;
@@ -2390,7 +2374,7 @@ void mcb_pmsm__SPIMasterTransfer(uint16_T rtu_0, B_SPIMasterTransfer_mcb_pmsm__T
   uint16_T rdDataRaw;
   uint16_T status;
 
-  /* MATLABSystem: '<S228>/SPI Master Transfer' */
+  /* MATLABSystem: '<S229>/SPI Master Transfer' */
   MW_SPI_SetSlaveSelect(localDW->obj.MW_SPI_HANDLE, 0U, true);
   status = MW_SPI_SetFormat(localDW->obj.MW_SPI_HANDLE, 16U, MW_SPI_MODE_0,
     MW_SPI_MOST_SIGNIFICANT_BIT_FIRST);
@@ -2399,7 +2383,7 @@ void mcb_pmsm__SPIMasterTransfer(uint16_T rtu_0, B_SPIMasterTransfer_mcb_pmsm__T
       1UL);
   }
 
-  /* MATLABSystem: '<S228>/SPI Master Transfer' */
+  /* MATLABSystem: '<S229>/SPI Master Transfer' */
   localB->SPIMasterTransfer = rdDataRaw;
 }
 
@@ -2408,7 +2392,7 @@ void mcb__SPIMasterTransfer_Term(DW_SPIMasterTransfer_mcb_pmsm_T *localDW)
 {
   uint32_T SPIPinsLoc;
 
-  /* Terminate for MATLABSystem: '<S228>/SPI Master Transfer' */
+  /* Terminate for MATLABSystem: '<S229>/SPI Master Transfer' */
   if (!localDW->obj.matlabCodegenIsDeleted) {
     localDW->obj.matlabCodegenIsDeleted = true;
     if ((localDW->obj.isInitialized == 1L) && localDW->obj.isSetupComplete) {
@@ -2418,56 +2402,23 @@ void mcb__SPIMasterTransfer_Term(DW_SPIMasterTransfer_mcb_pmsm_T *localDW)
     }
   }
 
-  /* End of Terminate for MATLABSystem: '<S228>/SPI Master Transfer' */
+  /* End of Terminate for MATLABSystem: '<S229>/SPI Master Transfer' */
 }
 
 /* Output and update for atomic system: '<Root>/Speed Control' */
-void mcb_pmsm_foc_t_SpeedControl(real32_T rtu_Theta_Ref_m, real32_T
-  rtu_Theta_Meas_m, const boolean_T *rtd_Enable, B_SpeedControl_mcb_pmsm_foc_t_T
-  *localB)
+void mcb_pmsm_foc_t_SpeedControl(const boolean_T *rtd_Enable,
+  B_SpeedControl_mcb_pmsm_foc_t_T *localB)
 {
   /* Constant: '<S8>/Id_ref' */
   localB->Id_ref = 0.0F;
 
-  /* DataTypeConversion: '<S238>/Cast To Single1' incorporates:
-   *  Constant: '<S238>/Constant2'
+  /* DataTypeConversion: '<S239>/Cast To Single1' incorporates:
+   *  Constant: '<S239>/Constant2'
    */
   localB->CastToSingle1 = 0.03F;
 
-  /* DataStoreRead: '<S238>/Data Store Read1' */
+  /* DataStoreRead: '<S239>/Data Store Read1' */
   localB->DataStoreRead1 = *rtd_Enable;
-
-  /* Sum: '<S239>/Sum' */
-  localB->Sum = rtu_Theta_Ref_m - rtu_Theta_Meas_m;
-
-  /* If: '<S239>/If' */
-  if (localB->Sum > 0.5F) {
-    /* Outputs for IfAction SubSystem: '<S239>/Subsystem' incorporates:
-     *  ActionPort: '<S297>/Action Port'
-     */
-    mcb_pmsm_foc_test_Subsystem(localB->Sum, &localB->Merge);
-
-    /* End of Outputs for SubSystem: '<S239>/Subsystem' */
-  } else if (localB->Sum < -0.5F) {
-    /* Outputs for IfAction SubSystem: '<S239>/Subsystem1' incorporates:
-     *  ActionPort: '<S298>/Action Port'
-     */
-    mcb_pmsm_foc_tes_Subsystem1(localB->Sum, &localB->Merge);
-
-    /* End of Outputs for SubSystem: '<S239>/Subsystem1' */
-  } else {
-    /* Outputs for IfAction SubSystem: '<S239>/Subsystem2' incorporates:
-     *  ActionPort: '<S299>/Action Port'
-     */
-    /* Merge: '<S239>/Merge' incorporates:
-     *  SignalConversion generated from: '<S299>/In1'
-     */
-    localB->Merge = localB->Sum;
-
-    /* End of Outputs for SubSystem: '<S239>/Subsystem2' */
-  }
-
-  /* End of If: '<S239>/If' */
 
   /* DataStoreRead: '<S240>/Data Store Read1' */
   localB->DataStoreRead1_k = *rtd_Enable;
@@ -2495,16 +2446,17 @@ void mcb_pmsm_foc_test_f28379d_step0(void) /* Sample time: [0.0005s, 0.0s] */
   /* RateTransition: '<Root>/RT13' */
   mcb_pmsm_foc_test_f28379d_B.RT13 = 0.0F;
 
-  /* RateTransition: '<Root>/RT7' */
-  mcb_pmsm_foc_test_f28379d_B.RT7 =
-    mcb_pmsm_foc_test_f28379d_DW.RT7_Buffer[mcb_pmsm_foc_test_f28379d_DW.RT7_ActiveBufIdx];
-
   /* Outputs for Atomic SubSystem: '<Root>/Speed Control' */
-  mcb_pmsm_foc_t_SpeedControl(mcb_pmsm_foc_test_f28379d_B.RT13,
-    mcb_pmsm_foc_test_f28379d_B.RT7, &mcb_pmsm_foc_test_f28379d_DW.Enable,
+  mcb_pmsm_foc_t_SpeedControl(&mcb_pmsm_foc_test_f28379d_DW.Enable,
     &mcb_pmsm_foc_test_f28379d_B.SpeedControl);
 
   /* End of Outputs for SubSystem: '<Root>/Speed Control' */
+
+  /* RateTransition: '<Root>/RT15' */
+  mcb_pmsm_foc_test_f28379d_DW.RT15_Buffer[mcb_pmsm_foc_test_f28379d_DW.RT15_ActiveBufIdx
+    == 0] = 0.0F;
+  mcb_pmsm_foc_test_f28379d_DW.RT15_ActiveBufIdx =
+    (mcb_pmsm_foc_test_f28379d_DW.RT15_ActiveBufIdx == 0);
 
   /* RateTransition: '<Root>/RT2' */
   mcb_pmsm_foc_test_f28379d_DW.RT2_Buffer
@@ -2519,21 +2471,63 @@ void mcb_pmsm_foc_test_f28379d_step0(void) /* Sample time: [0.0005s, 0.0s] */
   /* RateTransition: '<Root>/RT3' */
   mcb_pmsm_foc_test_f28379d_B.RT3 =
     mcb_pmsm_foc_test_f28379d_DW.RT3_Buffer[mcb_pmsm_foc_test_f28379d_DW.RT3_ActiveBufIdx];
+
+  /* RateTransition: '<Root>/RT7' */
+  mcb_pmsm_foc_test_f28379d_B.RT7 = mcb_pmsm_foc_test_f28379d_B.Gain;
 }
 
 /* Model step function for TID1 */
 void mcb_pmsm_foc_test_f28379d_step1(void) /* Sample time: [0.001s, 0.0s] */
 {
+  real_T x;
+
+  /* RateTransition: '<Root>/RT14' */
+  mcb_pmsm_foc_test_f28379d_B.RT14 = mcb_pmsm_foc_test_f28379d_DW.RT14_Buffer0;
+
+  /* Outputs for Enabled SubSystem: '<Root>/Subsystem' incorporates:
+   *  EnablePort: '<S9>/Enable'
+   */
+  if (mcb_pmsm_foc_test_f28379d_B.RT14) {
+    /* MATLAB Function: '<S9>/MATLAB Function' incorporates:
+     *  Constant: '<S9>/Ts_sensor'
+     *  Constant: '<S9>/speed_ref_rpm'
+     */
+    /* MATLAB Function 'Subsystem/MATLAB Function': '<S296>:1' */
+    /* '<S296>:1:13' */
+    /* '<S296>:1:15' */
+    x = mcb_pmsm_foc_test_f28379d_DW.theta + 0.00083333333333333339;
+    if (rtIsNaN(x) || rtIsInf(x)) {
+      mcb_pmsm_foc_test_f28379d_DW.theta = (rtNaN);
+    } else if (x == 0.0) {
+      mcb_pmsm_foc_test_f28379d_DW.theta = 0.0;
+    } else {
+      mcb_pmsm_foc_test_f28379d_DW.theta = fmod(x, 1.0);
+      if (mcb_pmsm_foc_test_f28379d_DW.theta == 0.0) {
+        mcb_pmsm_foc_test_f28379d_DW.theta = 0.0;
+      } else if (x < 0.0) {
+        mcb_pmsm_foc_test_f28379d_DW.theta++;
+      }
+    }
+
+    /* '<S296>:1:16' */
+    mcb_pmsm_foc_test_f28379d_B.pu = (real32_T)
+      mcb_pmsm_foc_test_f28379d_DW.theta;
+
+    /* End of MATLAB Function: '<S9>/MATLAB Function' */
+  }
+
+  /* End of Outputs for SubSystem: '<Root>/Subsystem' */
+
   /* RateTransition: '<S1>/RT4' */
   mcb_pmsm_foc_test_f28379d_B.RT4_h =
     mcb_pmsm_foc_test_f28379d_B.DataStoreRead_g;
 
   /* Outputs for Enabled SubSystem: '<S1>/Data Read' incorporates:
-   *  EnablePort: '<S9>/Enable'
+   *  EnablePort: '<S10>/Enable'
    */
   if (mcb_pmsm_foc_test_f28379d_B.RT4_h) {
-    /* S-Function (c280xi2c_rx): '<S9>/I2C Receive' incorporates:
-     *  Constant: '<S9>/Register Address'
+    /* S-Function (c280xi2c_rx): '<S10>/I2C Receive' incorporates:
+     *  Constant: '<S10>/Register Address'
      */
     {
       int rx_loop= 0;
@@ -2562,9 +2556,9 @@ void mcb_pmsm_foc_test_f28379d_step1(void) /* Sample time: [0.001s, 0.0s] */
         mcb_pmsm_foc_test_f28379d_B.I2CReceive_o2 = I2caRegs.I2CSTR.all | 0x40;/* output receive data loss status */
     }
 
-    /* S-Function (c280xi2c_tx): '<S9>/I2C Transmit' incorporates:
-     *  Constant: '<S9>/Data Read Adress'
-     *  Constant: '<S9>/Register Address'
+    /* S-Function (c280xi2c_tx): '<S10>/I2C Transmit' incorporates:
+     *  Constant: '<S10>/Data Read Adress'
+     *  Constant: '<S10>/Register Address'
      */
     {
       int unsigned tx_loop= 0;
@@ -2596,22 +2590,22 @@ void mcb_pmsm_foc_test_f28379d_step1(void) /* Sample time: [0.001s, 0.0s] */
 
   /* End of Outputs for SubSystem: '<S1>/Data Read' */
 
-  /* MATLAB Function: '<S10>/MATLAB Function' incorporates:
-   *  S-Function (c280xi2c_rx): '<S9>/I2C Receive'
+  /* MATLAB Function: '<S11>/MATLAB Function' incorporates:
+   *  S-Function (c280xi2c_rx): '<S10>/I2C Receive'
    */
-  /* MATLAB Function 'AS5600 Read/Data Realignment /MATLAB Function': '<S12>:1' */
-  /* '<S12>:1:5' */
-  /* '<S12>:1:6' */
-  /* '<S12>:1:9' */
+  /* MATLAB Function 'AS5600 Read/Data Realignment /MATLAB Function': '<S13>:1' */
+  /* '<S13>:1:5' */
+  /* '<S13>:1:6' */
+  /* '<S13>:1:9' */
   mcb_pmsm_foc_test_f28379d_B.raw_angle =
     (mcb_pmsm_foc_test_f28379d_B.I2CReceive_o1[0] << 8U) +
     mcb_pmsm_foc_test_f28379d_B.I2CReceive_o1[1];
 
-  /* DataTypeConversion: '<S10>/Cast To Single1' */
+  /* DataTypeConversion: '<S11>/Cast To Single1' */
   mcb_pmsm_foc_test_f28379d_B.CastToSingle1 =
     mcb_pmsm_foc_test_f28379d_B.raw_angle;
 
-  /* Gain: '<S10>/Gain' */
+  /* Gain: '<S11>/Gain' */
   mcb_pmsm_foc_test_f28379d_B.Gain = 0.000244140625F *
     mcb_pmsm_foc_test_f28379d_B.CastToSingle1;
 
@@ -2620,17 +2614,18 @@ void mcb_pmsm_foc_test_f28379d_step1(void) /* Sample time: [0.001s, 0.0s] */
     == 0] = mcb_pmsm_foc_test_f28379d_B.Gain;
   mcb_pmsm_foc_test_f28379d_DW.RT4_ActiveBufIdx =
     (mcb_pmsm_foc_test_f28379d_DW.RT4_ActiveBufIdx == 0);
-
-  /* RateTransition: '<Root>/RT7' */
-  mcb_pmsm_foc_test_f28379d_DW.RT7_Buffer[mcb_pmsm_foc_test_f28379d_DW.RT7_ActiveBufIdx
-    == 0] = mcb_pmsm_foc_test_f28379d_B.Gain;
-  mcb_pmsm_foc_test_f28379d_DW.RT7_ActiveBufIdx =
-    (mcb_pmsm_foc_test_f28379d_DW.RT7_ActiveBufIdx == 0);
 }
 
 /* Model step function for TID2 */
 void mcb_pmsm_foc_test_f28379d_step2(void) /* Sample time: [0.015s, 0.0s] */
 {
+  /* Constant: '<Root>/InitTrigger' */
+  mcb_pmsm_foc_test_f28379d_B.InitTrigger = true;
+
+  /* RateTransition: '<Root>/RT14' */
+  mcb_pmsm_foc_test_f28379d_DW.RT14_Buffer0 =
+    mcb_pmsm_foc_test_f28379d_B.InitTrigger;
+
   /* UnitDelay: '<S1>/Unit Delay' */
   mcb_pmsm_foc_test_f28379d_B.UnitDelay_l =
     mcb_pmsm_foc_test_f28379d_DW.UnitDelay_DSTATE_f;
@@ -2644,15 +2639,15 @@ void mcb_pmsm_foc_test_f28379d_step2(void) /* Sample time: [0.015s, 0.0s] */
     !mcb_pmsm_foc_test_f28379d_B.UnitDelay_l;
 
   /* Outputs for Enabled SubSystem: '<S1>/Initialization' incorporates:
-   *  EnablePort: '<S11>/Enable'
+   *  EnablePort: '<S12>/Enable'
    */
   if (mcb_pmsm_foc_test_f28379d_B.LogicalOperator2) {
-    /* S-Function (fcgen): '<S11>/Function-Call Generator' incorporates:
-     *  SubSystem: '<S11>/Address - Data read'
+    /* S-Function (fcgen): '<S12>/Function-Call Generator' incorporates:
+     *  SubSystem: '<S12>/Address - Data read'
      */
-    /* S-Function (c280xi2c_tx): '<S13>/I2C Transmit1' incorporates:
-     *  Constant: '<S13>/Data read address'
-     *  Constant: '<S13>/Register Address'
+    /* S-Function (c280xi2c_tx): '<S14>/I2C Transmit1' incorporates:
+     *  Constant: '<S14>/Data read address'
+     *  Constant: '<S14>/Register Address'
      */
     {
       int unsigned tx_loop= 0;
@@ -2681,12 +2676,12 @@ void mcb_pmsm_foc_test_f28379d_step2(void) /* Sample time: [0.015s, 0.0s] */
       I2caRegs.I2CFFTX.bit.TXFFINTCLR = 1;/* Clear Tx interrupt flag*/
     }
 
-    /* S-Function (fcgen): '<S11>/Function-Call Generator' incorporates:
-     *  SubSystem: '<S11>/Delay 1ms'
+    /* S-Function (fcgen): '<S12>/Function-Call Generator' incorporates:
+     *  SubSystem: '<S12>/Delay 1ms'
      */
     mcb_pmsm_foc_test__Delay1ms();
 
-    /* End of Outputs for S-Function (fcgen): '<S11>/Function-Call Generator' */
+    /* End of Outputs for S-Function (fcgen): '<S12>/Function-Call Generator' */
   }
 
   /* End of Outputs for SubSystem: '<S1>/Initialization' */
@@ -2701,7 +2696,7 @@ void mcb_pmsm_foc_test_f28379d_step2(void) /* Sample time: [0.015s, 0.0s] */
 void mcb_pmsm_foc_test_f28379d_step3(void) /* Sample time: [0.5s, 0.0s] */
 {
   /* Outputs for Atomic SubSystem: '<Root>/Heartbeat LED' */
-  /* S-Function (c280xgpio_do): '<S230>/Digital Output' incorporates:
+  /* S-Function (c280xgpio_do): '<S231>/Digital Output' incorporates:
    *  Constant: '<S5>/RED_LED'
    */
   {
@@ -2735,13 +2730,15 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
 
     mcb_pmsm_foc_test_f28379d_B.RT1 = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.RT13 = 0.0F;
-    mcb_pmsm_foc_test_f28379d_B.RT7 = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.RT3 = 0.0F;
+    mcb_pmsm_foc_test_f28379d_B.RT7 = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.CastToSingle1 = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.Gain = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.RT2[0] = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.RT2[1] = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.RT4 = 0.0F;
+    mcb_pmsm_foc_test_f28379d_B.RT15 = 0.0F;
+    mcb_pmsm_foc_test_f28379d_B.pu = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.SCIReceive[0] = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.SCIReceive[1] = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.DataStoreRead2 = 0.0F;
@@ -2777,7 +2774,6 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
     mcb_pmsm_foc_test_f28379d_B.Sum5 = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.Product1_b = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.Sum6 = 0.0F;
-    mcb_pmsm_foc_test_f28379d_B.DataStoreRead1 = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.Selector[0] = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.Selector[1] = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.Sum_o = 0.0F;
@@ -2824,6 +2820,7 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
     mcb_pmsm_foc_test_f28379d_B.Merge_c = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.DataTypeConversion = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.Switch_g = 0.0F;
+    mcb_pmsm_foc_test_f28379d_B.DataStoreRead1 = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.sqrt3_by_two = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.one_by_two = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.add_c = 0.0F;
@@ -2887,8 +2884,6 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
     mcb_pmsm_foc_test_f28379d_B.algDD_o2_h = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.SpeedControl.Id_ref = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.SpeedControl.CastToSingle1 = 0.0F;
-    mcb_pmsm_foc_test_f28379d_B.SpeedControl.Sum = 0.0F;
-    mcb_pmsm_foc_test_f28379d_B.SpeedControl.Merge = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.IfActionSubsystem1_k.Convert_back = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.IfActionSubsystem_e.Convert_back = 0.0F;
     mcb_pmsm_foc_test_f28379d_B.IfActionSubsystem1.Convert_back = 0.0F;
@@ -2899,14 +2894,16 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
   (void) memset((void *)&mcb_pmsm_foc_test_f28379d_DW, 0,
                 sizeof(DW_mcb_pmsm_foc_test_f28379d_T));
   mcb_pmsm_foc_test_f28379d_DW.ERR = 0.0;
+  mcb_pmsm_foc_test_f28379d_DW.EnClosedLoop = 0.0;
+  mcb_pmsm_foc_test_f28379d_DW.theta = 0.0;
   mcb_pmsm_foc_test_f28379d_DW.UnitDelay_DSTATE = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.Integrator_DSTATE_o = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.Delay_DSTATE = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.RT1_Buffer[0] = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.RT1_Buffer[1] = 0.0F;
-  mcb_pmsm_foc_test_f28379d_DW.RT7_Buffer[0] = 0.0F;
-  mcb_pmsm_foc_test_f28379d_DW.RT7_Buffer[1] = 0.0F;
+  mcb_pmsm_foc_test_f28379d_DW.RT15_Buffer[0] = 0.0F;
+  mcb_pmsm_foc_test_f28379d_DW.RT15_Buffer[1] = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.RT2_Buffer[0] = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.RT2_Buffer[1] = 0.0F;
   mcb_pmsm_foc_test_f28379d_DW.RT2_Buffer[2] = 0.0F;
@@ -2929,8 +2926,13 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
   /* Start for DataStoreMemory: '<Root>/Data Store Memory6' */
   mcb_pmsm_foc_test_f28379d_DW.Debug_signals = 5U;
 
+  /* SystemInitialize for Enabled SubSystem: '<Root>/Subsystem' */
+  /* SystemInitialize for MATLAB Function: '<S9>/MATLAB Function' */
+  mcb_pmsm_foc_test_f28379d_DW.theta = 0.0;
+
+  /* End of SystemInitialize for SubSystem: '<Root>/Subsystem' */
   /* SystemInitialize for Enabled SubSystem: '<S1>/Data Read' */
-  /* Start for S-Function (c280xi2c_rx): '<S9>/I2C Receive' */
+  /* Start for S-Function (c280xi2c_rx): '<S10>/I2C Receive' */
 
   /* Initialize out port */
   {
@@ -2940,17 +2942,17 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
 
   /* End of SystemInitialize for SubSystem: '<S1>/Data Read' */
 
-  /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S214>/Hardware Interrupt' incorporates:
+  /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S215>/Hardware Interrupt' incorporates:
    *  SubSystem: '<Root>/Current Control'
    */
   mcb_pms_CurrentControl_Init();
 
-  /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S216>/Hardware Interrupt' incorporates:
+  /* SystemInitialize for S-Function (HardwareInterrupt_sfun): '<S217>/Hardware Interrupt' incorporates:
    *  SubSystem: '<Root>/Serial Receive'
    */
   /* System initialize for function-call system: '<Root>/Serial Receive' */
 
-  /* Start for S-Function (c28xsci_rx): '<S237>/SCI Receive' */
+  /* Start for S-Function (c28xsci_rx): '<S238>/SCI Receive' */
 
   /* Initialize out port */
   {
@@ -2970,7 +2972,7 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
   }
 
   /* SystemInitialize for Atomic SubSystem: '<Root>/Heartbeat LED' */
-  /* Start for S-Function (c280xgpio_do): '<S230>/Digital Output' */
+  /* Start for S-Function (c280xgpio_do): '<S231>/Digital Output' */
   EALLOW;
   GpioCtrlRegs.GPBMUX1.all &= 0xFFFFFFCFU;
   GpioCtrlRegs.GPBDIR.all |= 0x4U;
@@ -2979,27 +2981,27 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
   /* End of SystemInitialize for SubSystem: '<Root>/Heartbeat LED' */
 
   /* SystemInitialize for Atomic SubSystem: '<Root>/Hardware Init' */
-  /* Start for S-Function (c280xgpio_do): '<S220>/Digital Output' */
+  /* Start for S-Function (c280xgpio_do): '<S221>/Digital Output' */
   EALLOW;
   GpioCtrlRegs.GPDMUX2.all &= 0xFCFFFFFFU;
   GpioCtrlRegs.GPDDIR.all |= 0x10000000U;
   EDIS;
 
-  /* Start for S-Function (c280xgpio_do): '<S220>/Digital Output1' */
+  /* Start for S-Function (c280xgpio_do): '<S221>/Digital Output1' */
   EALLOW;
   GpioCtrlRegs.GPAMUX2.all &= 0xFFFFCFFFU;
   GpioCtrlRegs.GPADIR.all |= 0x400000U;
   EDIS;
 
-  /* SystemInitialize for Enabled SubSystem: '<S220>/ADC Gain setting' */
+  /* SystemInitialize for Enabled SubSystem: '<S221>/ADC Gain setting' */
   mcb__SPIMasterTransfer_Init(&mcb_pmsm_foc_test_f28379d_DW.SPIMasterTransfer);
   mcb__SPIMasterTransfer_Init(&mcb_pmsm_foc_test_f28379d_DW.SPIMasterTransfer1);
 
-  /* End of SystemInitialize for SubSystem: '<S220>/ADC Gain setting' */
+  /* End of SystemInitialize for SubSystem: '<S221>/ADC Gain setting' */
 
-  /* SystemInitialize for Enabled SubSystem: '<S218>/Calculate ADC Offset ' */
-  /* SystemInitialize for Iterator SubSystem: '<S219>/For Iterator Subsystem' */
-  /* Start for S-Function (c2802xadc): '<S222>/ADC_A_IN0' */
+  /* SystemInitialize for Enabled SubSystem: '<S219>/Calculate ADC Offset ' */
+  /* SystemInitialize for Iterator SubSystem: '<S220>/For Iterator Subsystem' */
+  /* Start for S-Function (c2802xadc): '<S223>/ADC_A_IN0' */
   if (MW_adcCInitFlag == 0U) {
     InitAdcC();
     MW_adcCInitFlag = 1U;
@@ -3007,7 +3009,7 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
 
   config_ADCC_SOC2 ();
 
-  /* Start for S-Function (c2802xadc): '<S222>/ADC_B_IN0' */
+  /* Start for S-Function (c2802xadc): '<S223>/ADC_B_IN0' */
   if (MW_adcBInitFlag == 0U) {
     InitAdcB();
     MW_adcBInitFlag = 1U;
@@ -3015,13 +3017,13 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
 
   config_ADCB_SOC2 ();
 
-  /* End of SystemInitialize for SubSystem: '<S219>/For Iterator Subsystem' */
-  /* End of SystemInitialize for SubSystem: '<S218>/Calculate ADC Offset ' */
+  /* End of SystemInitialize for SubSystem: '<S220>/For Iterator Subsystem' */
+  /* End of SystemInitialize for SubSystem: '<S219>/Calculate ADC Offset ' */
   /* End of SystemInitialize for SubSystem: '<Root>/Hardware Init' */
 
   /* Outputs for Atomic SubSystem: '<Root>/Hardware Init' */
-  /* Outputs for Enabled SubSystem: '<S220>/ADC Gain setting' incorporates:
-   *  EnablePort: '<S228>/Enable'
+  /* Outputs for Enabled SubSystem: '<S221>/ADC Gain setting' incorporates:
+   *  EnablePort: '<S229>/Enable'
    */
   /* Constant: '<S4>/6PWM_Mode' */
   mcb_pmsm__SPIMasterTransfer(14870U,
@@ -3033,14 +3035,14 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
     &mcb_pmsm_foc_test_f28379d_B.SPIMasterTransfer1,
     &mcb_pmsm_foc_test_f28379d_DW.SPIMasterTransfer1);
 
-  /* End of Outputs for SubSystem: '<S220>/ADC Gain setting' */
+  /* End of Outputs for SubSystem: '<S221>/ADC Gain setting' */
 
-  /* Switch: '<S220>/Switch' incorporates:
-   *  Constant: '<S220>/Inverter Enable'
+  /* Switch: '<S221>/Switch' incorporates:
+   *  Constant: '<S221>/Inverter Enable'
    */
   mcb_pmsm_foc_test_f28379d_B.Switch_c = 1U;
 
-  /* S-Function (c280xgpio_do): '<S220>/Digital Output' */
+  /* S-Function (c280xgpio_do): '<S221>/Digital Output' */
   {
     if (mcb_pmsm_foc_test_f28379d_B.Switch_c) {
       GpioDataRegs.GPDSET.bit.GPIO124 = 1U;
@@ -3049,8 +3051,8 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
     }
   }
 
-  /* S-Function (c280xgpio_do): '<S220>/Digital Output1' incorporates:
-   *  Constant: '<S220>/RunTimeMeasurement'
+  /* S-Function (c280xgpio_do): '<S221>/Digital Output1' incorporates:
+   *  Constant: '<S221>/RunTimeMeasurement'
    */
   {
     if ((1U)) {
@@ -3060,25 +3062,25 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
     }
   }
 
-  /* Logic: '<S218>/NOT' */
+  /* Logic: '<S219>/NOT' */
   mcb_pmsm_foc_test_f28379d_B.NOT = true;
 
-  /* Outputs for Enabled SubSystem: '<S218>/Default ADC Offset' incorporates:
-   *  EnablePort: '<S221>/Enable'
+  /* Outputs for Enabled SubSystem: '<S219>/Default ADC Offset' incorporates:
+   *  EnablePort: '<S222>/Enable'
    */
   if (mcb_pmsm_foc_test_f28379d_B.NOT) {
-    /* DataStoreWrite: '<S221>/Data Store Write1' incorporates:
-     *  Constant: '<S221>/Constant'
+    /* DataStoreWrite: '<S222>/Data Store Write1' incorporates:
+     *  Constant: '<S222>/Constant'
      */
     mcb_pmsm_foc_test_f28379d_DW.IaOffset = 2278U;
 
-    /* DataStoreWrite: '<S221>/Data Store Write2' incorporates:
-     *  Constant: '<S221>/Constant1'
+    /* DataStoreWrite: '<S222>/Data Store Write2' incorporates:
+     *  Constant: '<S222>/Constant1'
      */
     mcb_pmsm_foc_test_f28379d_DW.IbOffset = 2256U;
   }
 
-  /* End of Outputs for SubSystem: '<S218>/Default ADC Offset' */
+  /* End of Outputs for SubSystem: '<S219>/Default ADC Offset' */
   /* End of Outputs for SubSystem: '<Root>/Hardware Init' */
 }
 
@@ -3086,11 +3088,11 @@ void mcb_pmsm_foc_test_f28379d_initialize(void)
 void mcb_pmsm_foc_test_f28379d_terminate(void)
 {
   /* Terminate for Atomic SubSystem: '<Root>/Hardware Init' */
-  /* Terminate for Enabled SubSystem: '<S220>/ADC Gain setting' */
+  /* Terminate for Enabled SubSystem: '<S221>/ADC Gain setting' */
   mcb__SPIMasterTransfer_Term(&mcb_pmsm_foc_test_f28379d_DW.SPIMasterTransfer);
   mcb__SPIMasterTransfer_Term(&mcb_pmsm_foc_test_f28379d_DW.SPIMasterTransfer1);
 
-  /* End of Terminate for SubSystem: '<S220>/ADC Gain setting' */
+  /* End of Terminate for SubSystem: '<S221>/ADC Gain setting' */
   /* End of Terminate for SubSystem: '<Root>/Hardware Init' */
 }
 
@@ -3105,7 +3107,7 @@ void mcb_pmsm_foc_test_f28379d_configure_interrupts(void)
   HWI_TIC28x_EnableIRQ(96);
 }
 
-/* Hardware Interrupt Block: '<S214>/Hardware Interrupt' */
+/* Hardware Interrupt Block: '<S215>/Hardware Interrupt' */
 interrupt void ADCB1_INT(void)
 {
   volatile unsigned int PIEIER1_stack_save = PieCtrlRegs.PIEIER1.all;
@@ -3137,10 +3139,14 @@ interrupt void ADCB1_INT(void)
       mcb_pmsm_foc_test_f28379d_B.RT4 =
         mcb_pmsm_foc_test_f28379d_DW.RT4_Buffer[mcb_pmsm_foc_test_f28379d_DW.RT4_ActiveBufIdx];
 
-      /* S-Function (HardwareInterrupt_sfun): '<S214>/Hardware Interrupt' */
+      /* RateTransition: '<Root>/RT15' */
+      mcb_pmsm_foc_test_f28379d_B.RT15 =
+        mcb_pmsm_foc_test_f28379d_DW.RT15_Buffer[mcb_pmsm_foc_test_f28379d_DW.RT15_ActiveBufIdx];
+
+      /* S-Function (HardwareInterrupt_sfun): '<S215>/Hardware Interrupt' */
       mcb_pmsm_foc_CurrentControl();
 
-      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S214>/Hardware Interrupt' */
+      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S215>/Hardware Interrupt' */
 
       /* RateTransition: '<Root>/RT1' */
       mcb_pmsm_foc_test_f28379d_DW.RT1_Buffer[mcb_pmsm_foc_test_f28379d_DW.RT1_semaphoreTaken
@@ -3164,17 +3170,17 @@ interrupt void ADCB1_INT(void)
   HWI_TIC28x_AcknowledgeIrq(33);
 }
 
-/* Hardware Interrupt Block: '<S216>/Hardware Interrupt' */
+/* Hardware Interrupt Block: '<S217>/Hardware Interrupt' */
 interrupt void SCIA_RX_INT(void)
 {
   /* Event: Default Event */
   if (1 == runModel) {
     {
-      /* S-Function (HardwareInterrupt_sfun): '<S216>/Hardware Interrupt' */
+      /* S-Function (HardwareInterrupt_sfun): '<S217>/Hardware Interrupt' */
 
       /* Output and update for function-call system: '<Root>/Serial Receive' */
 
-      /* S-Function (c28xsci_rx): '<S237>/SCI Receive' */
+      /* S-Function (c28xsci_rx): '<S238>/SCI Receive' */
       {
         int16_T i;
         int16_T errFlg = NOERROR;
@@ -3198,15 +3204,15 @@ interrupt void SCIA_RX_INT(void)
         }
       }
 
-      /* DataTypeConversion: '<S235>/Data Type Conversion2' */
+      /* DataTypeConversion: '<S236>/Data Type Conversion2' */
       mcb_pmsm_foc_test_f28379d_B.DataTypeConversion2 = (uint16_T)
         mcb_pmsm_foc_test_f28379d_B.SCIReceive[1];
 
-      /* S-Function (sfix_bitop): '<S234>/Bitwise Operator' */
+      /* S-Function (sfix_bitop): '<S235>/Bitwise Operator' */
       mcb_pmsm_foc_test_f28379d_B.BitwiseOperator =
         mcb_pmsm_foc_test_f28379d_B.DataTypeConversion2 & 1U;
 
-      /* DataTypeConversion: '<S234>/Data Type Conversion3' */
+      /* DataTypeConversion: '<S235>/Data Type Conversion3' */
       mcb_pmsm_foc_test_f28379d_B.DataTypeConversion3 =
         (mcb_pmsm_foc_test_f28379d_B.BitwiseOperator != 0U);
 
@@ -3218,12 +3224,12 @@ interrupt void SCIA_RX_INT(void)
       mcb_pmsm_foc_test_f28379d_DW.SpeedRef =
         mcb_pmsm_foc_test_f28379d_B.SCIReceive[0];
 
-      /* S-Function (sfix_bitop): '<S234>/Bitwise Operator1' */
+      /* S-Function (sfix_bitop): '<S235>/Bitwise Operator1' */
       mcb_pmsm_foc_test_f28379d_B.BitwiseOperator1 =
         mcb_pmsm_foc_test_f28379d_B.DataTypeConversion2 & 240U;
 
-      /* ArithShift: '<S234>/Shift Arithmetic1' incorporates:
-       *  S-Function (sfix_bitop): '<S234>/Bitwise Operator1'
+      /* ArithShift: '<S235>/Shift Arithmetic1' incorporates:
+       *  S-Function (sfix_bitop): '<S235>/Bitwise Operator1'
        */
       mcb_pmsm_foc_test_f28379d_B.ShiftArithmetic1 =
         mcb_pmsm_foc_test_f28379d_B.BitwiseOperator1 >> 4U;
@@ -3232,12 +3238,12 @@ interrupt void SCIA_RX_INT(void)
       mcb_pmsm_foc_test_f28379d_DW.Debug_signals =
         mcb_pmsm_foc_test_f28379d_B.ShiftArithmetic1;
 
-      /* S-Function (sfix_bitop): '<S234>/Bitwise Operator2' */
+      /* S-Function (sfix_bitop): '<S235>/Bitwise Operator2' */
       mcb_pmsm_foc_test_f28379d_B.BitwiseOperator2 =
         mcb_pmsm_foc_test_f28379d_B.DataTypeConversion2 & 2U;
 
-      /* ArithShift: '<S234>/Shift Arithmetic2' incorporates:
-       *  S-Function (sfix_bitop): '<S234>/Bitwise Operator2'
+      /* ArithShift: '<S235>/Shift Arithmetic2' incorporates:
+       *  S-Function (sfix_bitop): '<S235>/Bitwise Operator2'
        */
       mcb_pmsm_foc_test_f28379d_B.ShiftArithmetic2 =
         mcb_pmsm_foc_test_f28379d_B.BitwiseOperator2 >> 1U;
@@ -3246,7 +3252,7 @@ interrupt void SCIA_RX_INT(void)
       mcb_pmsm_foc_test_f28379d_DW.Control_Mode =
         mcb_pmsm_foc_test_f28379d_B.ShiftArithmetic2;
 
-      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S216>/Hardware Interrupt' */
+      /* End of Outputs for S-Function (HardwareInterrupt_sfun): '<S217>/Hardware Interrupt' */
 
       /* RateTransition: '<Root>/RT3' */
       mcb_pmsm_foc_test_f28379d_DW.RT3_Buffer[mcb_pmsm_foc_test_f28379d_DW.RT3_ActiveBufIdx

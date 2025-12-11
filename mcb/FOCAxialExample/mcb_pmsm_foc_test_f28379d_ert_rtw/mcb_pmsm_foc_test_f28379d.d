@@ -96,6 +96,7 @@ mcb_pmsm_foc_test_f28379d.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc
 mcb_pmsm_foc_test_f28379d.obj: D:/project/internship/mcb/FOCAxialExample/mcb_pmsm_foc_test_f28379d_ert_rtw/MW_target_hardware_resources.h
 mcb_pmsm_foc_test_f28379d.obj: D:/project/internship/mcb/FOCAxialExample/mcb_pmsm_foc_test_f28379d_ert_rtw/MW_target_hardware_resources.h
 mcb_pmsm_foc_test_f28379d.obj: D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\rt_nonfinite.h
+mcb_pmsm_foc_test_f28379d.obj: D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\rtGetNaN.h
 mcb_pmsm_foc_test_f28379d.obj: D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\MW_target_hardware_resources.h
 mcb_pmsm_foc_test_f28379d.obj: D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\mcb_pmsm_foc_test_f28379d_private.h
 mcb_pmsm_foc_test_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/math.h
@@ -200,6 +201,7 @@ D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_c28xGPIO.h:
 D:/project/internship/mcb/FOCAxialExample/mcb_pmsm_foc_test_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:/project/internship/mcb/FOCAxialExample/mcb_pmsm_foc_test_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\rt_nonfinite.h:
+D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\rtGetNaN.h:
 D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\MW_target_hardware_resources.h:
 D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\mcb_pmsm_foc_test_f28379d_private.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/math.h:

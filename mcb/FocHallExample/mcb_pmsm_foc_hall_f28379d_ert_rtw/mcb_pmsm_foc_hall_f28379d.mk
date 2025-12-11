@@ -2,7 +2,7 @@
 ## Makefile generated for component 'mcb_pmsm_foc_hall_f28379d'. 
 ## 
 ## Makefile     : mcb_pmsm_foc_hall_f28379d.mk
-## Generated on : Thu Nov 20 17:47:03 2025
+## Generated on : Wed Dec 10 21:08:11 2025
 ## Final product: $(RELATIVE_PATH_TO_ANCHOR)/mcb_pmsm_foc_hall_f28379d.out
 ## Product type : executable
 ## 
@@ -199,7 +199,7 @@ BUILD_TYPE = "Top-Level Standalone Executable"
 ## INCLUDE PATHS
 ###########################################################################
 
-INCLUDES_BUILDINFO = -I$(START_DIR) -I$(MATLAB_ROOT)/toolbox/target/shared/svd/common/include -I$(MATLAB_ROOT)/toolbox/c2b/tic2000/inc -I$(START_DIR)/mcb_pmsm_foc_hall_f28379d_ert_rtw -I$(MATLAB_ROOT)/extern/include -I$(MATLAB_ROOT)/simulink/include -I$(MATLAB_ROOT)/rtw/c/src -I$(MATLAB_ROOT)/rtw/c/src/ext_mode/common -I$(MATLAB_ROOT)/rtw/c/ert -I$(MATLAB_ROOT)/toolbox/shared/can/src/scanutil -I$(MATLAB_ROOT)/toolbox/c2b/tic2000/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/inc -IC:/TI/C2000W~2/LIBRAR~1/CALIBR~1/hrpwm/f2837xd/include -IC:/TI/C2000W~2/DRIVER~1/f2837xd/DRIVER~1 -IC:/TI/C2000W~2/DRIVER~1/f2837xd/DRIVER~1/inc -IC:/TI/C2000W~2/DEVICE~1/f2837xd/common/include -IC:/TI/C2000W~2/DEVICE~1/f2837xd/headers/include -IC:/TI/C2000W~2/DEVICE~1/f2837xd/common -IC:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include -IC:/TI/C2000W~2/LIBRAR~1/math/CLAmath/c28/include -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/inc
+INCLUDES_BUILDINFO = -I$(START_DIR) -I$(MATLAB_ROOT)/toolbox/target/shared/svd/common/include -I$(MATLAB_ROOT)/toolbox/c2b/tic2000/inc -I$(START_DIR)/mcb_pmsm_foc_hall_f28379d_ert_rtw -I$(MATLAB_ROOT)/extern/include -I$(MATLAB_ROOT)/simulink/include -I$(MATLAB_ROOT)/rtw/c/src -I$(MATLAB_ROOT)/rtw/c/src/ext_mode/common -I$(MATLAB_ROOT)/rtw/c/ert -I$(MATLAB_ROOT)/toolbox/dsp/include -I$(MATLAB_ROOT)/toolbox/dsp/extern/src/export/include/src -I$(MATLAB_ROOT)/toolbox/dsp/extern/src/export/include -I$(MATLAB_ROOT)/toolbox/shared/dsp/vision/matlab/include -I$(MATLAB_ROOT)/toolbox/shared/can/src/scanutil -I$(MATLAB_ROOT)/toolbox/c2b/tic2000/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/inc -IC:/TI/C2000W~2/LIBRAR~1/CALIBR~1/hrpwm/f2837xd/include -IC:/TI/C2000W~2/DRIVER~1/f2837xd/DRIVER~1 -IC:/TI/C2000W~2/DRIVER~1/f2837xd/DRIVER~1/inc -IC:/TI/C2000W~2/DEVICE~1/f2837xd/common/include -IC:/TI/C2000W~2/DEVICE~1/f2837xd/headers/include -IC:/TI/C2000W~2/DEVICE~1/f2837xd/common -IC:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include -IC:/TI/C2000W~2/LIBRAR~1/math/CLAmath/c28/include -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/inc
 
 INCLUDES = $(INCLUDES_BUILDINFO)
 
@@ -212,7 +212,7 @@ DEFINES_BUILD_ARGS = -DCLASSIC_INTERFACE=0 -DALLOCATIONFCN=0 -DTERMFCN=1 -DONEST
 DEFINES_CUSTOM = 
 DEFINES_OPTS = -DTID01EQ=0
 DEFINES_SKIPFORSIL = -DMW_SCHEDULER_PRIORITY=2 -DXCP_CUSTOM_PLATFORM -DEXTMODE_DISABLE_ARGS_PROCESSING=1 -DMW_PIL_SCIFIFOLEN=16 -DF2837X_REG_FORMAT -DMW_F2837XD -DSTACK_SIZE=512 -DRT -DF28379D -DCPU1 -DBOOT_FROM_FLASH=1 -DCPU_RAMLS_PROG_START=0x8000 -DCPU_RAMLS_PROG_LENGTH=0x1800 -DCLA_RAMLS_PROG_START=0xA800 -DCLA_RAMLS_PROG_LENGTH=0x800 -DCLA_RAMLS_DATA_START=0x9800 -DCLA_RAMLS_DATA_LENGTH=0x1000
-DEFINES_STANDARD = -DMODEL=mcb_pmsm_foc_hall_f28379d -DNUMST=3 -DNCSTATES=0 -DHAVESTDIO -DMODEL_HAS_DYNAMICALLY_LOADED_SFCNS=0
+DEFINES_STANDARD = -DMODEL=mcb_pmsm_foc_hall_f28379d -DNUMST=2 -DNCSTATES=0 -DHAVESTDIO -DMODEL_HAS_DYNAMICALLY_LOADED_SFCNS=0
 
 DEFINES = $(DEFINES_) $(DEFINES_BUILD_ARGS) $(DEFINES_CUSTOM) $(DEFINES_OPTS) $(DEFINES_SKIPFORSIL) $(DEFINES_STANDARD)
 

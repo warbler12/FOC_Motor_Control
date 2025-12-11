@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_I2C_f28379d'.
  *
- * Model version                  : 7.9
+ * Model version                  : 7.11
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Thu Nov 27 18:33:18 2025
+ * C/C++ source code generated on : Tue Dec  9 22:41:52 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -22,10 +22,6 @@
 #include "rtwtypes.h"
 #include "mcb_pmsm_foc_I2C_f28379d.h"
 #include "mcb_pmsm_foc_I2C_f28379d_types.h"
-#include "can_message.h"
-#include "MW_f2837xD_includes.h"
-#include "can_message.h"
-#include "MW_f2837xD_includes.h"
 #ifndef UCHAR_MAX
 #include <limits.h>
 #endif
@@ -81,7 +77,6 @@ void InitAdcB (void);
 void config_ADCB_SOC0 (void);
 void config_ADCC_SOC2 (void);
 void config_ADCB_SOC2 (void);
-extern CAN_DATATYPE CAN_DATATYPE_GROUND;
 extern uint16_T MW_adcCInitFlag;
 extern uint16_T MW_adcBInitFlag;
 extern void mcb_pmsm_foc_I2C_f_Delay1ms(void);
@@ -89,18 +84,12 @@ extern void mcb_pmsm__IfActionSubsystem(real32_T rtu_In1, real32_T *rty_Out1,
   B_IfActionSubsystem_mcb_pmsm__T *localB);
 extern void mcb_pmsm_IfActionSubsystem1(real32_T rtu_In1, real32_T *rty_Out1,
   B_IfActionSubsystem1_mcb_pmsm_T *localB);
-extern void mcb_pmsm_foc_I2C__Subsystem(real32_T rtu_In1, real32_T *rty_Out1);
-extern void mcb_pmsm_foc_I2C_Subsystem1(real32_T rtu_In1, real32_T *rty_Out1);
 extern void mcb__SPIMasterTransfer_Init(DW_SPIMasterTransfer_mcb_pmsm_T *localDW);
 extern void mcb_pmsm__SPIMasterTransfer(uint16_T rtu_0,
   B_SPIMasterTransfer_mcb_pmsm__T *localB, DW_SPIMasterTransfer_mcb_pmsm_T
   *localDW);
-extern void mcb_pmsm__SpeedControl_Init(B_SpeedControl_mcb_pmsm_foc_I_T *localB,
-  DW_SpeedControl_mcb_pmsm_foc__T *localDW);
-extern void mcb_pmsm_foc_I_SpeedControl(real32_T rtu_Speed_Ref_PU, real32_T
-  rtu_Speed_Meas_PU, real32_T rtu_Theta_Ref_m, real32_T rtu_Theta_Meas_m, const
-  boolean_T *rtd_Enable, B_SpeedControl_mcb_pmsm_foc_I_T *localB,
-  DW_SpeedControl_mcb_pmsm_foc__T *localDW);
+extern void mcb_pmsm_foc_I_SpeedControl(const boolean_T *rtd_Enable,
+  B_SpeedControl_mcb_pmsm_foc_I_T *localB);
 extern void mcb_pms_CurrentControl_Init(void);
 extern void mcb_pm_CurrentControl_Reset(void);
 

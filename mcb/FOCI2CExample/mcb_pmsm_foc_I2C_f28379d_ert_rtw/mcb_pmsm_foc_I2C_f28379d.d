@@ -1,22 +1,17 @@
 mcb_pmsm_foc_I2C_f28379d.obj: D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/mcb_pmsm_foc_I2C_f28379d.c
 mcb_pmsm_foc_I2C_f28379d.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\mcb_pmsm_foc_I2C_f28379d.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/math.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_defs.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/_types.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/cdefs.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_types.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_limits.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h
-mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rtwtypes.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000BoardSupport.h
 mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdbool.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h
 mcb_pmsm_foc_I2C_f28379d.obj: C:/TI/C2000W~2/DEVICE~1/f2837xd/headers/include/F2837xD_device.h
 mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/assert.h
 mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdarg.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/_types.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/cdefs.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_types.h
 mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stddef.h
 mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdint.h
 mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_stdint40.h
@@ -84,7 +79,8 @@ mcb_pmsm_foc_I2C_f28379d.obj: D:/Software/MATLAB/toolbox/c2b/tic2000/inc/c2837xD
 mcb_pmsm_foc_I2C_f28379d.obj: D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000SchedulerTimer.h
-mcb_pmsm_foc_I2C_f28379d.obj: D:/Software/MATLAB/toolbox/shared/can/src/scanutil/can_message.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\DSP28xx_SciUtil.h
 mcb_pmsm_foc_I2C_f28379d.obj: C:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include/IQmathLib.h
 mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/limits.h
@@ -100,29 +96,26 @@ mcb_pmsm_foc_I2C_f28379d.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/
 mcb_pmsm_foc_I2C_f28379d.obj: D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rt_nonfinite.h
-mcb_pmsm_foc_I2C_f28379d.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rtGetNaN.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\MW_target_hardware_resources.h
 mcb_pmsm_foc_I2C_f28379d.obj: D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\mcb_pmsm_foc_I2C_f28379d_private.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/math.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_defs.h
+mcb_pmsm_foc_I2C_f28379d.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_limits.h
 
 D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/mcb_pmsm_foc_I2C_f28379d.c:
 D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\mcb_pmsm_foc_I2C_f28379d.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/math.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_defs.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/_types.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/cdefs.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_types.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_limits.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h:
-C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h:
 D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rtwtypes.h:
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000BoardSupport.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdbool.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h:
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h:
 C:/TI/C2000W~2/DEVICE~1/f2837xd/headers/include/F2837xD_device.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/assert.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdarg.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/_types.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/sys/cdefs.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_types.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stddef.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stdint.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_stdint40.h:
@@ -190,7 +183,8 @@ D:/Software/MATLAB/toolbox/c2b/tic2000/inc/c2837xDInit.h:
 D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_f2837xD_includes.h:
 D:/Software/MATLAB/toolbox/c2b/tic2000_shared/src/c2000SchedulerTimer.h:
-D:/Software/MATLAB/toolbox/shared/can/src/scanutil/can_message.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/string.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/xlocale/_string.h:
 D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\DSP28xx_SciUtil.h:
 C:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include/IQmathLib.h:
 C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/limits.h:
@@ -206,7 +200,9 @@ D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_c28xGPIO.h:
 D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:/project/internship/mcb/FOCI2CExample/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rt_nonfinite.h:
-D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\rtGetNaN.h:
 D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\MW_target_hardware_resources.h:
 D:\project\internship\mcb\FOCI2CExample\mcb_pmsm_foc_I2C_f28379d_ert_rtw\mcb_pmsm_foc_I2C_f28379d_private.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/math.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_defs.h:
+C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/machine/_limits.h:
 

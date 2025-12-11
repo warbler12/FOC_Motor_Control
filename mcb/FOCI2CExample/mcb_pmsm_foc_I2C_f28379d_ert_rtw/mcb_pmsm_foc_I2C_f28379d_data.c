@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_I2C_f28379d'.
  *
- * Model version                  : 7.9
+ * Model version                  : 7.11
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Thu Nov 27 18:33:18 2025
+ * C/C++ source code generated on : Tue Dec  9 22:41:52 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -21,19 +21,15 @@
 
 /* Invariant block signals (default storage) */
 const ConstB_mcb_pmsm_foc_I2C_f2837_T mcb_pmsm_foc_I2C_f28379d_ConstB = {
-  2U,                                  /* '<S208>/Width' */
-  1U,                                  /* '<S20>/Data Type Conversion' */
-  0U,                                  /* '<S20>/Data Type Conversion5' */
-  0U,                                  /* '<S20>/Data Type Conversion6' */
-  1                                    /* '<S19>/Cast To Boolean' */
+  2U                                   /* '<S201>/Width' */
 };
 
 /* Constant parameters (default storage) */
 const ConstP_mcb_pmsm_foc_I2C_f2837_T mcb_pmsm_foc_I2C_f28379d_ConstP = {
   /* Pooled Parameter (Expression: )
    * Referenced by:
-   *   '<S156>/sine_table_values'
-   *   '<S166>/sine_table_values'
+   *   '<S149>/sine_table_values'
+   *   '<S159>/sine_table_values'
    */
   { 0.0F, 0.00785390101F, 0.0157073177F, 0.023559764F, 0.0314107575F,
     0.0392598175F, 0.0471064523F, 0.0549501814F, 0.0627905205F, 0.070626989F,

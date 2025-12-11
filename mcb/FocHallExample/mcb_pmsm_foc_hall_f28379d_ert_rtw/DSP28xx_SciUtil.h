@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_hall_f28379d'.
  *
- * Model version                  : 29
+ * Model version                  : 17
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Thu Nov 20 17:46:49 2025
+ * C/C++ source code generated on : Thu Dec 11 18:11:22 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -33,9 +33,14 @@
 #define DATANOTAVAILABLE               7                         /* Data not available */
 #define PARTIALDATA                    8                         /* Partial Data available */
 
+extern uint16_T checkSCITransmitInProgressA;
+extern uint32_T frameA1Count;
+extern uint16_T frameA1Transmitted;
+int16_T scia_xmit(unsigned char* pmsg, int16_T msglen, int16_T typeLen);
 int16_T scia_rcv(uint16_T *rcvBuff, int16_T buffLen, int16_T typeLen);
 int16_T scia_rcv_varsize(uint16_T *rcvBuff, int16_T buffLen, int16_T typeLen,
   unsigned char *expTail, int16_T tailsize, int16_T *rcvBufferLen);
+void init_SCIFrame(void);
 
 #endif                                 /* RTW_HEADER_DSP28xx_SciUtil_h_ */
 

@@ -96,6 +96,7 @@ ert_main.obj: D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_c28xGPIO.h
 ert_main.obj: D:/project/internship/mcb/FOCAxialExample/mcb_pmsm_foc_test_f28379d_ert_rtw/MW_target_hardware_resources.h
 ert_main.obj: D:/project/internship/mcb/FOCAxialExample/mcb_pmsm_foc_test_f28379d_ert_rtw/MW_target_hardware_resources.h
 ert_main.obj: D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\rt_nonfinite.h
+ert_main.obj: D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\rtGetNaN.h
 ert_main.obj: D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\MW_target_hardware_resources.h
 ert_main.obj: D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\MW_target_hardware_resources.h
 
@@ -197,6 +198,7 @@ D:/Software/MATLAB/toolbox/c2b/tic2000_shared/inc/MW_c28xGPIO.h:
 D:/project/internship/mcb/FOCAxialExample/mcb_pmsm_foc_test_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:/project/internship/mcb/FOCAxialExample/mcb_pmsm_foc_test_f28379d_ert_rtw/MW_target_hardware_resources.h:
 D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\rt_nonfinite.h:
+D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\rtGetNaN.h:
 D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\MW_target_hardware_resources.h:
 D:\project\internship\mcb\FOCAxialExample\mcb_pmsm_foc_test_f28379d_ert_rtw\MW_target_hardware_resources.h:
 

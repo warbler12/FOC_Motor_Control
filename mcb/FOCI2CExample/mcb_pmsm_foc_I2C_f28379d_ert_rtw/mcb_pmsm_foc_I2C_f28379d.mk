@@ -2,7 +2,7 @@
 ## Makefile generated for component 'mcb_pmsm_foc_I2C_f28379d'. 
 ## 
 ## Makefile     : mcb_pmsm_foc_I2C_f28379d.mk
-## Generated on : Thu Nov 27 15:10:16 2025
+## Generated on : Tue Dec 09 21:31:21 2025
 ## Final product: $(RELATIVE_PATH_TO_ANCHOR)/mcb_pmsm_foc_I2C_f28379d.out
 ## Product type : executable
 ## 
@@ -199,7 +199,7 @@ BUILD_TYPE = "Top-Level Standalone Executable"
 ## INCLUDE PATHS
 ###########################################################################
 
-INCLUDES_BUILDINFO = -I$(START_DIR) -I$(MATLAB_ROOT)/toolbox/target/shared/svd/common/include -I$(MATLAB_ROOT)/toolbox/c2b/tic2000/inc -I$(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw -I$(MATLAB_ROOT)/extern/include -I$(MATLAB_ROOT)/simulink/include -I$(MATLAB_ROOT)/rtw/c/src -I$(MATLAB_ROOT)/rtw/c/src/ext_mode/common -I$(MATLAB_ROOT)/rtw/c/ert -I$(MATLAB_ROOT)/toolbox/shared/can/src/scanutil -I$(MATLAB_ROOT)/toolbox/dsp/include -I$(MATLAB_ROOT)/toolbox/dsp/extern/src/export/include/src -I$(MATLAB_ROOT)/toolbox/dsp/extern/src/export/include -I$(MATLAB_ROOT)/toolbox/shared/dsp/vision/matlab/include -I$(MATLAB_ROOT)/toolbox/c2b/tic2000/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/inc -IC:/TI/C2000W~2/LIBRAR~1/CALIBR~1/hrpwm/f2837xd/include -IC:/TI/C2000W~2/DRIVER~1/f2837xd/DRIVER~1 -IC:/TI/C2000W~2/DRIVER~1/f2837xd/DRIVER~1/inc -IC:/TI/C2000W~2/DEVICE~1/f2837xd/common/include -IC:/TI/C2000W~2/DEVICE~1/f2837xd/headers/include -IC:/TI/C2000W~2/DEVICE~1/f2837xd/common -IC:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include -IC:/TI/C2000W~2/LIBRAR~1/math/CLAmath/c28/include -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/inc
+INCLUDES_BUILDINFO = -I$(START_DIR) -I$(MATLAB_ROOT)/toolbox/target/shared/svd/common/include -I$(MATLAB_ROOT)/toolbox/c2b/tic2000/inc -I$(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw -I$(MATLAB_ROOT)/extern/include -I$(MATLAB_ROOT)/simulink/include -I$(MATLAB_ROOT)/rtw/c/src -I$(MATLAB_ROOT)/rtw/c/src/ext_mode/common -I$(MATLAB_ROOT)/rtw/c/ert -I$(MATLAB_ROOT)/toolbox/dsp/include -I$(MATLAB_ROOT)/toolbox/dsp/extern/src/export/include/src -I$(MATLAB_ROOT)/toolbox/dsp/extern/src/export/include -I$(MATLAB_ROOT)/toolbox/shared/dsp/vision/matlab/include -I$(MATLAB_ROOT)/toolbox/shared/can/src/scanutil -I$(MATLAB_ROOT)/toolbox/c2b/tic2000/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/inc -IC:/TI/C2000W~2/LIBRAR~1/CALIBR~1/hrpwm/f2837xd/include -IC:/TI/C2000W~2/DRIVER~1/f2837xd/DRIVER~1 -IC:/TI/C2000W~2/DRIVER~1/f2837xd/DRIVER~1/inc -IC:/TI/C2000W~2/DEVICE~1/f2837xd/common/include -IC:/TI/C2000W~2/DEVICE~1/f2837xd/headers/include -IC:/TI/C2000W~2/DEVICE~1/f2837xd/common -IC:/TI/C2000W~2/LIBRAR~1/math/IQmath/c28/include -IC:/TI/C2000W~2/LIBRAR~1/math/CLAmath/c28/include -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/src -I$(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/inc
 
 INCLUDES = $(INCLUDES_BUILDINFO)
 
@@ -212,7 +212,7 @@ DEFINES_BUILD_ARGS = -DCLASSIC_INTERFACE=0 -DALLOCATIONFCN=0 -DTERMFCN=1 -DONEST
 DEFINES_CUSTOM = 
 DEFINES_OPTS = -DTID01EQ=0
 DEFINES_SKIPFORSIL = -DMW_SCHEDULER_PRIORITY=1 -DXCP_CUSTOM_PLATFORM -DEXTMODE_DISABLE_ARGS_PROCESSING=1 -DMW_PIL_SCIFIFOLEN=16 -DF2837X_REG_FORMAT -DMW_F2837XD -DSTACK_SIZE=1024 -DRT -DF28379D -DCPU1 -DBOOT_FROM_FLASH=1 -DCPU_RAMLS_PROG_START=0x8000 -DCPU_RAMLS_PROG_LENGTH=0x1800 -DCLA_RAMLS_PROG_START=0xA800 -DCLA_RAMLS_PROG_LENGTH=0x800 -DCLA_RAMLS_DATA_START=0x9800 -DCLA_RAMLS_DATA_LENGTH=0x1000
-DEFINES_STANDARD = -DMODEL=mcb_pmsm_foc_I2C_f28379d -DNUMST=6 -DNCSTATES=0 -DHAVESTDIO -DMODEL_HAS_DYNAMICALLY_LOADED_SFCNS=0
+DEFINES_STANDARD = -DMODEL=mcb_pmsm_foc_I2C_f28379d -DNUMST=4 -DNCSTATES=0 -DHAVESTDIO -DMODEL_HAS_DYNAMICALLY_LOADED_SFCNS=0
 
 DEFINES = $(DEFINES_) $(DEFINES_BUILD_ARGS) $(DEFINES_CUSTOM) $(DEFINES_OPTS) $(DEFINES_SKIPFORSIL) $(DEFINES_STANDARD)
 
@@ -220,7 +220,7 @@ DEFINES = $(DEFINES_) $(DEFINES_BUILD_ARGS) $(DEFINES_CUSTOM) $(DEFINES_OPTS) $(
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/MW_SPI.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/MW_c28xSPI.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/MW_c2000GPIO.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/MW_c2000ISR.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_csl.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_board.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/DSP28xx_SciUtil.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_adc.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_can.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_i2c.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_pwm.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/can_datatype_ground.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/mcb_pmsm_foc_I2C_f28379d.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/mcb_pmsm_foc_I2C_f28379d_data.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/rtGetInf.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/rtGetNaN.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/rt_nonfinite.c C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/sysctl.c $(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src/c2837xDBoard_Realtime_Support.c $(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src/MW_c28xGlobalInterrupts.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/c2837xDInit.c C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/dma.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_CpuTimers.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_DefaultISR.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/headers/source/F2837xD_GlobalVariableDefs.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_PieCtrl.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_PieVect.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_SysCtrl.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_usDelay.asm C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_CodeStartBranch.asm C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_Dma.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_Adc.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_Gpio.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_Ipc_Driver_Lite.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/c2000HardwareTimerConfig.c $(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src/MW_c28xGPIO.c C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/clb.c C:/TI/C2000Ware_3_04_00_00/libraries/dsp/FPU/c28/source/fpu32/utility/memcpy_fast.asm $(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src/c2837xDSchedulerTimer0.c $(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/src/mw_soc_c2000_ipc.c C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/can.c C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/interrupt.c
+SRCS = $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/MW_SPI.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/MW_c28xSPI.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/MW_c2000GPIO.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/MW_c2000ISR.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_csl.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_board.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/DSP28xx_SciUtil.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_adc.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_i2c.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_pwm.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/mcb_pmsm_foc_I2C_f28379d.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/mcb_pmsm_foc_I2C_f28379d_data.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/rtGetInf.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/rtGetNaN.c $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/rt_nonfinite.c C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/sysctl.c $(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src/c2837xDBoard_Realtime_Support.c $(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src/MW_c28xGlobalInterrupts.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/c2837xDInit.c C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/dma.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_CpuTimers.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_DefaultISR.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/headers/source/F2837xD_GlobalVariableDefs.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_PieCtrl.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_PieVect.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_SysCtrl.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_usDelay.asm C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_CodeStartBranch.asm C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_Dma.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_Adc.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_Gpio.c C:/TI/C2000Ware_3_04_00_00/device_support/f2837xd/common/source/F2837xD_Ipc_Driver_Lite.c $(MATLAB_ROOT)/toolbox/c2b/tic2000/src/c2000HardwareTimerConfig.c $(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src/MW_c28xGPIO.c C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/clb.c C:/TI/C2000Ware_3_04_00_00/libraries/dsp/FPU/c28/source/fpu32/utility/memcpy_fast.asm $(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src/c2837xDSchedulerTimer0.c $(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/src/mw_soc_c2000_ipc.c
 
 MAIN_SRC = $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/ert_main.c
 
@@ -230,7 +230,7 @@ ALL_SRCS = $(SRCS) $(MAIN_SRC)
 ## OBJECTS
 ###########################################################################
 
-OBJS = MW_SPI.obj MW_c28xSPI.obj MW_c2000GPIO.obj MW_c2000ISR.obj MW_c28xx_csl.obj MW_c28xx_board.obj DSP28xx_SciUtil.obj MW_c28xx_adc.obj MW_c28xx_can.obj MW_c28xx_i2c.obj MW_c28xx_pwm.obj can_datatype_ground.obj mcb_pmsm_foc_I2C_f28379d.obj mcb_pmsm_foc_I2C_f28379d_data.obj rtGetInf.obj rtGetNaN.obj rt_nonfinite.obj sysctl.obj c2837xDBoard_Realtime_Support.obj MW_c28xGlobalInterrupts.obj c2837xDInit.obj dma.obj F2837xD_CpuTimers.obj F2837xD_DefaultISR.obj F2837xD_GlobalVariableDefs.obj F2837xD_PieCtrl.obj F2837xD_PieVect.obj F2837xD_SysCtrl.obj F2837xD_usDelay.obj F2837xD_CodeStartBranch.obj F2837xD_Dma.obj F2837xD_Adc.obj F2837xD_Gpio.obj F2837xD_Ipc_Driver_Lite.obj c2000HardwareTimerConfig.obj MW_c28xGPIO.obj clb.obj memcpy_fast.obj c2837xDSchedulerTimer0.obj mw_soc_c2000_ipc.obj can.obj interrupt.obj
+OBJS = MW_SPI.obj MW_c28xSPI.obj MW_c2000GPIO.obj MW_c2000ISR.obj MW_c28xx_csl.obj MW_c28xx_board.obj DSP28xx_SciUtil.obj MW_c28xx_adc.obj MW_c28xx_i2c.obj MW_c28xx_pwm.obj mcb_pmsm_foc_I2C_f28379d.obj mcb_pmsm_foc_I2C_f28379d_data.obj rtGetInf.obj rtGetNaN.obj rt_nonfinite.obj sysctl.obj c2837xDBoard_Realtime_Support.obj MW_c28xGlobalInterrupts.obj c2837xDInit.obj dma.obj F2837xD_CpuTimers.obj F2837xD_DefaultISR.obj F2837xD_GlobalVariableDefs.obj F2837xD_PieCtrl.obj F2837xD_PieVect.obj F2837xD_SysCtrl.obj F2837xD_usDelay.obj F2837xD_CodeStartBranch.obj F2837xD_Dma.obj F2837xD_Adc.obj F2837xD_Gpio.obj F2837xD_Ipc_Driver_Lite.obj c2000HardwareTimerConfig.obj MW_c28xGPIO.obj clb.obj memcpy_fast.obj c2837xDSchedulerTimer0.obj mw_soc_c2000_ipc.obj
 
 MAIN_OBJ = ert_main.obj
 
@@ -573,19 +573,11 @@ MW_c28xx_adc.obj : $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_adc.c
 	$(CC) $(CFLAGS) --output_file="$@" "$<"
 
 
-MW_c28xx_can.obj : $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_can.c
-	$(CC) $(CFLAGS) --output_file="$@" "$<"
-
-
 MW_c28xx_i2c.obj : $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_i2c.c
 	$(CC) $(CFLAGS) --output_file="$@" "$<"
 
 
 MW_c28xx_pwm.obj : $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/MW_c28xx_pwm.c
-	$(CC) $(CFLAGS) --output_file="$@" "$<"
-
-
-can_datatype_ground.obj : $(START_DIR)/mcb_pmsm_foc_I2C_f28379d_ert_rtw/can_datatype_ground.c
 	$(CC) $(CFLAGS) --output_file="$@" "$<"
 
 
@@ -702,14 +694,6 @@ c2837xDSchedulerTimer0.obj : $(MATLAB_ROOT)/toolbox/c2b/tic2000_shared/src/c2837
 
 
 mw_soc_c2000_ipc.obj : $(MATLAB_ROOT)/toolbox/c2b/tic2000_soc/src/mw_soc_c2000_ipc.c
-	$(CC) $(CFLAGS) --output_file="$@" "$<"
-
-
-can.obj : C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/can.c
-	$(CC) $(CFLAGS) --output_file="$@" "$<"
-
-
-interrupt.obj : C:/TI/C2000Ware_3_04_00_00/driverlib/f2837xd/driverlib/interrupt.c
 	$(CC) $(CFLAGS) --output_file="$@" "$<"
 
 

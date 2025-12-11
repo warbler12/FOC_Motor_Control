@@ -5,7 +5,7 @@
 % Copyright 2020-2022 The MathWorks, Inc.
 
 %% Set PWM Switching frequency
-PWM_frequency 	= 200e3;             %Hz     // converter s/w freq
+PWM_frequency 	= 20e3;             %Hz     // converter s/w freq
 T_pwm           = 1/PWM_frequency;  %s      // PWM switching time period
 
 %% Set Sample Times
@@ -21,7 +21,7 @@ dataType = 'single';                % Floating point code-generation
 
 %% System Parameters
 % Motor parameters
-pmsm = mcb_SetPMSMMotorParameters("SF2804");
+pmsm = mcb_SetPMSMMotorParameters('custom');
 pmsm.Rs = 1.02;          % 定子电阻 (Ohm)
 pmsm.Ld = 0.00059;       % D轴电感 (H) 
 pmsm.Lq = 0.00059;       % Q轴电感 (H) - 假设Ld = Lq
@@ -30,11 +30,7 @@ pmsm.p = 12;             % 极对数
 pmsm.I_rated = 4.0;      % 额定电流 (A) - 峰值
 pmsm.N_rated = 2000;     % 额定转速 (RPM)
 pmsm.Vdc = 24.0;         % 直流母线电压 (V)
-
-% 可选参数
-pmsm.J = 1e-4;           % 转动惯量 (kg·m²) - 估计值，需要调整
-pmsm.B = 1e-5;           % 摩擦系数 - 估计值
-pmsm.PositionOffset = 0.0534; %PositionOffset;         % Per-Unit position offset
+pmsm.PositionOffset = 0.0523;         % Per-Unit position offset
 
 %% Target & Inverter Parameters
 target = mcb_SetProcessorDetails('F28379D',PWM_frequency);
@@ -85,12 +81,6 @@ PI_params.delay_Speed       = int32(Ts_speed/Ts_simulink);
 PI_params.delay_Speed1       = (PI_params.delay_IIR + 0.5*Ts)/Ts_speed;
 
 % mcb_getControlAnalysis(pmsm,inverter,PU_System,PI_params,Ts,Ts_speed); 
-
-%% CAN通讯报文相关参数
-CANConfig = struct();
-CANConfig.MST_ID = 0x100;
-CANConfig.TxMsgID = 0x100;
-CANConfig.TxMailBox_PMSM = 1;
 
 %% Displaying model variables
 disp(pmsm);

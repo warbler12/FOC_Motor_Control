@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_test_f28379d'.
  *
- * Model version                  : 7.11
+ * Model version                  : 7.13
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Wed Dec  3 16:05:33 2025
+ * C/C++ source code generated on : Tue Dec  9 23:18:23 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -84,15 +84,12 @@ extern void mcb_pmsm__IfActionSubsystem(real32_T rtu_In1, real32_T *rty_Out1,
   B_IfActionSubsystem_mcb_pmsm__T *localB);
 extern void mcb_pmsm_IfActionSubsystem1(real32_T rtu_In1, real32_T *rty_Out1,
   B_IfActionSubsystem1_mcb_pmsm_T *localB);
-extern void mcb_pmsm_foc_test_Subsystem(real32_T rtu_In1, real32_T *rty_Out1);
-extern void mcb_pmsm_foc_tes_Subsystem1(real32_T rtu_In1, real32_T *rty_Out1);
 extern void mcb__SPIMasterTransfer_Init(DW_SPIMasterTransfer_mcb_pmsm_T *localDW);
 extern void mcb_pmsm__SPIMasterTransfer(uint16_T rtu_0,
   B_SPIMasterTransfer_mcb_pmsm__T *localB, DW_SPIMasterTransfer_mcb_pmsm_T
   *localDW);
-extern void mcb_pmsm_foc_t_SpeedControl(real32_T rtu_Theta_Ref_m, real32_T
-  rtu_Theta_Meas_m, const boolean_T *rtd_Enable, B_SpeedControl_mcb_pmsm_foc_t_T
-  *localB);
+extern void mcb_pmsm_foc_t_SpeedControl(const boolean_T *rtd_Enable,
+  B_SpeedControl_mcb_pmsm_foc_t_T *localB);
 extern void mcb_pms_CurrentControl_Init(void);
 extern void mcb_pm_CurrentControl_Reset(void);
 

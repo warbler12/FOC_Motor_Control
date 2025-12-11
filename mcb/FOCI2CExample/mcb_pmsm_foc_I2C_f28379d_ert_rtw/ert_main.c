@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_I2C_f28379d'.
  *
- * Model version                  : 7.9
+ * Model version                  : 7.11
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Thu Nov 27 18:33:18 2025
+ * C/C++ source code generated on : Tue Dec  9 22:41:52 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -22,13 +22,13 @@
 #include "MW_target_hardware_resources.h"
 
 volatile int IsrOverrun = 0;
-boolean_T isRateRunning[6] = { 0, 0, 0, 0, 0, 0 };
+boolean_T isRateRunning[4] = { 0, 0, 0, 0 };
 
-boolean_T need2runFlags[6] = { 0, 0, 0, 0, 0, 0 };
+boolean_T need2runFlags[4] = { 0, 0, 0, 0 };
 
 void rt_OneStep(void)
 {
-  boolean_T eventFlags[6];
+  boolean_T eventFlags[4];
   int_T i;
 
   /* Check base rate for overrun */
@@ -50,7 +50,7 @@ void rt_OneStep(void)
   /* Get model outputs here */
   disableTimer0Interrupt();
   isRateRunning[0]--;
-  for (i = 1; i < 6; i++) {
+  for (i = 1; i < 4; i++) {
     if (eventFlags[i]) {
       if (need2runFlags[i]++) {
         IsrOverrun = 1;
@@ -60,7 +60,7 @@ void rt_OneStep(void)
     }
   }
 
-  for (i = 1; i < 6; i++) {
+  for (i = 1; i < 4; i++) {
     if (isRateRunning[i]) {
       /* Yield to higher priority*/
       return;
@@ -87,18 +87,6 @@ void rt_OneStep(void)
 
        case 3 :
         mcb_pmsm_foc_I2C_f28379d_step3();
-
-        /* Get model outputs here */
-        break;
-
-       case 4 :
-        mcb_pmsm_foc_I2C_f28379d_step4();
-
-        /* Get model outputs here */
-        break;
-
-       case 5 :
-        mcb_pmsm_foc_I2C_f28379d_step5();
 
         /* Get model outputs here */
         break;
