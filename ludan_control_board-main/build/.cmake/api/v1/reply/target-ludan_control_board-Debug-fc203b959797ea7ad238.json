@@ -1,0 +1,1035 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "Debug/ludan_control_board.exe"
+		},
+		{
+			"path" : "Debug/ludan_control_board.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"add_link_options",
+			"target_link_libraries",
+			"add_compile_options",
+			"add_compile_definitions",
+			"target_include_directories",
+			"target_sources"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"cmake/stm32cubemx/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 56,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 29,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 146,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 31,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 85,
+				"parent" : 0
+			},
+			{
+				"command" : 6,
+				"file" : 1,
+				"line" : 140,
+				"parent" : 3
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 67,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -std:c11 -MDd"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-mcpu=cortex-m7"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-mthumb"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-mfpu=fpv5-d16"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-mfloat-abi=hard"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-ffunction-sections"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-fdata-sections"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-fno-builtin"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-g3"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "DEBUG"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "HSE_VALUE=25000000U"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "LSE_VALUE=32768U"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "STM32H723xx"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "USE_HAL_DRIVER"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "USE_PWR_LDO_SUPPLY"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/App"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Bsp"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Controller"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Devices/BMI088"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Devices/DM_Motor"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Lib"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/Drivers/CMSIS/DSP/Include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Core/Inc"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../USB_DEVICE/App"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../USB_DEVICE/Target"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Drivers/STM32H7xx_HAL_Driver/Inc"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/ST/STM32_USB_Device_Library/Core/Inc"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32H7xx/Include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Drivers/CMSIS/Include"
+				}
+			],
+			"language" : "C",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "11"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"backtrace" : 5,
+					"fragment" : "-mcpu=cortex-m7"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-mthumb"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-mfpu=fpv5-d16"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-mfloat-abi=hard"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-ffunction-sections"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-fdata-sections"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-fno-builtin"
+				},
+				{
+					"backtrace" : 5,
+					"fragment" : "-g3"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "DEBUG"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "HSE_VALUE=25000000U"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "LSE_VALUE=32768U"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "STM32H723xx"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "USE_HAL_DRIVER"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "USE_PWR_LDO_SUPPLY"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/App"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Bsp"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Controller"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Devices/BMI088"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Devices/DM_Motor"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/User/Lib"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/Drivers/CMSIS/DSP/Include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Core/Inc"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../USB_DEVICE/App"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../USB_DEVICE/Target"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Drivers/STM32H7xx_HAL_Driver/Inc"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/ST/STM32_USB_Device_Library/Core/Inc"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Drivers/CMSIS/Device/ST/STM32H7xx/Include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "D:/project/internship/ludan_control_board-main/ludan_control_board-main/cmake/stm32cubemx/../../Drivers/CMSIS/Include"
+				}
+			],
+			"language" : "ASM",
+			"sourceIndexes" : 
+			[
+				18
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "USB_Device_Library::@768a070a0fe75716b479"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "FreeRTOS::@768a070a0fe75716b479"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "STM32_Drivers::@768a070a0fe75716b479"
+		},
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "ludan_control_board::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /Zi /Ob0 /Od /RTC1 -MDd",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /debug /INCREMENTAL",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/subsystem:console",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-mcpu=cortex-m7",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-mthumb",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-mfpu=fpv5-d16",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-mfloat-abi=hard",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--gc-sections",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "C"
+	},
+	"name" : "ludan_control_board",
+	"nameOnDisk" : "ludan_control_board.exe",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				18
+			]
+		},
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				37,
+				38,
+				39,
+				40,
+				41,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				58,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64,
+				65,
+				66,
+				67,
+				68,
+				69,
+				70,
+				71,
+				72
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "USB_DEVICE/Target/usbd_conf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "USB_DEVICE/App/usb_device.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "USB_DEVICE/App/usbd_desc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "USB_DEVICE/App/usbd_cdc_if.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/main.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/gpio.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/freertos.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/adc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/dma.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/fdcan.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/spi.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/tim.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/usart.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/stm32h7xx_it.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/stm32h7xx_hal_msp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/stm32h7xx_hal_timebase_tim.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/sysmem.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 0,
+			"path" : "Core/Src/syscalls.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 8,
+			"compileGroupIndex" : 1,
+			"path" : "startup_stm32h723xx.s",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/App/fdcan_bus.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/App/fdcan1_task.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/App/fdcan2_task.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/App/motor_cmd.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/App/observe_task.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/App/vbus_check.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/Devices/DM_Motor/motor_config.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/Bsp/bsp_dwt.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/Bsp/bsp_PWM.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/Bsp/bsp_usart1.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 9,
+			"compileGroupIndex" : 0,
+			"path" : "User/Bsp/can_bsp.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/system_stm32h7xx.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_tim.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_tim_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_pcd.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_pcd_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_ll_usb.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_rcc.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_rcc_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_flash.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_flash_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_gpio.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_hsem.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_dma.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_dma_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_mdma.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_pwr.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_pwr_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_cortex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_i2c.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_i2c_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_exti.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_adc.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_adc_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_fdcan.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_spi.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_spi_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_uart.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/STM32_Drivers.dir/$(Configuration)/stm32h7xx_hal_uart_ex.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/USB_Device_Library.dir/$(Configuration)/usbd_core.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/USB_Device_Library.dir/$(Configuration)/usbd_ctlreq.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/USB_Device_Library.dir/$(Configuration)/usbd_ioreq.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/USB_Device_Library.dir/$(Configuration)/usbd_cdc.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/croutine.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/event_groups.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/list.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/queue.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/stream_buffer.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/tasks.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/timers.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/cmsis_os2.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/heap_4.obj",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"isGenerated" : true,
+			"path" : "D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/FreeRTOS.dir/$(Configuration)/port.obj",
+			"sourceGroupIndex" : 2
+		}
+	],
+	"type" : "EXECUTABLE"
+}

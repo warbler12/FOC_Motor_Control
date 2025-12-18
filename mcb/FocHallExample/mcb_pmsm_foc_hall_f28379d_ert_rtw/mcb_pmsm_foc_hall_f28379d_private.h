@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'mcb_pmsm_foc_hall_f28379d'.
  *
- * Model version                  : 17
+ * Model version                  : 20
  * Simulink Coder version         : 23.2 (R2023b) 01-Aug-2023
- * C/C++ source code generated on : Thu Dec 11 18:11:22 2025
+ * C/C++ source code generated on : Mon Dec 15 22:31:57 2025
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: Texas Instruments->C2000
@@ -92,6 +92,9 @@ extern void mcb_pmsm_foc_h_HallValueof5(real32_T *rty_position);
 extern void mcb_pmsm_foc_h_HallValueof7(real32_T *rty_position);
 extern void mcb_pms_IfActionSubsystem_n(real32_T rtu_m, real32_T rtu_Offset,
   real32_T *rty_m_out);
+extern void mcb_pms_IfActionSubsystem_e(real32_T rtu_Pos_virtual, real32_T
+  rtu_Vel_virtual, real32_T *rty_Pos_PU, real32_T *rty_Speed_PU,
+  rtB_IfActionSubsystem_mcb_pms_g *localB);
 extern void mcb_pmsm_foc_hall_f_Output1(boolean_T *rty_Out1);
 extern void mcb_pmsm_foc_hall_f_Output0(boolean_T *rty_Out1);
 extern void mcb_pmsm_fo_ValidHalls_Init(rtB_ValidHalls_mcb_pmsm_foc_hal *localB);

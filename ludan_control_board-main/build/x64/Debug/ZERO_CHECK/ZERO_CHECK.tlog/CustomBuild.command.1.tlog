@@ -1,0 +1,10 @@
+^D:\PROJECT\INTERNSHIP\LUDAN_CONTROL_BOARD-MAIN\BUILD\CMAKEFILES\D1C2834C84B9F59B7E944153DF62F26A\GENERATE.STAMP.RULE
+setlocal
+C:\Users\13571\AppData\Local\stm32cube\bundles\cmake\4.0.1+st.3\bin\cmake.exe -SD:/project/internship/ludan_control_board-main/ludan_control_board-main -BD:/project/internship/ludan_control_board-main/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/project/internship/ludan_control_board-main/build/ludan_control_board.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\project\internship\ludan_control_board-main\build\CMakeFiles\d1c2834c84b9f59b7e944153df62f26a\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{E09E0D85-9C78-3B20-BE11-69D1D175D2B9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

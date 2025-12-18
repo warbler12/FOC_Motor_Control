@@ -1,0 +1,7 @@
+rtGetNaN.obj: C:/Users/13571/Documents/MATLAB/Examples/R2023b/shared_mcb_soc_c2b/PartitionMotorControlForMultiprocessorMCUsExample/slprj/ert/_sharedutils/rtGetNaN.c
+rtGetNaN.obj: C:\Users\13571\Documents\MATLAB\Examples\R2023b\shared_mcb_soc_c2b\PartitionMotorControlForMultiprocessorMCUsExample\slprj\ert\_sharedutils\rtwtypes.h
+rtGetNaN.obj: C:\Users\13571\Documents\MATLAB\Examples\R2023b\shared_mcb_soc_c2b\PartitionMotorControlForMultiprocessorMCUsExample\slprj\ert\_sharedutils\rtGetNaN.h
+rtGetNaN.obj: C:\Users\13571\Documents\MATLAB\Examples\R2023b\shared_mcb_soc_c2b\PartitionMotorControlForMultiprocessorMCUsExample\slprj\ert\_sharedutils\rt_nonfinite.h
+rtGetNaN.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stddef.h
+rtGetNaN.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h
+rtGetNaN.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h

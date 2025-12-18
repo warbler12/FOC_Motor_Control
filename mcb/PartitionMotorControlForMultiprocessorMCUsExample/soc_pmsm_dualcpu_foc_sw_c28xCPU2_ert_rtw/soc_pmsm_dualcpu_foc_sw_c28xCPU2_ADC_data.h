@@ -1,0 +1,10 @@
+#ifndef __soc_pmsm_dualcpu_foc_sw_c28xCPU2_ADC_data_h__
+#define __soc_pmsm_dualcpu_foc_sw_c28xCPU2_ADC_data_h__
+#include "tidelfinof28379dlaunchpad_ADC_data.h"
+
+extern MW_ADC_CustomHW_Params_T soc_pmsm_cpu2_ref_681;
+extern MW_ADC_CustomHW_Params_T soc_pmsm_cpu2_ref_682;
+
+extern void soc_pmsm_dualcpu_foc_sw_c28xCPU2_ADC_data_initialize(void);
+
+#endif /* __soc_pmsm_dualcpu_foc_sw_c28xCPU2_ADC_data_h__ */

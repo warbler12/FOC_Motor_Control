@@ -2,8 +2,9 @@ device STM32H723VG
 if SWD
 speed 4000
 connect
+j
 erase
-loadbin D:\WR\ludan_control_board\build\Debug\ludan_control_board.bin, 0x08000000
+loadbin D:\project\internship\ludan_control_board\build\ludan_control_board.bin, 0x08000000
 r
 g
 q

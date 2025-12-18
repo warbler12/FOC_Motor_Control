@@ -30,7 +30,7 @@ extern chassis_t chassis_move;
 
 uint32_t OBSERVE_TIME=1;//����������3ms	
 															 
-void 	Connect_task(void)
+void Connect_task(void)
 {
   while(1)
 	{  	

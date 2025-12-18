@@ -17,6 +17,7 @@
 
 #include <stdint.h>
 #include "stm32h7xx_hal.h"
+#include "cmsis_os2.h"
 
 /**
  * @brief  Command frame header identifier.
@@ -112,6 +113,18 @@ typedef struct __packed {
  * @retval None
  */
 extern void motor_cmd_task_(void);
+
+/**
+ * @brief  Motor command queue handle.
+ * @note   Used for passing commands from USB CDC to the command processing task.
+ */
+extern osMessageQueueId_t motor_cmd_queue;
+
+/**
+ * @brief  Motor command queue attributes.
+ * @note   Configuration for the command queue (8 messages, 16 bytes each).
+ */
+extern const osMessageQueueAttr_t motor_cmd_queue_attributes;
 
 #endif /* __MOTOR_CMD_H */
 

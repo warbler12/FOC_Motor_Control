@@ -22,8 +22,11 @@
 extern fdcan_bus_t fdcan1_bus;
 extern fdcan_bus_t fdcan2_bus;
 
-/* Command queue handle (defined in freertos.c) */
-extern osMessageQueueId_t motor_cmd_queue;
+/* Command queue handle and attributes */
+osMessageQueueId_t motor_cmd_queue;
+const osMessageQueueAttr_t motor_cmd_queue_attributes = {
+  .name = "motor_cmd_queue"
+};
 
 /**
  * @brief  Calculate checksum for command/response frame.

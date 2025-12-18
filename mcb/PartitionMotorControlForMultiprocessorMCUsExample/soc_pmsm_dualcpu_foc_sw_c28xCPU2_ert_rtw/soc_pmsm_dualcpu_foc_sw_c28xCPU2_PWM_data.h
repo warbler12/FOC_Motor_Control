@@ -1,0 +1,11 @@
+#ifndef __soc_pmsm_dualcpu_foc_sw_c28xCPU2_PWM_data_h__
+#define __soc_pmsm_dualcpu_foc_sw_c28xCPU2_PWM_data_h__
+#include "tidelfinof28379dlaunchpad_PWM_data.h"
+
+extern MW_PWM_CustomHW_Params_T soc_pmsm_cpu2_ref_787;
+extern MW_PWM_CustomHW_Params_T soc_pmsm_cpu2_ref_788;
+extern MW_PWM_CustomHW_Params_T soc_pmsm_cpu2_ref_789;
+
+extern void soc_pmsm_dualcpu_foc_sw_c28xCPU2_PWM_data_initialize(void);
+
+#endif /* __soc_pmsm_dualcpu_foc_sw_c28xCPU2_PWM_data_h__ */

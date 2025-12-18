@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\USB_DEVICE\Target\usbd_conf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\USB_DEVICE\App\usb_device.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\USB_DEVICE\App\usbd_desc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\USB_DEVICE\App\usbd_cdc_if.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\gpio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\freertos.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\adc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\dma.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\fdcan.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\spi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\tim.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\usart.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\stm32h7xx_it.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\stm32h7xx_hal_msp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\stm32h7xx_hal_timebase_tim.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\sysmem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\Core\Src\syscalls.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\App\fdcan_bus.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\App\fdcan1_task.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\App\fdcan2_task.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\App\motor_cmd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\App\observe_task.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\App\vbus_check.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\Devices\DM_Motor\motor_config.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\Bsp\bsp_dwt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\Bsp\bsp_PWM.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\Bsp\bsp_usart1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\User\Bsp\can_bsp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\project\internship\ludan_control_board-main\ludan_control_board-main\startup_stm32h723xx.s" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\system_stm32h7xx.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_tim.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_tim_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_pcd.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_pcd_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_ll_usb.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_rcc.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_rcc_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_flash.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_flash_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_gpio.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_hsem.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_dma.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_dma_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_mdma.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_pwr.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_pwr_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_cortex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_i2c.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_i2c_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_exti.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_adc.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_adc_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_fdcan.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_spi.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_spi_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_uart.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\STM32_Drivers.dir\$(Configuration)\stm32h7xx_hal_uart_ex.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\USB_Device_Library.dir\$(Configuration)\usbd_core.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\USB_Device_Library.dir\$(Configuration)\usbd_ctlreq.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\USB_Device_Library.dir\$(Configuration)\usbd_ioreq.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\USB_Device_Library.dir\$(Configuration)\usbd_cdc.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\croutine.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\event_groups.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\list.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\queue.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\stream_buffer.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\tasks.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\timers.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\cmsis_os2.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\heap_4.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="D:\project\internship\ludan_control_board-main\build\cmake\stm32cubemx\FreeRTOS.dir\$(Configuration)\port.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object Libraries">
+      <UniqueIdentifier>{9D855CB1-5BE0-3674-98BC-FEDE2C38789E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{D43D6E2D-DDED-31F4-A190-A4E81084F4F6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

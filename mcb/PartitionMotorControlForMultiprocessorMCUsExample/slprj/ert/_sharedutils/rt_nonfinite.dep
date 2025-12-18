@@ -1,0 +1,8 @@
+rt_nonfinite.obj: C:/Users/13571/Documents/MATLAB/Examples/R2023b/shared_mcb_soc_c2b/PartitionMotorControlForMultiprocessorMCUsExample/slprj/ert/_sharedutils/rt_nonfinite.c
+rt_nonfinite.obj: C:\Users\13571\Documents\MATLAB\Examples\R2023b\shared_mcb_soc_c2b\PartitionMotorControlForMultiprocessorMCUsExample\slprj\ert\_sharedutils\rtGetNaN.h
+rt_nonfinite.obj: C:\Users\13571\Documents\MATLAB\Examples\R2023b\shared_mcb_soc_c2b\PartitionMotorControlForMultiprocessorMCUsExample\slprj\ert\_sharedutils\rt_nonfinite.h
+rt_nonfinite.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/stddef.h
+rt_nonfinite.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/_ti_config.h
+rt_nonfinite.obj: C:/PROGRA~3/MATLAB/tic2000/3P778C~1.INS/TIC28X~1.INS/TI-CGT~1.LTS/include/linkage.h
+rt_nonfinite.obj: C:\Users\13571\Documents\MATLAB\Examples\R2023b\shared_mcb_soc_c2b\PartitionMotorControlForMultiprocessorMCUsExample\slprj\ert\_sharedutils\rtwtypes.h
+rt_nonfinite.obj: C:\Users\13571\Documents\MATLAB\Examples\R2023b\shared_mcb_soc_c2b\PartitionMotorControlForMultiprocessorMCUsExample\slprj\ert\_sharedutils\rtGetInf.h

@@ -1,0 +1,6 @@
+D:/project/internship/ludan_control_board-main/build/CMakeFiles/ludan_control_board.dir
+D:/project/internship/ludan_control_board-main/build/CMakeFiles/ALL_BUILD.dir
+D:/project/internship/ludan_control_board-main/build/CMakeFiles/ZERO_CHECK.dir
+D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir
+D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/CMakeFiles/USB_Device_Library.dir
+D:/project/internship/ludan_control_board-main/build/cmake/stm32cubemx/CMakeFiles/FreeRTOS.dir
