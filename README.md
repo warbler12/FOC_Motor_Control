@@ -17,7 +17,7 @@
 - **`DM-motor-right-arm-new-1`**  
   电机控制程序（Keil）。有效。
 - **`DM-motor-right-arm1`**  
-  右臂电机控制程序（旧版本，Keil）。有效。
+  电机控制程序（旧版本，Keil）。有效。
 - **`ludan_control_board-main`**（ludan_control_board-main.zip）  
   未调好（Cmake）。
 - **`ludan_control_board`**  
