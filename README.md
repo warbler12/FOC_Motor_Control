@@ -56,13 +56,13 @@
 
 ---
 
-### **无需关注项**
+### **无需关注**
 - **`pmsm_f28379d_openloop`**  
   仅作测试用途的开环控制程序，无实际应用价值，可忽略。
 
 ---
 
-### 📊 **Simulink 仿真模型**
+### **Simulink 仿真模型**
 - **`svpwm_PMSM.slx`**  
   SVPWM 控制的永磁同步电机（PMSM）仿真模型，用于验证控制算法。
 - **`svpwm_induction_motor.slx`**  
